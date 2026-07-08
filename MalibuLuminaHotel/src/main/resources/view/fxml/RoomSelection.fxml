@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.RoomSelectionController"
+            prefWidth="1280"
+            prefHeight="800"
+            stylesheets="@../css/style.css">
+
+
+    <top>
+
+        <VBox alignment="CENTER" spacing="12">
+
+            <padding>
+                <Insets top="25" bottom="20"/>
+            </padding>
+
+            <Label text="Choose Your Room"
+                   styleClass="title-label"/>
+
+            <Label text="Select the room that best fits your stay."
+                   styleClass="subtitle-label"/>
+
+        </VBox>
+
+    </top>
+
+
+
+    <center>
+
+        <VBox alignment="CENTER"
+              spacing="30">
+
+            <HBox alignment="CENTER"
+                  spacing="35">
+
+
+                <VBox alignment="CENTER"
+                      spacing="16">
+
+                    <StackPane prefWidth="300"
+                               prefHeight="200"
+                               styleClass="image-card">
+
+                        <ImageView fx:id="singleRoomImage"
+                                   fitWidth="400"
+                                   fitHeight="250"
+                                   preserveRatio="false">
+
+                            <image>
+                                <Image url="@../images/single_room.jpg"/>
+                            </image>
+
+                        </ImageView>
+
+                    </StackPane>
+
+                    <Label text="Single Room"
+                           styleClass="section-label"/>
+
+                    <Label text="- Up to 2 Guests"
+                           style="-fx-font-size:17px;"/>
+
+                    <Label text="- Queen Bed"
+                           style="-fx-font-size:17px;"/>
+
+                    <Label text="- Free Wi-Fi"
+                           style="-fx-font-size:17px;"/>
+
+                    <Button text="Select"
+                            prefWidth="170"
+                            prefHeight="50"
+                            styleClass="primary-button"/>
+
+                </VBox>
+
+
+                <VBox alignment="CENTER"
+                      spacing="16">
+
+                    <StackPane prefWidth="300"
+                               prefHeight="200"
+                               styleClass="image-card">
+
+                        <ImageView fx:id="doubleRoomImage"
+                                   fitWidth="400"
+                                   fitHeight="250"
+                                   preserveRatio="false">
+
+                            <image>
+                                <Image url="@../images/double_room.jpg"/>
+                            </image>
+
+                        </ImageView>
+
+                    </StackPane>
+
+                    <Label text="Double Room"
+                           styleClass="section-label"/>
+
+                    <Label text="- Up to 4 Guests"
+                           style="-fx-font-size:17px;"/>
+
+                    <Label text="- Two Queen Beds"
+                           style="-fx-font-size:17px;"/>
+
+                    <Label text="- Balcony"
+                           style="-fx-font-size:17px;"/>
+
+                    <Button text="Select"
+                            prefWidth="170"
+                            prefHeight="50"
+                            styleClass="primary-button"/>
+
+                </VBox>
+
+
+                <VBox alignment="CENTER"
+                      spacing="16">
+
+                    <StackPane prefWidth="300"
+                               prefHeight="200"
+                               styleClass="image-card">
+
+                        <ImageView fx:id="penthouseImage"
+                                   fitWidth="400"
+                                   fitHeight="250"
+                                   preserveRatio="false">
+
+                            <image>
+                                <Image url="@../images/penthouse.jpg"/>
+                            </image>
+
+                        </ImageView>
+
+                    </StackPane>
+
+                    <Label text="Penthouse"
+                           styleClass="section-label"/>
+
+                    <Label text="- Up to 2 Guests"
+                           style="-fx-font-size:17px;"/>
+
+                    <Label text="- Complimentary Breakfast"
+                           style="-fx-font-size:17px;"/>
+
+                    <Label text="- Ocean View"
+                           style="-fx-font-size:17px;"/>
+
+                    <Button text="Select"
+                            prefWidth="170"
+                            prefHeight="50"
+                            styleClass="primary-button"
+                            onAction="#handleSelectRoom"/>
+
+                </VBox>
+
+            </HBox>
+
+            <VBox alignment="CENTER"
+                  spacing="12"
+                  prefWidth="720"
+                  prefHeight="170"
+                  maxWidth="720"
+                  styleClass="image-card">
+
+                <padding>
+                    <Insets top="24"
+                            right="30"
+                            bottom="30"
+                            left="30"/>
+                </padding>
+
+                <Label text="Room Booking Policy"
+                       styleClass="section-label"/>
+
+                <Label text="• Single Room — Maximum 2 Guests"
+                       style="-fx-font-size:17px;"/>
+
+                <Label text="• Double Room — Maximum 4 Guests"
+                       style="-fx-font-size:17px;"/>
+
+                <Label text="• Penthouse — Maximum 2 Guests"
+                       style="-fx-font-size:17px;"/>
+
+                <Label text="Guests exceeding room capacity may require an additional reservation or an upgraded room."
+                       wrapText="true"
+                       maxWidth="640"
+                       textAlignment="CENTER"
+                       styleClass="description-label"/>
+
+            </VBox>
+
+
+
+        </VBox>
+
+    </center>
+
+
+    <bottom>
+
+        <HBox alignment="CENTER"
+              spacing="30">
+
+            <padding>
+                <Insets top="25"
+                        bottom="25"/>
+            </padding>
+
+            <Button text="Back"
+                    prefWidth="180"
+                    prefHeight="50"
+                    styleClass="secondary-button"/>
+
+            <Button text="Continue"
+                    prefWidth="180"
+                    prefHeight="50"
+                    styleClass="primary-button"/>
+
+            <Button text="Rules &amp; Regulations"
+                    prefWidth="220"
+                    prefHeight="50"
+                    styleClass="side-button"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

@@ -1,0 +1,111 @@
+.root {
+    -fx-background-color: #F4F8FB;
+    -fx-font-family: "Arial";
+}
+
+.title-label {
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #143D59;
+}
+
+.subtitle-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #5F6F81;
+}
+
+.section-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #143D59;
+}
+
+.description-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #4E5D6C;
+}
+
+.primary-button {
+    -fx-background-color: #1F6AA5;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #17527F;
+}
+
+.secondary-button {
+    -fx-background-color: white;
+    -fx-border-color: #1F6AA5;
+    -fx-border-width: 2;
+    -fx-text-fill: #1F6AA5;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #EEF6FC;
+}
+
+.side-button {
+    -fx-background-color: #FFF7E6;
+    -fx-border-color: #D9A441;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.image-card {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: #D9E3EC;
+    -fx-border-width: 1;
+    -fx-padding: 0;
+}
+
+.footer-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #7A7A7A;
+}
+
+.option-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-border-color: #D9E3EC;
+    -fx-border-radius: 15;
+    -fx-padding: 22;
+}
+
+.check-box {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+.description-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #5A6B7A;
+}
+
+.dashboard-button {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-color: #1A73B8;
+    -fx-border-radius: 16;
+    -fx-border-width: 2;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #143D59;
+}
+
+.dashboard-button:hover {
+    -fx-background-color: #EAF4FD;
+}
