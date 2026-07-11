@@ -109,3 +109,25 @@
 .dashboard-button:hover {
     -fx-background-color: #EAF4FD;
 }
+
+.form-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: #D9E3EC;
+    -fx-border-radius: 14;
+}
+
+.field-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #143D59;
+}
+
+.helper-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #5A6B7A;
+}
+
+.input-field {
+    -fx-font-size: 15px;
+}
