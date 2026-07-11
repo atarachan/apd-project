@@ -118,6 +118,11 @@
                         bottom="25"/>
             </padding>
 
+            <Button text="Admin Login"
+                    prefWidth="150"
+                    prefHeight="38"
+                    styleClass="secondary-button"/>
+
             <Label text="© Malibu Lumina Hotel"
                    styleClass="footer-label"/>
 
