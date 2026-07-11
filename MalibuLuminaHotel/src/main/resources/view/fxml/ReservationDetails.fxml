@@ -58,30 +58,6 @@
                          left="24"/>
                    </padding>
 
-                   <Label text="Guest Names"
-                       styleClass="section-label"/>
-
-                   <VBox spacing="8">
-                    <Label text="Guest 1 Name"
-                        styleClass="field-label"/>
-                    <TextField promptText="Enter last name"
-                            styleClass="input-field"/>
-                   </VBox>
-
-                   <VBox spacing="8">
-                    <Label text="Guest 2 Name"
-                        styleClass="field-label"/>
-                    <TextField promptText="Enter first name"
-                            styleClass="input-field"/>
-                   </VBox>
-
-                   <VBox spacing="8">
-                    <Label text="Child 1 Name"
-                        styleClass="field-label"/>
-                    <TextField promptText="Enter child first name"
-                            styleClass="input-field"/>
-                   </VBox>
-
                    <Label text="Booking Main Contact"
                        styleClass="section-label"/>
 
