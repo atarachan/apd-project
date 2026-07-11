@@ -2,12 +2,16 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
@@ -35,85 +39,180 @@
 
     </top>
 
-    <center>
+    <left>
 
-        <VBox alignment="CENTER"
-              spacing="30">
+        <VBox spacing="14"
+              prefWidth="290"
+              styleClass="option-card">
 
+            <padding>
+                <Insets top="24"
+                        right="18"
+                        bottom="24"
+                        left="18"/>
+            </padding>
 
-            <VBox alignment="CENTER"
-                  spacing="12">
+            <Button text="Reservations"
+                    prefWidth="250"
+                    prefHeight="52"
+                    styleClass="dashboard-button"/>
 
+            <Button text="Billing"
+                    prefWidth="250"
+                    prefHeight="52"
+                    styleClass="dashboard-button"/>
+
+            <Button text="Guest Feedback"
+                    prefWidth="250"
+                    prefHeight="52"
+                    styleClass="dashboard-button"/>
+
+            <Button text="Reports"
+                    prefWidth="250"
+                    prefHeight="52"
+                    styleClass="dashboard-button"/>
+
+            <Button text="Loyalty Program"
+                    prefWidth="250"
+                    prefHeight="52"
+                    styleClass="dashboard-button"/>
+
+            <Button text="Waitlist"
+                    prefWidth="250"
+                    prefHeight="52"
+                    styleClass="dashboard-button"/>
+
+            <VBox spacing="10">
                 <Label text="Search Guest / Reservation"
-                       styleClass="section-label"/>
+                       styleClass="field-label"/>
 
-                <HBox alignment="CENTER"
-                      spacing="15">
-
-                    <TextField promptText="Enter guest name or reservation ID"
-                               prefWidth="340"
-                               prefHeight="42"/>
+                <HBox spacing="8">
+                    <TextField promptText="Name or reservation ID"
+                               prefWidth="165"
+                               prefHeight="38"/>
 
                     <Button text="Search"
-                            prefWidth="130"
-                            prefHeight="42"
+                            prefWidth="77"
+                            prefHeight="38"
                             styleClass="primary-button"/>
-
                 </HBox>
-
             </VBox>
-
-
-            <GridPane alignment="CENTER"
-                      hgap="35"
-                      vgap="35">
-
-                <Button text="Reservations"
-                        GridPane.columnIndex="0"
-                        GridPane.rowIndex="0"
-                        prefWidth="260"
-                        prefHeight="90"
-                        styleClass="dashboard-button"/>
-
-                <Button text="Billing"
-                        GridPane.columnIndex="1"
-                        GridPane.rowIndex="0"
-                        prefWidth="260"
-                        prefHeight="90"
-                        styleClass="dashboard-button"/>
-
-                <Button text="Guest Feedback"
-                        GridPane.columnIndex="0"
-                        GridPane.rowIndex="1"
-                        prefWidth="260"
-                        prefHeight="90"
-                        styleClass="dashboard-button"/>
-
-                <Button text="Reports"
-                        GridPane.columnIndex="1"
-                        GridPane.rowIndex="1"
-                        prefWidth="260"
-                        prefHeight="90"
-                        styleClass="dashboard-button"/>
-
-                <Button text="Loyalty Program"
-                        GridPane.columnIndex="0"
-                        GridPane.rowIndex="2"
-                        prefWidth="260"
-                        prefHeight="90"
-                        styleClass="dashboard-button"/>
-
-                <Button text="Activity Logs"
-                        GridPane.columnIndex="1"
-                        GridPane.rowIndex="2"
-                        prefWidth="260"
-                        prefHeight="90"
-                        styleClass="dashboard-button"/>
-
-            </GridPane>
 
         </VBox>
 
+    </left>
+
+    <center>
+        <VBox spacing="18"
+              alignment="TOP_LEFT"
+              styleClass="option-card">
+            <padding>
+                <Insets top="24"
+                        right="30"
+                        bottom="24"
+                        left="30"/>
+            </padding>
+
+            <Label text="Reservations List"
+                   styleClass="section-label"/>
+
+            <VBox spacing="0" styleClass="table-container">
+                <!-- Header Row -->
+                <HBox spacing="0" styleClass="table-header-row">
+                    <Label text="Reservation ID" prefWidth="120" styleClass="table-header"/>
+                    <Label text="Main Contact Name" prefWidth="160" styleClass="table-header"/>
+                    <Label text="Mobile" prefWidth="120" styleClass="table-header"/>
+                    <Label text="Email" prefWidth="180" styleClass="table-header"/>
+                    <Label text="Check In Date" prefWidth="110" styleClass="table-header"/>
+                    <Label text="Check Out Date" prefWidth="110" styleClass="table-header"/>
+                    <Label text="Status" prefWidth="150" styleClass="table-header"/>
+                </HBox>
+
+                <!-- Data Row 1 -->
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="R001" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="John Smith" prefWidth="160" styleClass="table-cell"/>
+                    <Label text="555-0123" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="john.smith@email.com" prefWidth="180" styleClass="table-cell"/>
+                    <Label text="2026-07-15" prefWidth="110" styleClass="table-cell"/>
+                    <Label text="2026-07-20" prefWidth="110" styleClass="table-cell"/>
+                    <HBox prefWidth="150" alignment="CENTER_LEFT" styleClass="table-cell">
+                        <ComboBox prefWidth="130" value="Pending">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Pending"/>
+                                    <String fx:value="Checked In"/>
+                                    <String fx:value="Checked Out"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                </HBox>
+
+                <!-- Data Row 2 -->
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="R002" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="Emily Davis" prefWidth="160" styleClass="table-cell"/>
+                    <Label text="555-0456" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="emily.d@email.com" prefWidth="180" styleClass="table-cell"/>
+                    <Label text="2026-07-18" prefWidth="110" styleClass="table-cell"/>
+                    <Label text="2026-07-22" prefWidth="110" styleClass="table-cell"/>
+                    <HBox prefWidth="150" alignment="CENTER_LEFT" styleClass="table-cell">
+                        <ComboBox prefWidth="130" value="Pending">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Pending"/>
+                                    <String fx:value="Checked In"/>
+                                    <String fx:value="Checked Out"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                </HBox>
+
+                <!-- Data Row 3 -->
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="R003" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="Michael Brown" prefWidth="160" styleClass="table-cell"/>
+                    <Label text="555-0789" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="m.brown@email.com" prefWidth="180" styleClass="table-cell"/>
+                    <Label text="2026-07-21" prefWidth="110" styleClass="table-cell"/>
+                    <Label text="2026-07-25" prefWidth="110" styleClass="table-cell"/>
+                    <HBox prefWidth="150" alignment="CENTER_LEFT" styleClass="table-cell">
+                        <ComboBox prefWidth="130" value="Checked In">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Pending"/>
+                                    <String fx:value="Checked In"/>
+                                    <String fx:value="Checked Out"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                </HBox>
+
+                <!-- Data Row 4 -->
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="R004" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="Sarah Johnson" prefWidth="160" styleClass="table-cell"/>
+                    <Label text="555-0321" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="s.johnson@email.com" prefWidth="180" styleClass="table-cell"/>
+                    <Label text="2026-07-25" prefWidth="110" styleClass="table-cell"/>
+                    <Label text="2026-07-30" prefWidth="110" styleClass="table-cell"/>
+                    <HBox prefWidth="150" alignment="CENTER_LEFT" styleClass="table-cell">
+                        <ComboBox prefWidth="130" value="Checked Out">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Pending"/>
+                                    <String fx:value="Checked In"/>
+                                    <String fx:value="Checked Out"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                </HBox>
+            </VBox>
+        </VBox>
     </center>
 
     <bottom>
