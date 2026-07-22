@@ -1,5 +1,7 @@
 package ca.senecacollege.malibuluminahotel.app;
 
+import ca.senecacollege.malibuluminahotel.config.EntityManagerFactoryProvider;
+import ca.senecacollege.malibuluminahotel.models.DatabaseTest;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +11,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        // INITIALIZES DATABASE
+        EntityManagerFactoryProvider.getEntityManagerFactory();
+
+        // TEST TO VERIFY DATABASE WORKS
+        DatabaseTest.testAddOnRoundTrip();
+
 
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/view/fxml/Welcome.fxml")
@@ -20,6 +29,9 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setResizable(true);
         stage.show();
+
+        // CLOSES DATABASE
+        EntityManagerFactoryProvider.closeEntityManagerFactory();
     }
 
     public static void main(String[] args) {
