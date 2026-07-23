@@ -40,32 +40,7 @@
                     <Label text="Balance Due"     prefWidth="130" styleClass="table-header"/>
                 </HBox>
 
-                <HBox spacing="0" styleClass="table-data-row">
-                    <Label text="R001" prefWidth="150" styleClass="table-cell"/>
-                    <Label text="John Smith" prefWidth="200" styleClass="table-cell"/>
-                    <Label text="CAD 600.00" prefWidth="140" styleClass="table-cell"/>
-                    <Label text="CAD 78.00"  prefWidth="120" styleClass="table-cell"/>
-                    <Label text="CAD 678.00" prefWidth="140" styleClass="table-cell"/>
-                    <Label text="CAD 0.00"   prefWidth="130" styleClass="table-cell"/>
-                </HBox>
-
-                <HBox spacing="0" styleClass="table-data-row">
-                    <Label text="R002" prefWidth="150" styleClass="table-cell"/>
-                    <Label text="Emily Davis" prefWidth="200" styleClass="table-cell"/>
-                    <Label text="CAD 860.00" prefWidth="140" styleClass="table-cell"/>
-                    <Label text="CAD 111.80" prefWidth="120" styleClass="table-cell"/>
-                    <Label text="CAD 971.80" prefWidth="140" styleClass="table-cell"/>
-                    <Label text="CAD 971.80" prefWidth="130" styleClass="table-cell"/>
-                </HBox>
-
-                <HBox spacing="0" styleClass="table-data-row">
-                    <Label text="R003" prefWidth="150" styleClass="table-cell"/>
-                    <Label text="Michael Brown" prefWidth="200" styleClass="table-cell"/>
-                    <Label text="CAD 1,400.00" prefWidth="140" styleClass="table-cell"/>
-                    <Label text="CAD 182.00"   prefWidth="120" styleClass="table-cell"/>
-                    <Label text="CAD 1,582.00" prefWidth="140" styleClass="table-cell"/>
-                    <Label text="CAD 500.00"   prefWidth="130" styleClass="table-cell"/>
-                </HBox>
+                <VBox fx:id="billsTableBody" spacing="0"/>
             </VBox>
         </VBox>
     </center>
