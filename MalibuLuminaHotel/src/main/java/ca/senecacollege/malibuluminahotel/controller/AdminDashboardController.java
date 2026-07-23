@@ -34,18 +34,18 @@ public class AdminDashboardController {
     @FXML
     private void handleBilling(ActionEvent event) {
 
-        showMessage(
-                "Billing",
-                "Billing module selected."
+        SceneNavigator.switchScene(
+                event,
+                "AdminBilling.fxml"
         );
     }
 
     @FXML
     private void handleGuestFeedback(ActionEvent event) {
 
-        showMessage(
-                "Guest Feedback",
-                "Guest Feedback module selected."
+        SceneNavigator.switchScene(
+                event,
+                "AdminFeedback.fxml"
         );
     }
 

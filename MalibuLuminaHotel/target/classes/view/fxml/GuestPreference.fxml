@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.GuestPreferenceController"
+            prefWidth="1280"
+            prefHeight="800"
+            stylesheets="@../css/style.css">
+
+    <top>
+
+        <VBox alignment="CENTER"
+              spacing="8">
+
+            <padding>
+                <Insets top="18"
+                        bottom="12"/>
+            </padding>
+
+            <Label text="What are your stay preferences?"
+                   styleClass="title-label"/>
+
+            <Label text="We will show you suitable rooms"
+                   styleClass="subtitle-label"/>
+
+        </VBox>
+
+    </top>
+
+    <center>
+
+        <VBox alignment="CENTER"
+              spacing="20">
+
+            <VBox maxWidth="960"
+                  spacing="22"
+                  styleClass="option-card">
+
+                <padding>
+                    <Insets top="28"
+                            right="28"
+                            bottom="28"
+                            left="28"/>
+                </padding>
+
+                <GridPane hgap="30"
+                          vgap="20">
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+
+                    <VBox spacing="8"
+                          GridPane.columnIndex="0"
+                          GridPane.rowIndex="0">
+
+                        <Label text="Check-in Date"
+                               styleClass="field-label"/>
+
+                        <DatePicker fx:id="checkInDatePicker"
+                                    promptText="Select check-in date"
+                                    styleClass="input-field"/>
+
+                    </VBox>
+
+                    <VBox spacing="8"
+                          GridPane.columnIndex="1"
+                          GridPane.rowIndex="0">
+
+                        <Label text="Check-out Date"
+                               styleClass="field-label"/>
+
+                        <DatePicker fx:id="checkOutDatePicker"
+                                    promptText="Select check-out date"
+                                    styleClass="input-field"/>
+
+                    </VBox>
+
+                    <VBox spacing="8"
+                          GridPane.columnIndex="0"
+                          GridPane.rowIndex="1">
+
+                        <Label text="Check-in Flexibility"
+                               styleClass="field-label"/>
+
+                        <ComboBox promptText="Select flexibility"
+                                  styleClass="input-field">
+
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Exact Date"/>
+                                    <String fx:value="±1 Day"/>
+                                    <String fx:value="±2 Days"/>
+                                    <String fx:value="±3 Days"/>
+                                    <String fx:value="Within 1 Week"/>
+                                </FXCollections>
+                            </items>
+
+                        </ComboBox>
+
+                    </VBox>
+
+                    <VBox spacing="8"
+                          GridPane.columnIndex="1"
+                          GridPane.rowIndex="1">
+
+                        <Label text="Check-out Flexibility"
+                               styleClass="field-label"/>
+
+                        <ComboBox promptText="Select flexibility"
+                                  styleClass="input-field">
+
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Exact Date"/>
+                                    <String fx:value="±1 Day"/>
+                                    <String fx:value="±2 Days"/>
+                                    <String fx:value="±3 Days"/>
+                                    <String fx:value="Within 1 Week"/>
+                                </FXCollections>
+                            </items>
+
+                        </ComboBox>
+
+                    </VBox>
+
+
+                    <VBox spacing="8"
+                          GridPane.columnIndex="0"
+                          GridPane.rowIndex="2">
+
+                        <Label text="Adults"
+                               styleClass="field-label"/>
+
+                        <ComboBox promptText="Select adults"
+                                  styleClass="input-field">
+
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="1"/>
+                                    <String fx:value="2"/>
+                                    <String fx:value="3"/>
+                                    <String fx:value="4"/>
+                                    <String fx:value="5"/>
+                                    <String fx:value="6+"/>
+                                </FXCollections>
+                            </items>
+
+                        </ComboBox>
+
+                    </VBox>
+
+                    <VBox spacing="8"
+                          GridPane.columnIndex="1"
+                          GridPane.rowIndex="2">
+
+                        <Label text="Children"
+                               styleClass="field-label"/>
+
+                        <ComboBox promptText="Select children"
+                                  styleClass="input-field">
+
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="0"/>
+                                    <String fx:value="1"/>
+                                    <String fx:value="2"/>
+                                    <String fx:value="3"/>
+                                    <String fx:value="4"/>
+                                    <String fx:value="5+"/>
+                                </FXCollections>
+                            </items>
+
+                        </ComboBox>
+
+                    </VBox>
+
+
+                    <VBox spacing="8"
+                        GridPane.columnIndex="0"
+                        GridPane.rowIndex="3">
+
+                        <Label text="Total Rooms"
+                            styleClass="field-label"/>
+
+                        <ComboBox promptText="Number of rooms"
+                                styleClass="input-field">
+
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="1"/>
+                                    <String fx:value="2"/>
+                                    <String fx:value="3"/>
+                                    <String fx:value="4"/>
+                                    <String fx:value="5"/>
+                                    <String fx:value="6"/>
+                                    <String fx:value="7"/>
+                                    <String fx:value="8+"/>
+                                </FXCollections>
+                            </items>
+
+                        </ComboBox>
+
+                    </VBox>
+
+                </GridPane>
+
+            </VBox>
+
+        </VBox>
+
+    </center>
+
+
+    <bottom>
+
+        <HBox alignment="CENTER"
+              spacing="30">
+
+            <padding>
+                <Insets top="16"
+                        bottom="18"/>
+            </padding>
+
+            <Button text="Back"
+                    prefWidth="180"
+                    prefHeight="50"
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
+
+            <Button text="Continue"
+                    prefWidth="180"
+                    prefHeight="50"
+                    styleClass="primary-button"
+                    onAction="#handleContinue"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>
