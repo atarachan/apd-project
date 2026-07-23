@@ -1,17 +1,29 @@
 package ca.senecacollege.malibuluminahotel.controller;
 
+import ca.senecacollege.malibuluminahotel.app.BookingSession;
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
 public class ConfirmationController {
 
+    @FXML private Label reservationNumberLabel;
+
+    @FXML
+    public void initialize() {
+        Long reservationId = BookingSession.getInstance().getSavedReservationId();
+
+        if (reservationId != null) {
+            reservationNumberLabel.setText("Reservation Number: R" + reservationId);
+        } else {
+            reservationNumberLabel.setText("Reservation Number: —");
+        }
+    }
+
     @FXML
     private void handleReturnHome(ActionEvent event) {
-
-        SceneNavigator.switchScene(
-                event,
-                "Welcome.fxml"
-        );
+        BookingSession.getInstance().reset();
+        SceneNavigator.switchScene(event, "Welcome.fxml");
     }
 }
