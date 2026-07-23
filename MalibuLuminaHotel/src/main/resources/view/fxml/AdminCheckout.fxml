@@ -199,7 +199,7 @@
 
                 <HBox spacing="15" alignment="CENTER_LEFT">
                     <Label text="Discount Type:" styleClass="helper-label"/>
-                    <ComboBox prefWidth="150" value="None">
+                    <ComboBox fx:id="discountTypeCombo" prefWidth="150" value="None">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
                                 <String fx:value="None"/>
@@ -209,8 +209,9 @@
                         </items>
                     </ComboBox>
                     <Label text="Value:" styleClass="helper-label"/>
-                    <TextField promptText="Enter discount" prefWidth="140" styleClass="input-field"/>
-                    <Button text="Apply" prefWidth="90" prefHeight="36" styleClass="primary-button"/>
+                    <TextField fx:id="discountValueField" promptText="Enter discount" prefWidth="140" styleClass="input-field"/>
+                    <Button text="Apply" prefWidth="90" prefHeight="36" styleClass="primary-button"
+                            onAction="#handleApplyDiscount"/>
                 </HBox>
             </VBox>
 
@@ -224,7 +225,7 @@
 
                 <HBox spacing="10">
                     <Label text="Total Amount Due:" prefWidth="420" styleClass="section-label"/>
-                    <Label text="1,096.10" prefWidth="150" styleClass="section-label"/>
+                    <Label fx:id="totalLabel" text="1,096.10" prefWidth="150" styleClass="section-label"/>
                 </HBox>
             </VBox>
 
