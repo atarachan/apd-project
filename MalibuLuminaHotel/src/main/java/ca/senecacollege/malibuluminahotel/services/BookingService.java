@@ -3,6 +3,7 @@ package ca.senecacollege.malibuluminahotel.services;
 import ca.senecacollege.malibuluminahotel.app.BookingSession;
 import ca.senecacollege.malibuluminahotel.models.AddOn;
 import ca.senecacollege.malibuluminahotel.models.Guest;
+import ca.senecacollege.malibuluminahotel.models.enums.PricingModel;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
 import ca.senecacollege.malibuluminahotel.models.Room;
 import ca.senecacollege.malibuluminahotel.models.RoomType;
@@ -65,20 +66,24 @@ public class BookingService {
             roomTotal = roomTotal.add(strategy.calculateNightlyRate(roomType, date));
         }
 
-        // Add-on charges (per-night vs per-reservation)
+        // Add-on charges — use pricingModel from DB to determine per-night vs per-stay
         BigDecimal addOnTotal = BigDecimal.ZERO;
+        List<AddOn> allAddOns = addOnRepo.findAll();
 
-        if (session.isBreakfastSelected()) {
-            addOnTotal = addOnTotal.add(new BigDecimal("25.00").multiply(BigDecimal.valueOf(nights)));
-        }
-        if (session.isWifiSelected()) {
-            addOnTotal = addOnTotal.add(new BigDecimal("10.00").multiply(BigDecimal.valueOf(nights)));
-        }
-        if (session.isParkingSelected()) {
-            addOnTotal = addOnTotal.add(new BigDecimal("15.00").multiply(BigDecimal.valueOf(nights)));
-        }
-        if (session.isSpaSelected()) {
-            addOnTotal = addOnTotal.add(new BigDecimal("80.00")); // once per reservation
+        for (AddOn addOn : allAddOns) {
+            boolean selected = switch (addOn.getName()) {
+                case "Daily Breakfast" -> session.isBreakfastSelected();
+                case "Wi-Fi"           -> session.isWifiSelected();
+                case "Parking"         -> session.isParkingSelected();
+                case "Spa Package"     -> session.isSpaSelected();
+                default                -> false;
+            };
+            if (!selected) continue;
+
+            BigDecimal charge = addOn.getPricingModel() == PricingModel.PER_NIGHT
+                    ? addOn.getPrice().multiply(BigDecimal.valueOf(nights))
+                    : addOn.getPrice();
+            addOnTotal = addOnTotal.add(charge);
         }
 
         BigDecimal subtotal = roomTotal.add(addOnTotal);
@@ -121,6 +126,8 @@ public class BookingService {
                 guest,
                 session.getCheckInDate(),
                 session.getCheckOutDate(),
+                session.getAdults(),
+                session.getChildren(),
                 room.getRoomId(),
                 roomType.getBaseRate(),
                 addOnQuantities,
