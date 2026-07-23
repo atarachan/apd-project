@@ -49,6 +49,8 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
             Guest guest,
             LocalDate checkIn,
             LocalDate checkOut,
+            int adults,
+            int children,
             Long roomId,
             BigDecimal nightlyRate,
             Map<Long, Integer> addOnQuantities,
@@ -72,7 +74,7 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
             }
 
             // 2. Persist reservation
-            Reservation reservation = new Reservation(managedGuest, checkIn, checkOut);
+            Reservation reservation = new Reservation(managedGuest, checkIn, checkOut, adults, children);
             em.persist(reservation);
             em.flush(); // ensure reservation_id is generated before children reference it
 
