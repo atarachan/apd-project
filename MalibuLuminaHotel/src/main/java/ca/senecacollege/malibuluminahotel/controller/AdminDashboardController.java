@@ -11,98 +11,57 @@ public class AdminDashboardController {
     @FXML
     private TextField searchField;
 
-    private void showMessage(String title, String message) {
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        alert.showAndWait();
-    }
-
     @FXML
     private void handleReservations(ActionEvent event) {
-
-        showMessage(
-                "Reservations",
-                "Reservations module selected."
-        );
+        SceneNavigator.switchScene(event, "AdminReservations.fxml");
     }
 
     @FXML
     private void handleBilling(ActionEvent event) {
-
-        showMessage(
-                "Billing",
-                "Billing module selected."
-        );
+        SceneNavigator.switchScene(event, "AdminBilling.fxml");
     }
 
     @FXML
     private void handleGuestFeedback(ActionEvent event) {
-
-        showMessage(
-                "Guest Feedback",
-                "Guest Feedback module selected."
-        );
+        SceneNavigator.switchScene(event, "AdminFeedback.fxml");
     }
 
     @FXML
     private void handleReports(ActionEvent event) {
-
-        showMessage(
-                "Reports",
-                "Reports module selected."
-        );
+        SceneNavigator.switchScene(event, "AdminReports.fxml");
     }
 
     @FXML
     private void handleLoyaltyProgram(ActionEvent event) {
-
-        showMessage(
-                "Loyalty Program",
-                "Loyalty Program module selected."
-        );
+        SceneNavigator.switchScene(event, "AdminLoyalty.fxml");
     }
 
     @FXML
     private void handleWaitlist(ActionEvent event) {
-
-        showMessage(
-                "Waitlist",
-                "Waitlist module selected."
-        );
+        SceneNavigator.switchScene(event, "AdminCheckout.fxml");
     }
 
     @FXML
     private void handleSearch(ActionEvent event) {
-
         String searchText = searchField.getText().trim();
 
         if (searchText.isEmpty()) {
-
-            showMessage(
-                    "Search",
-                    "Please enter a guest name or reservation ID."
-            );
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Search");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter a guest name or reservation ID.");
+            alert.showAndWait();
         } else {
-
-            showMessage(
-                    "Search",
-                    "Searching for: " + searchText
-            );
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Search");
+            alert.setHeaderText(null);
+            alert.setContentText("Searching for: " + searchText);
+            alert.showAndWait();
         }
     }
 
     @FXML
     private void handleLogout(ActionEvent event) {
-
-        SceneNavigator.switchScene(
-                event,
-                "Welcome.fxml"
-        );
+        SceneNavigator.switchScene(event, "Welcome.fxml");
     }
 }
