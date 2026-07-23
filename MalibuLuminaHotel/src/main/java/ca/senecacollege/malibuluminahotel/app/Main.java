@@ -26,7 +26,7 @@ public class Main extends Application {
         // TEST TO VERIFY DATABASE WORKS
         // DatabaseTest.testAddOnRoundTrip();
 
-        RepositoryTest.testReservationItemAddOnRepository();
+        RepositoryTest.testBillRepository();
 
 
         FXMLLoader loader = new FXMLLoader(

@@ -83,12 +83,8 @@ public class Bill implements Serializable {
         this.billDate = LocalDateTime.now();
     }
 
-    public Bill(Reservation reservation,
-                BigDecimal subtotal,
-                BigDecimal discount,
-                BigDecimal tax,
-                BigDecimal total,
-                BigDecimal balanceDue) {
+    public Bill(Reservation reservation, BigDecimal subtotal, BigDecimal discount,
+                BigDecimal tax, BigDecimal total, BigDecimal balanceDue) {
 
         this();
 
@@ -169,9 +165,16 @@ public class Bill implements Serializable {
     }
 
     public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
+        this.payments.clear();
 
+        if (payments == null) {
+            return;
+        }
+
+        for (Payment payment : payments) {
+            addPayment(payment);
+        }
+    }
 
      // keeps both sides of the Bill-Payment relationship synchronized.
     public void addPayment(Payment payment) {

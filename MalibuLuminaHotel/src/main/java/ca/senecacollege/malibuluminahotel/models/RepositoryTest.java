@@ -1069,4 +1069,396 @@ public final class RepositoryTest {
             }
         }
     }
+
+    public static void testBillRepository() {
+
+        IGuestRepository guestRepository =
+                new GuestRepositoryImpl();
+
+        IReservationRepository reservationRepository =
+                new ReservationRepositoryImpl();
+
+        IBillRepository billRepository =
+                new BillRepositoryImpl();
+
+        String testEmail = "bill.repository.test@malibulumina.ca";
+
+        Guest guest = null;
+        Reservation reservation = null;
+        Bill bill = null;
+
+        try {
+            /*
+             * Create and save the Guest.
+             */
+            guest = new Guest(
+                    "Taylor",
+                    "Morgan",
+                    testEmail,
+                    "416-555-0175"
+            );
+
+            guest = guestRepository.save(guest);
+
+            System.out.println(
+                    "Saved Guest ID: " + guest.getGuestId()
+            );
+
+            /*
+             * Create and save the Reservation.
+             */
+            reservation = new Reservation(
+                    guest,
+                    LocalDate.now().plusDays(10),
+                    LocalDate.now().plusDays(13)
+            );
+
+            reservation = reservationRepository.save(reservation);
+
+            System.out.println(
+                    "Saved Reservation ID: "
+                            + reservation.getReservationId()
+            );
+
+            /*
+             * Create the Bill.
+             *
+             * subtotal:   600.00
+             * discount:    50.00
+             * tax:         71.50
+             * total:      621.50
+             * balance:    621.50
+             */
+            bill = new Bill(
+                    reservation,
+                    new BigDecimal("600.00"),
+                    new BigDecimal("50.00"),
+                    new BigDecimal("71.50"),
+                    new BigDecimal("621.50"),
+                    new BigDecimal("621.50")
+            );
+
+            /*
+             * Set a predictable date so the date-query tests are reliable.
+             */
+            LocalDate testBillDate = LocalDate.now();
+
+            bill.setBillDate(
+                    testBillDate.atTime(14, 30)
+            );
+
+            /*
+             * CREATE
+             */
+            bill = billRepository.save(bill);
+
+            Long billId = bill.getBillId();
+
+            System.out.println(
+                    "Saved Bill ID: " + billId
+            );
+
+            /*
+             * READ BY ID
+             */
+            Bill foundById = billRepository
+                    .findById(billId)
+                    .orElseThrow(() ->
+                            new IllegalStateException(
+                                    "Bill was not found by ID"
+                            )
+                    );
+
+            System.out.println(
+                    "Found Bill ID: " + foundById.getBillId()
+            );
+
+            System.out.println(
+                    "Subtotal: " + foundById.getSubtotal()
+            );
+
+            System.out.println(
+                    "Discount: " + foundById.getDiscount()
+            );
+
+            System.out.println(
+                    "Tax: " + foundById.getTax()
+            );
+
+            System.out.println(
+                    "Total: " + foundById.getTotal()
+            );
+
+            System.out.println(
+                    "Balance due: " + foundById.getBalanceDue()
+            );
+
+            if (foundById.getTotal()
+                    .compareTo(new BigDecimal("621.50")) != 0) {
+
+                throw new IllegalStateException(
+                        "Expected total 621.50, but found "
+                                + foundById.getTotal()
+                );
+            }
+
+            /*
+             * UPDATE
+             *
+             * Simulate a partial payment by reducing the balance.
+             */
+            foundById.setBalanceDue(
+                    new BigDecimal("321.50")
+            );
+
+            Bill updatedBill =
+                    billRepository.update(foundById);
+
+            System.out.println(
+                    "Updated balance due: "
+                            + updatedBill.getBalanceDue()
+            );
+
+            /*
+             * Reload the Bill to confirm the update was persisted.
+             */
+            Bill reloadedBill = billRepository
+                    .findById(billId)
+                    .orElseThrow(() ->
+                            new IllegalStateException(
+                                    "Updated Bill was not found"
+                            )
+                    );
+
+            if (reloadedBill.getBalanceDue()
+                    .compareTo(new BigDecimal("321.50")) != 0) {
+
+                throw new IllegalStateException(
+                        "Updated balance was not persisted"
+                );
+            }
+
+            /*
+             * FIND BY RESERVATION
+             */
+            Optional<Bill> foundByReservation =
+                    billRepository.findByReservation(reservation);
+
+            System.out.println(
+                    "Found by reservation: "
+                            + foundByReservation.isPresent()
+            );
+
+            if (foundByReservation.isEmpty()) {
+                throw new IllegalStateException(
+                        "findByReservation did not return the Bill"
+                );
+            }
+
+            if (!foundByReservation.get()
+                    .getBillId()
+                    .equals(billId)) {
+
+                throw new IllegalStateException(
+                        "findByReservation returned the wrong Bill"
+                );
+            }
+
+            /*
+             * FIND BY BILL DATE
+             */
+            List<Bill> billsByDate =
+                    billRepository.findByBillDate(testBillDate);
+
+            boolean foundInDateResults =
+                    billsByDate.stream()
+                            .anyMatch(result ->
+                                    result.getBillId().equals(billId)
+                            );
+
+            System.out.println(
+                    "Found by bill date: "
+                            + foundInDateResults
+            );
+
+            if (!foundInDateResults) {
+                throw new IllegalStateException(
+                        "findByBillDate did not return the Bill"
+                );
+            }
+
+            /*
+             * FIND BY BILL DATE RANGE
+             */
+            List<Bill> billsByDateRange =
+                    billRepository.findByBillDateRange(
+                            testBillDate.minusDays(1),
+                            testBillDate.plusDays(1)
+                    );
+
+            boolean foundInRangeResults =
+                    billsByDateRange.stream()
+                            .anyMatch(result ->
+                                    result.getBillId().equals(billId)
+                            );
+
+            System.out.println(
+                    "Found by bill date range: "
+                            + foundInRangeResults
+            );
+
+            if (!foundInRangeResults) {
+                throw new IllegalStateException(
+                        "findByBillDateRange did not return the Bill"
+                );
+            }
+
+            /*
+             * FIND OUTSTANDING BILLS
+             *
+             * The balance is currently 321.50, so it should be returned.
+             */
+            List<Bill> outstandingBills =
+                    billRepository.findOutstandingBills();
+
+            boolean foundInOutstandingBills =
+                    outstandingBills.stream()
+                            .anyMatch(result ->
+                                    result.getBillId().equals(billId)
+                            );
+
+            System.out.println(
+                    "Found in outstanding bills: "
+                            + foundInOutstandingBills
+            );
+
+            if (!foundInOutstandingBills) {
+                throw new IllegalStateException(
+                        "findOutstandingBills did not return the Bill"
+                );
+            }
+
+            /*
+             * FIND BY MINIMUM BALANCE
+             *
+             * Balance is 321.50, so it should match a minimum of 300.00.
+             */
+            List<Bill> minimumBalanceResults =
+                    billRepository.findByMinimumBalanceDue(
+                            new BigDecimal("300.00")
+                    );
+
+            boolean foundByMinimumBalance =
+                    minimumBalanceResults.stream()
+                            .anyMatch(result ->
+                                    result.getBillId().equals(billId)
+                            );
+
+            System.out.println(
+                    "Found by minimum balance: "
+                            + foundByMinimumBalance
+            );
+
+            if (!foundByMinimumBalance) {
+                throw new IllegalStateException(
+                        "findByMinimumBalanceDue did not return the Bill"
+                );
+            }
+
+            /*
+             * Confirm that a minimum greater than the current balance
+             * does not return this Bill.
+             */
+            List<Bill> excessiveMinimumResults =
+                    billRepository.findByMinimumBalanceDue(
+                            new BigDecimal("500.00")
+                    );
+
+            boolean incorrectlyFound =
+                    excessiveMinimumResults.stream()
+                            .anyMatch(result ->
+                                    result.getBillId().equals(billId)
+                            );
+
+            System.out.println(
+                    "Found with excessive minimum balance: "
+                            + incorrectlyFound
+            );
+
+            if (incorrectlyFound) {
+                throw new IllegalStateException(
+                        "Bill should not match a minimum balance of 500.00"
+                );
+            }
+
+            /*
+             * FIND ALL
+             */
+            List<Bill> allBills =
+                    billRepository.findAll();
+
+            boolean foundInAll =
+                    allBills.stream()
+                            .anyMatch(result ->
+                                    result.getBillId().equals(billId)
+                            );
+
+            System.out.println(
+                    "Found in findAll: " + foundInAll
+            );
+
+            if (!foundInAll) {
+                throw new IllegalStateException(
+                        "findAll did not return the Bill"
+                );
+            }
+
+            /*
+             * DELETE
+             */
+            billRepository.deleteById(billId);
+
+            boolean stillExists =
+                    billRepository.findById(billId).isPresent();
+
+            System.out.println(
+                    "Bill still exists after delete: "
+                            + stillExists
+            );
+
+            if (stillExists) {
+                throw new IllegalStateException(
+                        "Bill was not deleted"
+                );
+            }
+
+            System.out.println(
+                    "BillRepository test passed."
+            );
+
+        } finally {
+            /*
+             * Clean up in reverse dependency order.
+             */
+            if (bill != null && bill.getBillId() != null) {
+                billRepository
+                        .findById(bill.getBillId())
+                        .ifPresent(billRepository::delete);
+            }
+
+            if (reservation != null
+                    && reservation.getReservationId() != null) {
+
+                reservationRepository
+                        .findById(reservation.getReservationId())
+                        .ifPresent(reservationRepository::delete);
+            }
+
+            if (guest != null && guest.getGuestId() != null) {
+                guestRepository
+                        .findById(guest.getGuestId())
+                        .ifPresent(guestRepository::delete);
+            }
+        }
+    }
 }
