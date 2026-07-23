@@ -12,6 +12,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.GuestCheckoutController"
             prefWidth="1280"
             prefHeight="800"
             stylesheets="@../css/style.css">
@@ -46,7 +47,6 @@
                         bottom="20"/>
             </padding>
 
-            <!-- Bill Summary Section -->
             <VBox spacing="16" styleClass="form-card" prefWidth="750">
                 <padding>
                     <Insets top="24"
@@ -75,7 +75,6 @@
 
             </VBox>
 
-            <!-- Loyalty Points Section -->
             <VBox spacing="14" styleClass="form-card" prefWidth="750">
                 <padding>
                     <Insets top="24"
@@ -102,7 +101,6 @@
 
             </VBox>
 
-            <!-- Payment Options Section -->
             <VBox spacing="16" styleClass="form-card" prefWidth="750">
                 <padding>
                     <Insets top="24"
@@ -146,16 +144,17 @@
 
             </VBox>
 
-            <!-- Action Buttons -->
             <HBox spacing="18" alignment="CENTER">
                 <Button text="Proceed to Payment"
                         prefWidth="220"
                         prefHeight="55"
-                        styleClass="primary-button"/>
+                        styleClass="primary-button"
+                        onAction="#handleProceedToPayment"/>
                 <Button text="Cancel"
                         prefWidth="160"
                         prefHeight="55"
-                        styleClass="secondary-button"/>
+                        styleClass="secondary-button"
+                        onAction="#handleCancel"/>
             </HBox>
 
         </VBox>

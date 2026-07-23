@@ -4,8 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -95,7 +93,6 @@
             <Label text="Checkout Process"
                    styleClass="section-label"/>
 
-            <!-- Reservation Information Section -->
             <VBox spacing="14" styleClass="form-card" prefWidth="850">
                 <padding>
                     <Insets top="20"
@@ -121,7 +118,6 @@
                 </HBox>
             </VBox>
 
-            <!-- Bill Breakdown Section -->
             <VBox spacing="14" styleClass="form-card" prefWidth="850">
                 <padding>
                     <Insets top="20"
@@ -134,7 +130,6 @@
                        styleClass="field-label"/>
 
                 <HBox spacing="40">
-                    <!-- Left Column -->
                     <VBox spacing="8" prefWidth="380">
                         <HBox spacing="10">
                             <Label text="Room Charges (4 nights @ 180/night):" prefWidth="250" styleClass="helper-label"/>
@@ -152,7 +147,6 @@
                         </HBox>
                     </VBox>
 
-                    <!-- Right Column -->
                     <VBox spacing="8" prefWidth="380">
                         <HBox spacing="10">
                             <Label text="Minibar:" prefWidth="250" styleClass="helper-label"/>
@@ -172,7 +166,6 @@
                 </HBox>
             </VBox>
 
-            <!-- Loyalty Points Section -->
             <VBox spacing="12" styleClass="form-card" prefWidth="850">
                 <padding>
                     <Insets top="20"
@@ -192,7 +185,6 @@
                 </HBox>
             </VBox>
 
-            <!-- Discount Section -->
             <VBox spacing="12" styleClass="form-card" prefWidth="850">
                 <padding>
                     <Insets top="20"
@@ -221,7 +213,6 @@
                 </HBox>
             </VBox>
 
-            <!-- Final Total Section -->
             <VBox spacing="10" styleClass="form-card" prefWidth="850">
                 <padding>
                     <Insets top="20"
@@ -236,7 +227,6 @@
                 </HBox>
             </VBox>
 
-            <!-- Action Buttons -->
             <HBox spacing="18" alignment="CENTER">
                 <Button text="Process Checkout"
                         prefWidth="200"

@@ -223,17 +223,20 @@
             <Button text="Back"
                     prefWidth="180"
                     prefHeight="50"
-                    styleClass="secondary-button"/>
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
 
             <Button text="Continue"
                     prefWidth="180"
                     prefHeight="50"
-                    styleClass="primary-button"/>
+                    styleClass="primary-button"
+                    onAction="#handleContinue"/>
 
             <Button text="Rules &amp; Regulations"
                     prefWidth="220"
                     prefHeight="50"
-                    styleClass="side-button"/>
+                    styleClass="side-button"
+                    onAction="#handleRules"/>
 
         </HBox>
 

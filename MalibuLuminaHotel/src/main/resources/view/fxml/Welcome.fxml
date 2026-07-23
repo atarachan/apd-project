@@ -89,18 +89,21 @@
                 <Button text="Start Reservation"
                         prefWidth="220"
                         prefHeight="55"
-                        styleClass="primary-button"/>
+                        styleClass="primary-button"
+                        onAction="#handleStartReservation"/>
 
                 <Button text="View Room Types"
                         prefWidth="220"
                         prefHeight="55"
-                        styleClass="secondary-button"/>
+                        styleClass="secondary-button"
+                        onAction="#handleViewRoomTypes"/>
 
                 <Button fx:id="rulesButton"
                         text="Rules &amp; Regulations"
                         prefWidth="220"
                         prefHeight="55"
-                        styleClass="side-button"/>
+                        styleClass="side-button"
+                        onAction="#handleRules"/>
 
             </HBox>
 
@@ -121,7 +124,8 @@
             <Button text="Admin Login"
                     prefWidth="150"
                     prefHeight="38"
-                    styleClass="secondary-button"/>
+                    styleClass="secondary-button"
+                    onAction="#handleAdminLogin"/>
 
             <Label text="© Malibu Lumina Hotel"
                    styleClass="footer-label"/>

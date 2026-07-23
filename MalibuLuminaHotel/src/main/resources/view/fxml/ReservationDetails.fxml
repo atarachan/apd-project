@@ -11,6 +11,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.ReservationDetailsController"
             prefWidth="1280"
             prefHeight="800"
             stylesheets="@../css/style.css">
@@ -64,29 +65,33 @@
                    <VBox spacing="8">
                     <Label text="Main Contact First Name *"
                         styleClass="field-label"/>
-                    <TextField promptText="Required"
-                            styleClass="input-field"/>
+                       <TextField fx:id="firstNameField"
+                                  promptText="Required"
+                                  styleClass="input-field"/>
                    </VBox>
 
                    <VBox spacing="8">
                     <Label text="Main Contact Last Name *"
                         styleClass="field-label"/>
-                    <TextField promptText="Required"
-                            styleClass="input-field"/>
+                       <TextField fx:id="lastNameField"
+                                  promptText="Required"
+                                  styleClass="input-field"/>
                    </VBox>
 
                    <VBox spacing="8">
                     <Label text="Main Contact Email *"
                         styleClass="field-label"/>
-                    <TextField promptText="Required"
-                            styleClass="input-field"/>
+                       <TextField fx:id="emailField"
+                                  promptText="Required"
+                                  styleClass="input-field"/>
                    </VBox>
 
                    <VBox spacing="8">
                     <Label text="Main Contact Contact Number *"
                         styleClass="field-label"/>
-                    <TextField promptText="Required"
-                            styleClass="input-field"/>
+                       <TextField fx:id="phoneField"
+                                  promptText="Required"
+                                  styleClass="input-field"/>
                    </VBox>
 
                   </VBox>
@@ -111,12 +116,20 @@
             <Button text="Back"
                     prefWidth="180"
                     prefHeight="50"
-                    styleClass="secondary-button"/>
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
 
             <Button text="Continue"
                     prefWidth="180"
                     prefHeight="50"
-                    styleClass="primary-button"/>
+                    styleClass="primary-button"
+                    onAction="#handleContinue"/>
+
+            <Button text="Rules &amp; Regulations"
+                    prefWidth="220"
+                    prefHeight="50"
+                    styleClass="side-button"
+                    onAction="#handleRules"/>
 
         </HBox>
 

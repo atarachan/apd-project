@@ -4,8 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -15,6 +13,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminDashboardController"
             prefWidth="1280"
             prefHeight="800"
             stylesheets="@../css/style.css">
@@ -55,46 +54,54 @@
             <Button text="Reservations"
                     prefWidth="250"
                     prefHeight="52"
-                    styleClass="dashboard-button"/>
+                    styleClass="dashboard-button"
+                    onAction="#handleReservations"/>
 
             <Button text="Billing"
                     prefWidth="250"
                     prefHeight="52"
-                    styleClass="dashboard-button"/>
+                    styleClass="dashboard-button"
+                    onAction="#handleBilling"/>
 
             <Button text="Guest Feedback"
                     prefWidth="250"
                     prefHeight="52"
-                    styleClass="dashboard-button"/>
+                    styleClass="dashboard-button"
+                    onAction="#handleGuestFeedback"/>
 
             <Button text="Reports"
                     prefWidth="250"
                     prefHeight="52"
-                    styleClass="dashboard-button"/>
+                    styleClass="dashboard-button"
+                    onAction="#handleReports"/>
 
             <Button text="Loyalty Program"
                     prefWidth="250"
                     prefHeight="52"
-                    styleClass="dashboard-button"/>
+                    styleClass="dashboard-button"
+                    onAction="#handleLoyaltyProgram"/>
 
             <Button text="Waitlist"
                     prefWidth="250"
                     prefHeight="52"
-                    styleClass="dashboard-button"/>
+                    styleClass="dashboard-button"
+                    onAction="#handleWaitlist"/>
 
             <VBox spacing="10">
                 <Label text="Search Guest / Reservation"
                        styleClass="field-label"/>
 
                 <HBox spacing="8">
-                    <TextField promptText="Name or reservation ID"
+                    <TextField fx:id="searchField"
+                               promptText="Name or reservation ID"
                                prefWidth="165"
                                prefHeight="38"/>
 
                     <Button text="Search"
                             prefWidth="77"
                             prefHeight="38"
-                            styleClass="primary-button"/>
+                            styleClass="primary-button"
+                            onAction="#handleSearch"/>
                 </HBox>
             </VBox>
 
@@ -117,7 +124,6 @@
                    styleClass="section-label"/>
 
             <VBox spacing="0" styleClass="table-container">
-                <!-- Header Row -->
                 <HBox spacing="0" styleClass="table-header-row">
                     <Label text="Reservation ID" prefWidth="120" styleClass="table-header"/>
                     <Label text="Main Contact Name" prefWidth="160" styleClass="table-header"/>
@@ -128,7 +134,6 @@
                     <Label text="Status" prefWidth="150" styleClass="table-header"/>
                 </HBox>
 
-                <!-- Data Row 1 -->
                 <HBox spacing="0" styleClass="table-data-row">
                     <Label text="R001" prefWidth="120" styleClass="table-cell"/>
                     <Label text="John Smith" prefWidth="160" styleClass="table-cell"/>
@@ -149,7 +154,6 @@
                     </HBox>
                 </HBox>
 
-                <!-- Data Row 2 -->
                 <HBox spacing="0" styleClass="table-data-row">
                     <Label text="R002" prefWidth="120" styleClass="table-cell"/>
                     <Label text="Emily Davis" prefWidth="160" styleClass="table-cell"/>
@@ -170,7 +174,6 @@
                     </HBox>
                 </HBox>
 
-                <!-- Data Row 3 -->
                 <HBox spacing="0" styleClass="table-data-row">
                     <Label text="R003" prefWidth="120" styleClass="table-cell"/>
                     <Label text="Michael Brown" prefWidth="160" styleClass="table-cell"/>
@@ -191,7 +194,6 @@
                     </HBox>
                 </HBox>
 
-                <!-- Data Row 4 -->
                 <HBox spacing="0" styleClass="table-data-row">
                     <Label text="R004" prefWidth="120" styleClass="table-cell"/>
                     <Label text="Sarah Johnson" prefWidth="160" styleClass="table-cell"/>
@@ -227,7 +229,8 @@
             <Button text="Logout"
                     prefWidth="220"
                     prefHeight="55"
-                    styleClass="secondary-button"/>
+                    styleClass="secondary-button"
+                    onAction="#handleLogout"/>
 
         </VBox>
 

@@ -1,14 +1,11 @@
 package ca.senecacollege.malibuluminahotel.controller;
 
+import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
 
 public class RoomSelectionController {
 
@@ -43,21 +40,50 @@ public class RoomSelectionController {
     }
 
     @FXML
+    private void handleBack(ActionEvent event) {
+
+        SceneNavigator.switchScene(
+                event,
+                "GuestPreference.fxml"
+        );
+    }
+
+    @FXML
+    private void handleContinue(ActionEvent event) {
+
+        SceneNavigator.switchScene(
+                event,
+                "ReservationDetails.fxml"
+        );
+    }
+
+    @FXML
     private void handleSelectRoom(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("guest-details.fxml")
-            );
 
-            Parent root = loader.load();
+        SceneNavigator.switchScene(
+                event,
+                "ReservationDetails.fxml"
+        );
+    }
 
-            Stage stage = (Stage) ((Node) event.getSource())
-                    .getScene().getWindow();
+    @FXML
+    private void handleRules(ActionEvent event) {
 
-            stage.setScene(new Scene(root));
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        alert.setTitle("Hotel Rules");
+        alert.setHeaderText("Malibu Lumina Hotel Rules");
+
+        alert.setContentText(
+                "• Check-in begins at 3:00 PM\n\n" +
+                        "• Check-out before 11:00 AM\n\n" +
+                        "• Single Room: Maximum 2 Guests\n\n" +
+                        "• Double Room: Maximum 4 Guests\n\n" +
+                        "• Penthouse: Maximum 2 Guests\n\n" +
+                        "• Smoking is prohibited inside rooms\n\n" +
+                        "• Guests are responsible for damages"
+        );
+
+        alert.showAndWait();
     }
 }

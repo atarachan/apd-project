@@ -7,7 +7,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -16,13 +15,10 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.GuestPreferenceController"
             prefWidth="1280"
             prefHeight="800"
             stylesheets="@../css/style.css">
-
-    <!-- ========================= -->
-    <!-- Header -->
-    <!-- ========================= -->
 
     <top>
 
@@ -43,10 +39,6 @@
         </VBox>
 
     </top>
-
-    <!-- ========================= -->
-    <!-- Main Content -->
-    <!-- ========================= -->
 
     <center>
 
@@ -72,8 +64,6 @@
                         <ColumnConstraints percentWidth="50"/>
                     </columnConstraints>
 
-                    <!-- Row 1 -->
-
                     <VBox spacing="8"
                           GridPane.columnIndex="0"
                           GridPane.rowIndex="0">
@@ -81,9 +71,9 @@
                         <Label text="Check-in Date"
                                styleClass="field-label"/>
 
-                        <DatePicker
-                                promptText="Select check-in date"
-                                styleClass="input-field"/>
+                        <DatePicker fx:id="checkInDatePicker"
+                                    promptText="Select check-in date"
+                                    styleClass="input-field"/>
 
                     </VBox>
 
@@ -94,13 +84,11 @@
                         <Label text="Check-out Date"
                                styleClass="field-label"/>
 
-                        <DatePicker
-                                promptText="Select check-out date"
-                                styleClass="input-field"/>
+                        <DatePicker fx:id="checkOutDatePicker"
+                                    promptText="Select check-out date"
+                                    styleClass="input-field"/>
 
                     </VBox>
-
-                    <!-- Row 2 -->
 
                     <VBox spacing="8"
                           GridPane.columnIndex="0"
@@ -150,7 +138,6 @@
 
                     </VBox>
 
-                    <!-- Row 3 -->
 
                     <VBox spacing="8"
                           GridPane.columnIndex="0"
@@ -202,7 +189,6 @@
 
                     </VBox>
 
-                    <!-- Row 4 -->
 
                     <VBox spacing="8"
                         GridPane.columnIndex="0"
@@ -239,9 +225,6 @@
 
     </center>
 
-    <!-- ========================= -->
-    <!-- Footer -->
-    <!-- ========================= -->
 
     <bottom>
 
@@ -256,12 +239,14 @@
             <Button text="Back"
                     prefWidth="180"
                     prefHeight="50"
-                    styleClass="secondary-button"/>
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
 
             <Button text="Continue"
                     prefWidth="180"
                     prefHeight="50"
-                    styleClass="primary-button"/>
+                    styleClass="primary-button"
+                    onAction="#handleContinue"/>
 
         </HBox>
 

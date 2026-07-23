@@ -4,48 +4,24 @@ import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.TextField;
 
-public class WelcomeController {
+public class ReservationDetailsController {
 
     @FXML
-    private ImageView hotelImage;
+    private TextField firstNameField;
 
     @FXML
-    private Button rulesButton;
+    private TextField lastNameField;
 
     @FXML
-    public void initialize() {
-
-        Rectangle clip = new Rectangle();
-
-        clip.widthProperty().bind(hotelImage.fitWidthProperty());
-        clip.heightProperty().bind(hotelImage.fitHeightProperty());
-
-        clip.setArcWidth(30);
-        clip.setArcHeight(30);
-
-        hotelImage.setClip(clip);
-
-        rulesButton.setTooltip(
-                new Tooltip("View hotel policies and guest regulations.")
-        );
-    }
+    private TextField emailField;
 
     @FXML
-    private void handleStartReservation(ActionEvent event) {
-
-        SceneNavigator.switchScene(
-                event,
-                "GuestPreference.fxml"
-        );
-    }
+    private TextField phoneField;
 
     @FXML
-    private void handleViewRoomTypes(ActionEvent event) {
+    private void handleBack(ActionEvent event) {
 
         SceneNavigator.switchScene(
                 event,
@@ -54,11 +30,28 @@ public class WelcomeController {
     }
 
     @FXML
-    private void handleAdminLogin(ActionEvent event) {
+    private void handleContinue(ActionEvent event) {
+
+        if (firstNameField.getText().trim().isEmpty()
+                || lastNameField.getText().trim().isEmpty()
+                || emailField.getText().trim().isEmpty()
+                || phoneField.getText().trim().isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            alert.setTitle("Missing Information");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                    "Please complete all required fields."
+            );
+
+            alert.showAndWait();
+            return;
+        }
 
         SceneNavigator.switchScene(
                 event,
-                "AdminDashboard.fxml"
+                "AddOns.fxml"
         );
     }
 
