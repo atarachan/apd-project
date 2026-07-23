@@ -1,5 +1,7 @@
 package ca.senecacollege.malibuluminahotel.models;
 
+import ca.senecacollege.malibuluminahotel.models.enums.PricingModel;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,6 +27,10 @@ public class AddOn implements Serializable {
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PricingModel pricingModel = PricingModel.PER_NIGHT;
+
     @OneToMany(mappedBy = "addOn")
     private List<ReservationItemAddOn> reservationItemAddOns =
             new ArrayList<>();
@@ -36,6 +42,14 @@ public class AddOn implements Serializable {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.pricingModel = PricingModel.PER_NIGHT;
+    }
+
+    public AddOn(String name, BigDecimal price, String description, PricingModel pricingModel) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.pricingModel = pricingModel;
     }
 
     public Long getAddOnId() {
@@ -76,5 +90,13 @@ public class AddOn implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public PricingModel getPricingModel() {
+        return pricingModel;
+    }
+
+    public void setPricingModel(PricingModel pricingModel) {
+        this.pricingModel = pricingModel;
     }
 }
