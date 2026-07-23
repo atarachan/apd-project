@@ -12,6 +12,9 @@ public class BookingSession {
     private LocalDate checkOutDate;
     private RoomTypeName selectedRoomTypeName;
 
+    private int adults = 1;
+    private int children = 0;
+
     private String guestFirstName;
     private String guestLastName;
     private String guestEmail;
@@ -37,6 +40,8 @@ public class BookingSession {
         checkInDate = null;
         checkOutDate = null;
         selectedRoomTypeName = null;
+        adults = 1;
+        children = 0;
         guestFirstName = null;
         guestLastName = null;
         guestEmail = null;
@@ -70,6 +75,22 @@ public class BookingSession {
 
     public void setSelectedRoomTypeName(RoomTypeName selectedRoomTypeName) {
         this.selectedRoomTypeName = selectedRoomTypeName;
+    }
+
+    public int getAdults() {
+        return adults;
+    }
+
+    public void setAdults(int adults) {
+        this.adults = adults;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public void setChildren(int children) {
+        this.children = children;
     }
 
     public String getGuestFirstName() {
