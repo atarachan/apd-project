@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminWaitlistController"
+            prefWidth="1280"
+            prefHeight="800"
+            stylesheets="@../css/style.css">
+
+    <top>
+        <VBox alignment="CENTER" spacing="8">
+            <padding><Insets top="20" bottom="14"/></padding>
+            <Label text="Waitlist" styleClass="title-label"/>
+            <Label text="Guests waiting for room availability" styleClass="subtitle-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="18" alignment="TOP_LEFT" styleClass="option-card">
+            <padding><Insets top="24" right="30" bottom="24" left="30"/></padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <Label text="Waitlist Entries" styleClass="section-label"/>
+                <Button text="+ Add to Waitlist"
+                        prefWidth="160" prefHeight="36"
+                        styleClass="primary-button"/>
+            </HBox>
+
+            <VBox spacing="0" styleClass="table-container">
+                <HBox spacing="0" styleClass="table-header-row">
+                    <Label text="Waitlist #"       prefWidth="110" styleClass="table-header"/>
+                    <Label text="Guest Name"        prefWidth="180" styleClass="table-header"/>
+                    <Label text="Phone"             prefWidth="130" styleClass="table-header"/>
+                    <Label text="Room Type"         prefWidth="130" styleClass="table-header"/>
+                    <Label text="Check-In"          prefWidth="120" styleClass="table-header"/>
+                    <Label text="Check-Out"         prefWidth="120" styleClass="table-header"/>
+                    <Label text="Date Added"        prefWidth="120" styleClass="table-header"/>
+                    <Label text="Status"            prefWidth="120" styleClass="table-header"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="W001"          prefWidth="110" styleClass="table-cell"/>
+                    <Label text="Sarah Collins" prefWidth="180" styleClass="table-cell"/>
+                    <Label text="416-555-0192"  prefWidth="130" styleClass="table-cell"/>
+                    <Label text="Penthouse"     prefWidth="130" styleClass="table-cell"/>
+                    <Label text="2026-08-01"    prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-08-05"    prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-07-20"    prefWidth="120" styleClass="table-cell"/>
+                    <Label text="Waiting"       prefWidth="120" styleClass="table-cell"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="W002"          prefWidth="110" styleClass="table-cell"/>
+                    <Label text="James Okafor"  prefWidth="180" styleClass="table-cell"/>
+                    <Label text="647-555-0341"  prefWidth="130" styleClass="table-cell"/>
+                    <Label text="Double"        prefWidth="130" styleClass="table-cell"/>
+                    <Label text="2026-07-28"    prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-08-02"    prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-07-21"    prefWidth="120" styleClass="table-cell"/>
+                    <Label text="Waiting"       prefWidth="120" styleClass="table-cell"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="W003"          prefWidth="110" styleClass="table-cell"/>
+                    <Label text="Priya Sharma"  prefWidth="180" styleClass="table-cell"/>
+                    <Label text="905-555-0478"  prefWidth="130" styleClass="table-cell"/>
+                    <Label text="Single"        prefWidth="130" styleClass="table-cell"/>
+                    <Label text="2026-07-25"    prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-07-27"    prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-07-22"    prefWidth="120" styleClass="table-cell"/>
+                    <Label text="Notified"      prefWidth="120" styleClass="table-cell"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="W004"            prefWidth="110" styleClass="table-cell"/>
+                    <Label text="Daniel Nguyen"   prefWidth="180" styleClass="table-cell"/>
+                    <Label text="416-555-0823"    prefWidth="130" styleClass="table-cell"/>
+                    <Label text="Double"          prefWidth="130" styleClass="table-cell"/>
+                    <Label text="2026-08-10"      prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-08-15"      prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-07-23"      prefWidth="120" styleClass="table-cell"/>
+                    <Label text="Converted"       prefWidth="120" styleClass="table-cell"/>
+                </HBox>
+
+            </VBox>
+
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER">
+            <padding><Insets top="20" bottom="25"/></padding>
+            <Button text="Back to Dashboard"
+                    prefWidth="220" prefHeight="50"
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
