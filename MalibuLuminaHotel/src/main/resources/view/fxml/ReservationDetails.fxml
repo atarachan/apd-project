@@ -62,36 +62,44 @@
                    <Label text="Booking Main Contact"
                        styleClass="section-label"/>
 
-                   <VBox spacing="8">
+                   <VBox spacing="4">
                     <Label text="Main Contact First Name *"
                         styleClass="field-label"/>
                        <TextField fx:id="firstNameField"
                                   promptText="Required"
                                   styleClass="input-field"/>
+                       <Label fx:id="firstNameError" text=""
+                              style="-fx-text-fill: #c0392b; -fx-font-size: 12px;"/>
                    </VBox>
 
-                   <VBox spacing="8">
+                   <VBox spacing="4">
                     <Label text="Main Contact Last Name *"
                         styleClass="field-label"/>
                        <TextField fx:id="lastNameField"
                                   promptText="Required"
                                   styleClass="input-field"/>
+                       <Label fx:id="lastNameError" text=""
+                              style="-fx-text-fill: #c0392b; -fx-font-size: 12px;"/>
                    </VBox>
 
-                   <VBox spacing="8">
+                   <VBox spacing="4">
                     <Label text="Main Contact Email *"
                         styleClass="field-label"/>
                        <TextField fx:id="emailField"
                                   promptText="Required"
                                   styleClass="input-field"/>
+                       <Label fx:id="emailError" text=""
+                              style="-fx-text-fill: #c0392b; -fx-font-size: 12px;"/>
                    </VBox>
 
-                   <VBox spacing="8">
+                   <VBox spacing="4">
                     <Label text="Main Contact Contact Number *"
                         styleClass="field-label"/>
                        <TextField fx:id="phoneField"
                                   promptText="Required"
                                   styleClass="input-field"/>
+                       <Label fx:id="phoneError" text=""
+                              style="-fx-text-fill: #c0392b; -fx-font-size: 12px;"/>
                    </VBox>
 
                   </VBox>
