@@ -146,7 +146,8 @@
                         <Label text="Adults"
                                styleClass="field-label"/>
 
-                        <ComboBox promptText="Select adults"
+                        <ComboBox fx:id="adultsComboBox"
+                                  promptText="Select adults"
                                   styleClass="input-field">
 
                             <items>
@@ -171,7 +172,8 @@
                         <Label text="Children"
                                styleClass="field-label"/>
 
-                        <ComboBox promptText="Select children"
+                        <ComboBox fx:id="childrenComboBox"
+                                  promptText="Select children"
                                   styleClass="input-field">
 
                             <items>
