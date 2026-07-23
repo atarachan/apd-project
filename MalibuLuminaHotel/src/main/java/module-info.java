@@ -15,4 +15,6 @@ module ca.senecacollege.malibuluminahotel {
 
     exports ca.senecacollege.malibuluminahotel.models;
     exports ca.senecacollege.malibuluminahotel.app;
+    exports ca.senecacollege.malibuluminahotel.tests;
+    opens ca.senecacollege.malibuluminahotel.tests to javafx.fxml, org.hibernate.orm.core;
 }
