@@ -33,20 +33,41 @@ public class RoomSelectionController {
 
     @FXML
     private void handleSelectSingle(ActionEvent event) {
+        if (!checkOccupancy(2, "Single Room")) return;
         BookingSession.getInstance().setSelectedRoomTypeName(RoomTypeName.SINGLE);
         SceneNavigator.switchScene(event, "ReservationDetails.fxml");
     }
 
     @FXML
     private void handleSelectDouble(ActionEvent event) {
+        if (!checkOccupancy(4, "Double Room")) return;
         BookingSession.getInstance().setSelectedRoomTypeName(RoomTypeName.DOUBLE);
         SceneNavigator.switchScene(event, "ReservationDetails.fxml");
     }
 
     @FXML
     private void handleSelectPenthouse(ActionEvent event) {
+        if (!checkOccupancy(2, "Penthouse")) return;
         BookingSession.getInstance().setSelectedRoomTypeName(RoomTypeName.PENTHOUSE);
         SceneNavigator.switchScene(event, "ReservationDetails.fxml");
+    }
+
+    private boolean checkOccupancy(int maxGuests, String roomName) {
+        BookingSession session = BookingSession.getInstance();
+        int totalGuests = session.getAdults() + session.getChildren();
+        if (totalGuests > maxGuests) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Occupancy Limit Exceeded");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                roomName + " fits up to " + maxGuests + " guests, but your party has "
+                + totalGuests + " guests.\n\n"
+                + "Please go back and adjust your guest count, or choose a room with higher capacity."
+            );
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 
     @FXML
