@@ -1,14 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminLoyaltyController"
+            prefWidth="1280"
+            prefHeight="800"
+            stylesheets="@../css/style.css">
 
-</AnchorPane>
+    <top>
+        <VBox alignment="CENTER" spacing="8">
+            <padding><Insets top="20" bottom="14"/></padding>
+            <Label text="Loyalty Program" styleClass="title-label"/>
+            <Label text="Track and manage guest loyalty points" styleClass="subtitle-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" alignment="CENTER" styleClass="option-card">
+            <padding><Insets top="30" right="40" bottom="30" left="40"/></padding>
+
+            <VBox spacing="14" styleClass="form-card" prefWidth="860">
+                <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
+                <Label text="Member Points Overview" styleClass="section-label"/>
+
+                <HBox spacing="0" styleClass="table-header-row">
+                    <Label text="Member Number" prefWidth="160" styleClass="table-header"/>
+                    <Label text="Guest Name"    prefWidth="200" styleClass="table-header"/>
+                    <Label text="Email"         prefWidth="240" styleClass="table-header"/>
+                    <Label text="Points"        prefWidth="120" styleClass="table-header"/>
+                    <Label text="Value (CAD)"   prefWidth="130" styleClass="table-header"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="LM-001"        prefWidth="160" styleClass="table-cell"/>
+                    <Label text="John Smith"    prefWidth="200" styleClass="table-cell"/>
+                    <Label text="john.smith@email.com" prefWidth="240" styleClass="table-cell"/>
+                    <Label text="1,200"         prefWidth="120" styleClass="table-cell"/>
+                    <Label text="CAD 12.00"     prefWidth="130" styleClass="table-cell"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="LM-002"        prefWidth="160" styleClass="table-cell"/>
+                    <Label text="Emily Davis"   prefWidth="200" styleClass="table-cell"/>
+                    <Label text="emily.d@email.com" prefWidth="240" styleClass="table-cell"/>
+                    <Label text="3,500"         prefWidth="120" styleClass="table-cell"/>
+                    <Label text="CAD 35.00"     prefWidth="130" styleClass="table-cell"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="LM-003"         prefWidth="160" styleClass="table-cell"/>
+                    <Label text="Michael Brown"  prefWidth="200" styleClass="table-cell"/>
+                    <Label text="m.brown@email.com" prefWidth="240" styleClass="table-cell"/>
+                    <Label text="7,800"          prefWidth="120" styleClass="table-cell"/>
+                    <Label text="CAD 78.00"      prefWidth="130" styleClass="table-cell"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER">
+            <padding><Insets top="20" bottom="25"/></padding>
+            <Button text="Back to Dashboard"
+                    prefWidth="220" prefHeight="50"
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
