@@ -59,7 +59,8 @@
                        maxWidth="600"
                        styleClass="description-label"/>
 
-                <Label text="Reservation Number: R1001"
+                <Label fx:id="reservationNumberLabel"
+                       text="Reservation Number: —"
                        styleClass="field-label"/>
 
             </VBox>
