@@ -11,7 +11,8 @@ module ca.senecacollege.malibuluminahotel {
     opens ca.senecacollege.malibuluminahotel.controller to javafx.fxml;
 
     opens ca.senecacollege.malibuluminahotel.models to org.hibernate.orm.core, javafx.fxml;
-    exports ca.senecacollege.malibuluminahotel.models;
+    opens ca.senecacollege.malibuluminahotel.models.enums to org.hibernate.orm.core;
 
+    exports ca.senecacollege.malibuluminahotel.models;
     exports ca.senecacollege.malibuluminahotel.app;
 }
