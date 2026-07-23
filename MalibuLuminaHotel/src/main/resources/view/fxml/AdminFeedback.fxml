@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminFeedbackController"
+            prefWidth="1280"
+            prefHeight="800"
+            stylesheets="@../css/style.css">
 
-</AnchorPane>
+    <top>
+        <VBox alignment="CENTER" spacing="8">
+            <padding><Insets top="20" bottom="14"/></padding>
+            <Label text="Guest Feedback" styleClass="title-label"/>
+            <Label text="Review ratings and comments left by guests" styleClass="subtitle-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" alignment="CENTER" styleClass="option-card">
+            <padding><Insets top="30" right="40" bottom="30" left="40"/></padding>
+
+            <VBox spacing="14" styleClass="form-card" prefWidth="860">
+                <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
+                <Label text="Recent Feedback" styleClass="section-label"/>
+
+                <HBox spacing="0" styleClass="table-header-row">
+                    <Label text="Guest"       prefWidth="180" styleClass="table-header"/>
+                    <Label text="Room Type"   prefWidth="140" styleClass="table-header"/>
+                    <Label text="Rating"      prefWidth="100" styleClass="table-header"/>
+                    <Label text="Comment"     prefWidth="400" styleClass="table-header"/>
+                    <Label text="Date"        prefWidth="120" styleClass="table-header"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="John Smith"    prefWidth="180" styleClass="table-cell"/>
+                    <Label text="Single"        prefWidth="140" styleClass="table-cell"/>
+                    <Label text="5 / 5"         prefWidth="100" styleClass="table-cell"/>
+                    <Label text="Excellent stay, very clean and quiet."
+                           prefWidth="400" wrapText="true" styleClass="table-cell"/>
+                    <Label text="2026-07-20"    prefWidth="120" styleClass="table-cell"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="Emily Davis"   prefWidth="180" styleClass="table-cell"/>
+                    <Label text="Double"        prefWidth="140" styleClass="table-cell"/>
+                    <Label text="4 / 5"         prefWidth="100" styleClass="table-cell"/>
+                    <Label text="Great room, breakfast could be better."
+                           prefWidth="400" wrapText="true" styleClass="table-cell"/>
+                    <Label text="2026-07-22"    prefWidth="120" styleClass="table-cell"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="Michael Brown" prefWidth="180" styleClass="table-cell"/>
+                    <Label text="Penthouse"     prefWidth="140" styleClass="table-cell"/>
+                    <Label text="5 / 5"         prefWidth="100" styleClass="table-cell"/>
+                    <Label text="Incredible ocean view. Will return!"
+                           prefWidth="400" wrapText="true" styleClass="table-cell"/>
+                    <Label text="2026-07-25"    prefWidth="120" styleClass="table-cell"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER">
+            <padding><Insets top="20" bottom="25"/></padding>
+            <Button text="Back to Dashboard"
+                    prefWidth="220" prefHeight="50"
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
