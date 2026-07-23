@@ -18,163 +18,133 @@
             stylesheets="@../css/style.css">
 
     <top>
-
-        <VBox alignment="CENTER"
-              spacing="12">
-
-            <padding>
-                <Insets top="25"
-                        bottom="25"/>
-            </padding>
-
-            <Label text="Malibu Lumina Hotel"
-                   styleClass="title-label"/>
-
-            <Label text="Guest Checkout"
-                   styleClass="subtitle-label"/>
-
+        <VBox alignment="CENTER" spacing="4">
+            <padding><Insets top="14" bottom="10"/></padding>
+            <Label text="Guest Checkout" styleClass="title-label"/>
+            <Label text="Review your booking before confirming" styleClass="subtitle-label"/>
         </VBox>
-
     </top>
 
     <center>
+        <VBox alignment="CENTER" spacing="12">
+            <padding><Insets top="10" right="40" bottom="10" left="40"/></padding>
 
-        <VBox alignment="CENTER"
-              spacing="24">
+            <!-- Two-column row -->
+            <HBox spacing="16" alignment="TOP_CENTER">
 
-            <padding>
-                <Insets top="20"
-                        bottom="20"/>
-            </padding>
+                <!-- Left column: Bill Summary + Loyalty -->
+                <VBox spacing="10" prefWidth="450">
 
-            <VBox spacing="16" styleClass="form-card" prefWidth="750">
-                <padding>
-                    <Insets top="24"
-                            right="28"
-                            bottom="24"
-                            left="28"/>
-                </padding>
+                    <VBox spacing="8" styleClass="form-card">
+                        <padding><Insets top="14" right="20" bottom="14" left="20"/></padding>
 
-                <Label text="Bill Summary"
-                       styleClass="section-label"/>
+                        <Label text="Bill Summary" styleClass="section-label"/>
 
-                <HBox spacing="10">
-                    <Label text="Subtotal:" prefWidth="500" styleClass="field-label"/>
-                    <Label fx:id="subtotalLabel" text="CAD --" prefWidth="120" styleClass="field-label"/>
-                </HBox>
+                        <HBox spacing="10">
+                            <Label text="Subtotal:" prefWidth="280" styleClass="field-label"/>
+                            <Label fx:id="subtotalLabel" text="CAD --" styleClass="field-label"/>
+                        </HBox>
 
-                <HBox spacing="10">
-                    <Label text="Taxes (13%):" prefWidth="500" styleClass="field-label"/>
-                    <Label fx:id="taxLabel" text="CAD --" prefWidth="120" styleClass="field-label"/>
-                </HBox>
+                        <HBox spacing="10">
+                            <Label text="Taxes (13%):" prefWidth="280" styleClass="field-label"/>
+                            <Label fx:id="taxLabel" text="CAD --" styleClass="field-label"/>
+                        </HBox>
 
-                <HBox spacing="10">
-                    <Label text="Total Amount:" prefWidth="500" styleClass="section-label"/>
-                    <Label fx:id="totalLabel" text="CAD --" prefWidth="120" styleClass="section-label"/>
-                </HBox>
+                        <HBox spacing="10">
+                            <Label text="Total Amount:" prefWidth="280" styleClass="section-label"/>
+                            <Label fx:id="totalLabel" text="CAD --" styleClass="section-label"/>
+                        </HBox>
+                    </VBox>
 
-            </VBox>
+                    <VBox spacing="8" styleClass="form-card">
+                        <padding><Insets top="14" right="20" bottom="14" left="20"/></padding>
 
-            <VBox spacing="14" styleClass="form-card" prefWidth="750">
-                <padding>
-                    <Insets top="24"
-                            right="28"
-                            bottom="24"
-                            left="28"/>
-                </padding>
+                        <Label text="Loyalty Points" styleClass="section-label"/>
 
-                <Label text="Loyalty Points"
-                       styleClass="section-label"/>
+                        <Label text="Available Points: 2,500  (Value: CAD 25.00)"
+                               styleClass="field-label"/>
 
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Label text="Available Points: 2,500 (Value: CAD 25.00)" styleClass="field-label"/>
-                </HBox>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Points to Use:" styleClass="helper-label"/>
+                            <TextField promptText="Enter amount"
+                                       prefWidth="160"
+                                       prefHeight="34"
+                                       styleClass="input-field"/>
+                            <Button text="Apply"
+                                    prefWidth="90"
+                                    prefHeight="34"
+                                    styleClass="primary-button"/>
+                        </HBox>
 
-                <HBox spacing="15" alignment="CENTER_LEFT">
-                    <Label text="Points to Use:" styleClass="helper-label"/>
-                    <TextField promptText="Enter points amount" prefWidth="200" styleClass="input-field"/>
-                    <Button text="Apply Points" prefWidth="120" prefHeight="36" styleClass="primary-button"/>
-                </HBox>
+                        <Label text="Points will be deducted from your total."
+                               styleClass="helper-label"/>
+                    </VBox>
 
-                <Label text="Points will be deducted from your total balance."
-                       styleClass="helper-label"/>
-
-            </VBox>
-
-            <VBox spacing="16" styleClass="form-card" prefWidth="750">
-                <padding>
-                    <Insets top="24"
-                            right="28"
-                            bottom="24"
-                            left="28"/>
-                </padding>
-
-                <Label text="Payment Options"
-                       styleClass="section-label"/>
-
-                <fx:define>
-                    <ToggleGroup fx:id="paymentToggleGroup"/>
-                </fx:define>
-
-                <RadioButton text="Pay Full Amount (CAD 1,096.10)" 
-                             styleClass="check-box"
-                             toggleGroup="$paymentToggleGroup"
-                             selected="true"/>
-
-                <VBox spacing="12">
-                    <RadioButton text="Pay Partial Amount" 
-                                 styleClass="check-box"
-                                 toggleGroup="$paymentToggleGroup"/>
-
-                    <HBox spacing="15" alignment="CENTER_LEFT">
-                        <padding>
-                            <Insets left="30"/>
-                        </padding>
-                        <Label text="Amount to Pay:" styleClass="helper-label"/>
-                        <TextField promptText="Enter partial amount" prefWidth="200" styleClass="input-field"/>
-                    </HBox>
-
-                    <Label text="Note: Remaining balance will be due at checkout."
-                           styleClass="helper-label">
-                        <padding>
-                            <Insets left="30"/>
-                        </padding>
-                    </Label>
                 </VBox>
 
-            </VBox>
+                <!-- Right column: Payment Options -->
+                <VBox spacing="0" prefWidth="450">
+                    <VBox spacing="10" styleClass="form-card">
+                        <padding><Insets top="14" right="20" bottom="14" left="20"/></padding>
 
-            <HBox spacing="18" alignment="CENTER">
+                        <Label text="Payment Options" styleClass="section-label"/>
+
+                        <fx:define>
+                            <ToggleGroup fx:id="paymentToggleGroup"/>
+                        </fx:define>
+
+                        <RadioButton text="Pay Full Amount"
+                                     styleClass="check-box"
+                                     toggleGroup="$paymentToggleGroup"
+                                     selected="true"/>
+
+                        <VBox spacing="8">
+                            <RadioButton text="Pay Partial Amount"
+                                         styleClass="check-box"
+                                         toggleGroup="$paymentToggleGroup"/>
+
+                            <HBox spacing="12" alignment="CENTER_LEFT">
+                                <padding><Insets left="24"/></padding>
+                                <Label text="Amount to Pay:" styleClass="helper-label"/>
+                                <TextField promptText="Enter amount"
+                                           prefWidth="160"
+                                           prefHeight="34"
+                                           styleClass="input-field"/>
+                            </HBox>
+
+                            <Label text="Remaining balance will be due at check-in."
+                                   styleClass="helper-label">
+                                <padding><Insets left="24"/></padding>
+                            </Label>
+                        </VBox>
+
+                    </VBox>
+                </VBox>
+
+            </HBox>
+
+            <!-- Action buttons -->
+            <HBox spacing="16" alignment="CENTER">
                 <Button text="Proceed to Payment"
                         prefWidth="220"
-                        prefHeight="55"
+                        prefHeight="46"
                         styleClass="primary-button"
                         onAction="#handleProceedToPayment"/>
                 <Button text="Cancel"
                         prefWidth="160"
-                        prefHeight="55"
+                        prefHeight="46"
                         styleClass="secondary-button"
                         onAction="#handleCancel"/>
             </HBox>
 
         </VBox>
-
     </center>
 
     <bottom>
-
         <VBox alignment="CENTER">
-
-            <padding>
-                <Insets top="20"
-                        bottom="25"/>
-            </padding>
-
-            <Label text="© Malibu Lumina Hotel"
-                   styleClass="footer-label"/>
-
+            <padding><Insets top="10" bottom="14"/></padding>
+            <Label text="© Malibu Lumina Hotel" styleClass="footer-label"/>
         </VBox>
-
     </bottom>
 
 </BorderPane>
