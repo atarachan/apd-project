@@ -1,14 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminReportsController"
+            prefWidth="1280"
+            prefHeight="800"
+            stylesheets="@../css/style.css">
 
-</AnchorPane>
+    <top>
+        <VBox alignment="CENTER" spacing="8">
+            <padding><Insets top="20" bottom="14"/></padding>
+            <Label text="Reports" styleClass="title-label"/>
+            <Label text="Occupancy, revenue, and operational summaries" styleClass="subtitle-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" alignment="CENTER" styleClass="option-card">
+            <padding><Insets top="30" right="40" bottom="30" left="40"/></padding>
+
+            <HBox spacing="24" alignment="CENTER">
+
+                <VBox spacing="10" styleClass="form-card" prefWidth="250">
+                    <padding><Insets top="24" right="20" bottom="24" left="20"/></padding>
+                    <Label text="Total Reservations" styleClass="field-label"/>
+                    <Label text="127" styleClass="section-label"/>
+                    <Label text="This month" styleClass="description-label"/>
+                </VBox>
+
+                <VBox spacing="10" styleClass="form-card" prefWidth="250">
+                    <padding><Insets top="24" right="20" bottom="24" left="20"/></padding>
+                    <Label text="Occupancy Rate" styleClass="field-label"/>
+                    <Label text="84%" styleClass="section-label"/>
+                    <Label text="Current period" styleClass="description-label"/>
+                </VBox>
+
+                <VBox spacing="10" styleClass="form-card" prefWidth="250">
+                    <padding><Insets top="24" right="20" bottom="24" left="20"/></padding>
+                    <Label text="Total Revenue" styleClass="field-label"/>
+                    <Label text="CAD 48,320" styleClass="section-label"/>
+                    <Label text="This month" styleClass="description-label"/>
+                </VBox>
+
+            </HBox>
+
+            <VBox spacing="14" styleClass="form-card" prefWidth="800">
+                <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
+                <Label text="Room Type Breakdown" styleClass="section-label"/>
+
+                <HBox spacing="0" styleClass="table-header-row">
+                    <Label text="Room Type"   prefWidth="200" styleClass="table-header"/>
+                    <Label text="Bookings"    prefWidth="150" styleClass="table-header"/>
+                    <Label text="Avg. Nights" prefWidth="150" styleClass="table-header"/>
+                    <Label text="Revenue"     prefWidth="200" styleClass="table-header"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="Single"    prefWidth="200" styleClass="table-cell"/>
+                    <Label text="68"        prefWidth="150" styleClass="table-cell"/>
+                    <Label text="3.2"       prefWidth="150" styleClass="table-cell"/>
+                    <Label text="CAD 26,112" prefWidth="200" styleClass="table-cell"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="Double"    prefWidth="200" styleClass="table-cell"/>
+                    <Label text="42"        prefWidth="150" styleClass="table-cell"/>
+                    <Label text="4.1"       prefWidth="150" styleClass="table-cell"/>
+                    <Label text="CAD 30,996" prefWidth="200" styleClass="table-cell"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="Penthouse" prefWidth="200" styleClass="table-cell"/>
+                    <Label text="17"        prefWidth="150" styleClass="table-cell"/>
+                    <Label text="2.8"       prefWidth="150" styleClass="table-cell"/>
+                    <Label text="CAD 16,660" prefWidth="200" styleClass="table-cell"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER">
+            <padding><Insets top="20" bottom="25"/></padding>
+            <Button text="Back to Dashboard"
+                    prefWidth="220" prefHeight="50"
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
