@@ -67,13 +67,13 @@ public final class DatabaseTest {
             );
 
             // Optional cleanup so repeated tests do not leave extra records
-            transaction.begin();
+            //transaction.begin();
 
-            entityManager.remove(retrievedAddOn);
+            //entityManager.remove(retrievedAddOn);
 
-            transaction.commit();
+            //transaction.commit();
 
-            System.out.println("Deleted temporary AddOn successfully.");
+            //System.out.println("Deleted temporary AddOn successfully.");
 
         } catch (RuntimeException exception) {
             if (transaction.isActive()) {

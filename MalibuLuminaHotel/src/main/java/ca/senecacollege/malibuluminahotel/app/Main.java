@@ -2,6 +2,7 @@ package ca.senecacollege.malibuluminahotel.app;
 
 import ca.senecacollege.malibuluminahotel.config.EntityManagerFactoryProvider;
 import ca.senecacollege.malibuluminahotel.models.DatabaseTest;
+import ca.senecacollege.malibuluminahotel.models.RepositoryTest;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,7 +17,9 @@ public class Main extends Application {
         EntityManagerFactoryProvider.getEntityManagerFactory();
 
         // TEST TO VERIFY DATABASE WORKS
-        DatabaseTest.testAddOnRoundTrip();
+        // DatabaseTest.testAddOnRoundTrip();
+
+        RepositoryTest.testAddOnRepository();
 
 
         FXMLLoader loader = new FXMLLoader(
@@ -29,8 +32,10 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setResizable(true);
         stage.show();
+    }
 
-        // CLOSES DATABASE
+    @Override
+    public void stop() {
         EntityManagerFactoryProvider.closeEntityManagerFactory();
     }
 
