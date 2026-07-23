@@ -95,7 +95,7 @@ public class AdminDashboardController {
 
     @FXML
     private void handleWaitlist(ActionEvent event) {
-        SceneNavigator.switchScene(event, "AdminCheckout.fxml");
+        SceneNavigator.switchScene(event, "AdminWaitlist.fxml");
     }
 
     @FXML
