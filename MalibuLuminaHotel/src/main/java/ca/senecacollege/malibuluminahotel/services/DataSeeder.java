@@ -4,6 +4,7 @@ import ca.senecacollege.malibuluminahotel.config.EntityManagerFactoryProvider;
 import ca.senecacollege.malibuluminahotel.factories.RoomFactory;
 import ca.senecacollege.malibuluminahotel.models.AddOn;
 import ca.senecacollege.malibuluminahotel.models.RoomType;
+import ca.senecacollege.malibuluminahotel.models.enums.PricingModel;
 import ca.senecacollege.malibuluminahotel.models.enums.RoomTypeName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,18 +62,18 @@ public class DataSeeder {
             em.persist(RoomFactory.createRoom(penthouse, "401", 4));
             em.persist(RoomFactory.createRoom(penthouse, "402", 4));
 
-            // Default add-ons
+            // Default add-ons (PER_NIGHT = charged each night; PER_STAY = charged once)
             em.persist(new AddOn("Daily Breakfast", new BigDecimal("25.00"),
-                    "Fresh breakfast served every morning during your stay."));
+                    "Fresh breakfast served every morning during your stay.", PricingModel.PER_NIGHT));
 
             em.persist(new AddOn("Wi-Fi", new BigDecimal("10.00"),
-                    "High-speed wireless internet throughout your stay."));
+                    "High-speed wireless internet throughout your stay.", PricingModel.PER_NIGHT));
 
             em.persist(new AddOn("Parking", new BigDecimal("15.00"),
-                    "Secure on-site parking throughout your stay."));
+                    "Secure on-site parking throughout your stay.", PricingModel.PER_NIGHT));
 
             em.persist(new AddOn("Spa Package", new BigDecimal("80.00"),
-                    "Full access to our spa and wellness facilities."));
+                    "Full access to our spa and wellness facilities.", PricingModel.PER_STAY));
 
             tx.commit();
 
