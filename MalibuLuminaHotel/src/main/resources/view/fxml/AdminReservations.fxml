@@ -1,14 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminReservationsController"
+            prefWidth="1280"
+            prefHeight="800"
+            stylesheets="@../css/style.css">
 
-</AnchorPane>
+    <top>
+        <VBox alignment="CENTER" spacing="8">
+            <padding><Insets top="20" bottom="14"/></padding>
+            <Label text="Reservations" styleClass="title-label"/>
+            <Label text="View and manage all guest reservations" styleClass="subtitle-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="18" alignment="TOP_LEFT" styleClass="option-card">
+            <padding><Insets top="24" right="30" bottom="24" left="30"/></padding>
+
+            <Label text="All Reservations" styleClass="section-label"/>
+
+            <VBox spacing="0" styleClass="table-container">
+                <HBox spacing="0" styleClass="table-header-row">
+                    <Label text="Reservation ID" prefWidth="130" styleClass="table-header"/>
+                    <Label text="Guest Name"      prefWidth="180" styleClass="table-header"/>
+                    <Label text="Room Type"       prefWidth="140" styleClass="table-header"/>
+                    <Label text="Check In"        prefWidth="120" styleClass="table-header"/>
+                    <Label text="Check Out"       prefWidth="120" styleClass="table-header"/>
+                    <Label text="Status"          prefWidth="160" styleClass="table-header"/>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="R001" prefWidth="130" styleClass="table-cell"/>
+                    <Label text="John Smith" prefWidth="180" styleClass="table-cell"/>
+                    <Label text="Single" prefWidth="140" styleClass="table-cell"/>
+                    <Label text="2026-07-15" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-07-20" prefWidth="120" styleClass="table-cell"/>
+                    <HBox prefWidth="160" alignment="CENTER_LEFT" styleClass="table-cell">
+                        <ComboBox prefWidth="140" value="Pending">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Pending"/>
+                                    <String fx:value="Checked In"/>
+                                    <String fx:value="Checked Out"/>
+                                    <String fx:value="Cancelled"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="R002" prefWidth="130" styleClass="table-cell"/>
+                    <Label text="Emily Davis" prefWidth="180" styleClass="table-cell"/>
+                    <Label text="Double" prefWidth="140" styleClass="table-cell"/>
+                    <Label text="2026-07-18" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-07-22" prefWidth="120" styleClass="table-cell"/>
+                    <HBox prefWidth="160" alignment="CENTER_LEFT" styleClass="table-cell">
+                        <ComboBox prefWidth="140" value="Checked In">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Pending"/>
+                                    <String fx:value="Checked In"/>
+                                    <String fx:value="Checked Out"/>
+                                    <String fx:value="Cancelled"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                </HBox>
+
+                <HBox spacing="0" styleClass="table-data-row">
+                    <Label text="R003" prefWidth="130" styleClass="table-cell"/>
+                    <Label text="Michael Brown" prefWidth="180" styleClass="table-cell"/>
+                    <Label text="Penthouse" prefWidth="140" styleClass="table-cell"/>
+                    <Label text="2026-07-21" prefWidth="120" styleClass="table-cell"/>
+                    <Label text="2026-07-25" prefWidth="120" styleClass="table-cell"/>
+                    <HBox prefWidth="160" alignment="CENTER_LEFT" styleClass="table-cell">
+                        <ComboBox prefWidth="140" value="Checked Out">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Pending"/>
+                                    <String fx:value="Checked In"/>
+                                    <String fx:value="Checked Out"/>
+                                    <String fx:value="Cancelled"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER">
+            <padding><Insets top="20" bottom="25"/></padding>
+            <Button text="Back to Dashboard"
+                    prefWidth="220" prefHeight="50"
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
