@@ -14,6 +14,8 @@ import java.util.Locale;
 
 public class GuestCheckoutController {
 
+    @FXML private Label roomChargesLabel;
+    @FXML private Label addOnsLabel;
     @FXML private Label subtotalLabel;
     @FXML private Label taxLabel;
     @FXML private Label totalLabel;
@@ -32,11 +34,15 @@ public class GuestCheckoutController {
             fmt.setMinimumFractionDigits(2);
             fmt.setMaximumFractionDigits(2);
 
+            roomChargesLabel.setText("CAD " + fmt.format(billSummary.roomTotal()));
+            addOnsLabel.setText("CAD " + fmt.format(billSummary.addOnTotal()));
             subtotalLabel.setText("CAD " + fmt.format(billSummary.subtotal()));
             taxLabel.setText("CAD " + fmt.format(billSummary.tax()));
             totalLabel.setText("CAD " + fmt.format(billSummary.total()));
 
         } catch (Exception e) {
+            roomChargesLabel.setText("CAD --");
+            addOnsLabel.setText("CAD --");
             subtotalLabel.setText("CAD --");
             taxLabel.setText("CAD --");
             totalLabel.setText("CAD --");

@@ -41,6 +41,16 @@
                         <Label text="Bill Summary" styleClass="section-label"/>
 
                         <HBox spacing="10">
+                            <Label text="Room charges:" prefWidth="280" styleClass="field-label"/>
+                            <Label fx:id="roomChargesLabel" text="CAD --" styleClass="field-label"/>
+                        </HBox>
+
+                        <HBox spacing="10">
+                            <Label text="Add-ons:" prefWidth="280" styleClass="field-label"/>
+                            <Label fx:id="addOnsLabel" text="CAD --" styleClass="field-label"/>
+                        </HBox>
+
+                        <HBox spacing="10">
                             <Label text="Subtotal:" prefWidth="280" styleClass="field-label"/>
                             <Label fx:id="subtotalLabel" text="CAD --" styleClass="field-label"/>
                         </HBox>

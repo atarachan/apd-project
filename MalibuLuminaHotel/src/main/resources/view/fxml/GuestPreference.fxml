@@ -250,6 +250,12 @@
                     styleClass="primary-button"
                     onAction="#handleContinue"/>
 
+            <Button text="Rules &amp; Regulations"
+                    prefWidth="220"
+                    prefHeight="50"
+                    styleClass="side-button"
+                    onAction="#handleRules"/>
+
         </HBox>
 
     </bottom>
