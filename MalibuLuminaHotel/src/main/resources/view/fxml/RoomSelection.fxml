@@ -82,7 +82,8 @@
                     <Button text="Select"
                             prefWidth="170"
                             prefHeight="50"
-                            styleClass="primary-button"/>
+                            styleClass="primary-button"
+                            onAction="#handleSelectSingle"/>
 
                 </VBox>
 
@@ -122,7 +123,8 @@
                     <Button text="Select"
                             prefWidth="170"
                             prefHeight="50"
-                            styleClass="primary-button"/>
+                            styleClass="primary-button"
+                            onAction="#handleSelectDouble"/>
 
                 </VBox>
 
@@ -163,7 +165,7 @@
                             prefWidth="170"
                             prefHeight="50"
                             styleClass="primary-button"
-                            onAction="#handleSelectRoom"/>
+                            onAction="#handleSelectPenthouse"/>
 
                 </VBox>
 
