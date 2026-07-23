@@ -54,6 +54,23 @@ public class GuestPreferenceController {
         try { return Integer.parseInt(value.trim()); } catch (NumberFormatException e) { return defaultVal; }
     }
 
+    @FXML
+    private void handleRules(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Hotel Rules");
+        alert.setHeaderText("Malibu Lumina Hotel Rules");
+        alert.setContentText(
+                "• Check-in begins at 3:00 PM\n\n" +
+                "• Check-out before 11:00 AM\n\n" +
+                "• Single Room: Maximum 2 Guests\n\n" +
+                "• Double Room: Maximum 4 Guests\n\n" +
+                "• Penthouse: Maximum 2 Guests\n\n" +
+                "• Smoking is prohibited inside rooms\n\n" +
+                "• Guests are responsible for damages"
+        );
+        alert.showAndWait();
+    }
+
     private void showError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
