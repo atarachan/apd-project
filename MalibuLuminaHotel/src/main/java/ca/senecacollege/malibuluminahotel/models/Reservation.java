@@ -5,7 +5,6 @@ import ca.senecacollege.malibuluminahotel.models.enums.ReservationStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,13 @@ public class Reservation implements Serializable {
 
     private LocalDate checkOutDate;
 
-    private LocalDateTime reservationDate;
+    private LocalDate createdDate;
+
+    @Column(nullable = false)
+    private int adults = 1;
+
+    @Column(nullable = false)
+    private int children = 0;
 
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
@@ -49,7 +54,7 @@ public class Reservation implements Serializable {
     private Bill bill;
 
     public Reservation() {
-        reservationDate = LocalDateTime.now();
+        createdDate = LocalDate.now();
         status = ReservationStatus.PENDING;
     }
 
@@ -58,6 +63,13 @@ public class Reservation implements Serializable {
         this.guest = guest;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+    }
+
+    public Reservation(Guest guest, LocalDate checkInDate, LocalDate checkOutDate,
+                       int adults, int children) {
+        this(guest, checkInDate, checkOutDate);
+        this.adults = adults;
+        this.children = children;
     }
 
     public Long getReservationId() {
@@ -92,12 +104,28 @@ public class Reservation implements Serializable {
         this.checkOutDate = checkOutDate;
     }
 
-    public LocalDateTime getReservationDate() {
-        return reservationDate;
+    public LocalDate getCreatedDate() {
+        return createdDate;
     }
 
-    public void setReservationDate(LocalDateTime reservationDate) {
-        this.reservationDate = reservationDate;
+    public void setCreatedDate(LocalDate createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public int getAdults() {
+        return adults;
+    }
+
+    public void setAdults(int adults) {
+        this.adults = adults;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public void setChildren(int children) {
+        this.children = children;
     }
 
     public ReservationStatus getStatus() {
