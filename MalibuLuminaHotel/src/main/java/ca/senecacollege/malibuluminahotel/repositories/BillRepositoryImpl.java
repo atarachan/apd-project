@@ -124,4 +124,20 @@ public class BillRepositoryImpl extends AbstractRepository<Bill, Long> implement
             em.close();
         }
     }
+
+    @Override
+    public List<Bill> findAllWithDetails() {
+        EntityManager em = createEntityManager();
+        try {
+            return em.createQuery(
+                    "SELECT DISTINCT b FROM Bill b " +
+                    "LEFT JOIN FETCH b.reservation r " +
+                    "LEFT JOIN FETCH r.guest " +
+                    "ORDER BY b.billId",
+                    Bill.class
+            ).getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }
