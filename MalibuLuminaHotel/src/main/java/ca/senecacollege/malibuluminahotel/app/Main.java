@@ -3,10 +3,17 @@ package ca.senecacollege.malibuluminahotel.app;
 import ca.senecacollege.malibuluminahotel.config.EntityManagerFactoryProvider;
 import ca.senecacollege.malibuluminahotel.models.DatabaseTest;
 import ca.senecacollege.malibuluminahotel.models.RepositoryTest;
+import ca.senecacollege.malibuluminahotel.models.RoomType;
+import ca.senecacollege.malibuluminahotel.models.enums.RoomTypeName;
+import ca.senecacollege.malibuluminahotel.repositories.IRoomTypeRepository;
+import ca.senecacollege.malibuluminahotel.repositories.RoomTypeRepositoryImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -19,7 +26,7 @@ public class Main extends Application {
         // TEST TO VERIFY DATABASE WORKS
         // DatabaseTest.testAddOnRoundTrip();
 
-        RepositoryTest.testAddOnRepository();
+        RepositoryTest.testReservationItemAddOnRepository();
 
 
         FXMLLoader loader = new FXMLLoader(

@@ -29,25 +29,22 @@ public class Guest implements Serializable {
     @Column(nullable = false, length = 100)
     private String phone;
 
-    // probably not necessary
-    //@Column(nullable = false, length = 100)
-    //private String address;
-
     @Column(nullable = false)
-    private LocalDateTime datedCreated;
+    private LocalDateTime dateCreated;
 
     @OneToMany(mappedBy = "guest")
     private List<Reservation> reservations = new ArrayList<>();
 
     public Guest() {
-        this.datedCreated = LocalDateTime.now();
+        this.dateCreated = LocalDateTime.now();
     }
 
-    public Guest(String firstName, String lastName, String email, String phone, LocalDateTime datedCreated) {
+    public Guest(String firstName, String lastName, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+        this.dateCreated = LocalDateTime.now();
     }
 
     public Long getGuestId() {
@@ -91,11 +88,11 @@ public class Guest implements Serializable {
     }
 
     public LocalDateTime getDatedCreated() {
-        return datedCreated;
+        return dateCreated;
     }
 
     public void setDatedCreated(LocalDateTime datedCreated) {
-        this.datedCreated = datedCreated;
+        this.dateCreated = datedCreated;
     }
 
     public List<Reservation> getReservations() {

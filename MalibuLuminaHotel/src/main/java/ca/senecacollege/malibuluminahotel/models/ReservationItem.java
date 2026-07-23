@@ -92,6 +92,22 @@ public class ReservationItem  implements Serializable {
     }
 
     public void setAddOns(List<ReservationItemAddOn> addOns) {
-        this.addOns = addOns;
+        this.addOns.clear();
+
+        if (addOns != null) {
+            for (ReservationItemAddOn addOn : addOns) {
+                addAddOn(addOn);
+            }
+        }
+    }
+
+    public void addAddOn(ReservationItemAddOn addOn) {
+        addOns.add(addOn);
+        addOn.setReservationItem(this);
+    }
+
+    public void removeAddOn(ReservationItemAddOn addOn) {
+        addOns.remove(addOn);
+        addOn.setReservationItem(null);
     }
 }

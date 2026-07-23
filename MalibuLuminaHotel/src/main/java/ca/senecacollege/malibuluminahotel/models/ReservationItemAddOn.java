@@ -32,10 +32,8 @@ public class ReservationItemAddOn implements Serializable {
     public ReservationItemAddOn() {
     }
 
-    public ReservationItemAddOn(ReservationItem reservationItem,
-                            AddOn addOn,
-                            int quantity,
-                            BigDecimal itemTotal) {
+    // when calculating the 'itemTotal' do: addOn.getPrice().multiply(BigDecimal.valueOf(quantity)) when passing it"
+    public ReservationItemAddOn(ReservationItem reservationItem, AddOn addOn, int quantity, BigDecimal itemTotal) {
         this.reservationItem = reservationItem;
         this.addOn = addOn;
         this.quantity = quantity;
@@ -75,7 +73,7 @@ public class ReservationItemAddOn implements Serializable {
     }
 
     public BigDecimal getItemTotal() {
-        return addOn.getPrice().multiply(BigDecimal.valueOf(quantity));
+        return itemTotal;
     }
 
     public void setItemTotal(BigDecimal itemTotal) {

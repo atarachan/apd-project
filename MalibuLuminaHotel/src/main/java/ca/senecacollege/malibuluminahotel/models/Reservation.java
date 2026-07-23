@@ -112,8 +112,16 @@ public class Reservation implements Serializable {
         return reservationItems;
     }
 
-    public void setReservationItems(List<ReservationItem> reservationItems) {
-        this.reservationItems = reservationItems;
+    public void setReservationItems(
+            List<ReservationItem> reservationItems
+    ) {
+        this.reservationItems.clear();
+
+        if (reservationItems != null) {
+            for (ReservationItem item : reservationItems) {
+                addReservationItem(item);
+            }
+        }
     }
 
     public Bill getBill() {

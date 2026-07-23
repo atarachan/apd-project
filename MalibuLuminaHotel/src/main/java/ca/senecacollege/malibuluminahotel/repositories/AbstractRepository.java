@@ -1,7 +1,6 @@
 package ca.senecacollege.malibuluminahotel.repositories;
 
 import ca.senecacollege.malibuluminahotel.config.EntityManagerFactoryProvider;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
