@@ -18,6 +18,8 @@ public interface IReservationRepository extends IRepository<Reservation, Long> {
             Guest guest,
             LocalDate checkIn,
             LocalDate checkOut,
+            int adults,
+            int children,
             Long roomId,
             BigDecimal nightlyRate,
             Map<Long, Integer> addOnQuantities,
