@@ -25,9 +25,9 @@ public class AdminDashboardController {
     @FXML
     private void handleReservations(ActionEvent event) {
 
-        showMessage(
-                "Reservations",
-                "Reservations module selected."
+        SceneNavigator.switchScene(
+                event,
+                "AdminReservations.fxml"
         );
     }
 
@@ -52,18 +52,18 @@ public class AdminDashboardController {
     @FXML
     private void handleReports(ActionEvent event) {
 
-        showMessage(
-                "Reports",
-                "Reports module selected."
+        SceneNavigator.switchScene(
+                event,
+                "AdminReports.fxml"
         );
     }
 
     @FXML
     private void handleLoyaltyProgram(ActionEvent event) {
 
-        showMessage(
-                "Loyalty Program",
-                "Loyalty Program module selected."
+        SceneNavigator.switchScene(
+                event,
+                "AdminLoyalty.fxml"
         );
     }
 

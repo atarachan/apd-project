@@ -1,14 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminLoyaltyController"
+            prefWidth="1280"
+            prefHeight="800"
+            stylesheets="@../css/style.css">
 
-</AnchorPane>
+    <top>
+
+        <VBox alignment="CENTER"
+              spacing="12">
+
+            <padding>
+                <Insets top="25" bottom="25"/>
+            </padding>
+
+            <Label text="Malibu Lumina Hotel"
+                   styleClass="title-label"/>
+
+            <Label text="Loyalty Program Management"
+                   styleClass="subtitle-label"/>
+
+        </VBox>
+
+    </top>
+
+    <center>
+
+        <VBox alignment="CENTER"
+              spacing="20">
+
+            <VBox spacing="15"
+                  prefWidth="800"
+                  styleClass="form-card">
+
+                <padding>
+                    <Insets top="25"
+                            right="25"
+                            bottom="25"
+                            left="25"/>
+                </padding>
+
+                <Label text="Member Search"
+                       styleClass="section-label"/>
+
+                <TextField fx:id="memberField"
+                           promptText="Enter member name or ID"/>
+
+                <Button text="Search Member"
+                        prefWidth="200"
+                        prefHeight="45"
+                        styleClass="primary-button"
+                        onAction="#handleSearchMember"/>
+
+            </VBox>
+
+            <VBox spacing="12"
+                  prefWidth="800"
+                  styleClass="form-card">
+
+                <padding>
+                    <Insets top="25"
+                            right="25"
+                            bottom="25"
+                            left="25"/>
+                </padding>
+
+                <Label text="Member Information"
+                       styleClass="section-label"/>
+
+                <Label text="Member: John Smith"
+                       styleClass="field-label"/>
+
+                <Label text="Member ID: LP1001"
+                       styleClass="field-label"/>
+
+                <Label text="Current Points: 2500"
+                       styleClass="field-label"/>
+
+                <Label text="Status: Gold"
+                       styleClass="field-label"/>
+
+                <Button text="Update Points"
+                        prefWidth="200"
+                        prefHeight="45"
+                        styleClass="primary-button"
+                        onAction="#handleUpdatePoints"/>
+
+            </VBox>
+
+        </VBox>
+
+    </center>
+
+    <bottom>
+
+        <HBox alignment="CENTER"
+              spacing="30">
+
+            <padding>
+                <Insets top="20"
+                        bottom="25"/>
+            </padding>
+
+            <Button text="Back to Dashboard"
+                    prefWidth="220"
+                    prefHeight="55"
+                    styleClass="secondary-button"
+                    onAction="#handleBackToDashboard"/>
+
+            <Button text="Logout"
+                    prefWidth="220"
+                    prefHeight="55"
+                    styleClass="secondary-button"
+                    onAction="#handleLogout"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

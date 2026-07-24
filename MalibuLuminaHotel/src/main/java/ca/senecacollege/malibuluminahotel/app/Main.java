@@ -30,7 +30,7 @@ public class Main extends Application {
 
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/fxml/AdminBilling.fxml")
+                getClass().getResource("/view/fxml/AdminLoyalty.fxml")
         );
 
         Scene scene = new Scene(loader.load());
