@@ -20,6 +20,8 @@
         <class>ca.senecacollege.malibuluminahotel.models.ReservationItemAddOn</class>
         <class>ca.senecacollege.malibuluminahotel.models.Room</class>
         <class>ca.senecacollege.malibuluminahotel.models.RoomType</class>
+        <class>ca.senecacollege.malibuluminahotel.models.LoyaltyAccount</class>
+        <class>ca.senecacollege.malibuluminahotel.models.LoyaltyTransaction</class>
     </persistence-unit>
 
 </persistence>
