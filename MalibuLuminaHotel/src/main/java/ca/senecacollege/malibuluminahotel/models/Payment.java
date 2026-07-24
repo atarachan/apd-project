@@ -62,11 +62,7 @@ public class Payment implements Serializable {
         this.paymentStatus = PaymentStatus.PENDING;
     }
 
-    public Payment(Bill bill,
-                   BigDecimal amount,
-                   PaymentMethod paymentMethod,
-                   PaymentStatus paymentStatus,
-                   String transactionReference) {
+    public Payment(Bill bill, BigDecimal amount, PaymentMethod paymentMethod, PaymentStatus paymentStatus, String transactionReference) {
 
         this();
 

@@ -1,9 +1,7 @@
-package ca.senecacollege.malibuluminahotel.models;
+package ca.senecacollege.malibuluminahotel.tests;
 
-import ca.senecacollege.malibuluminahotel.models.AddOn;
-import ca.senecacollege.malibuluminahotel.models.enums.ReservationStatus;
-import ca.senecacollege.malibuluminahotel.models.enums.RoomStatus;
-import ca.senecacollege.malibuluminahotel.models.enums.RoomTypeName;
+import ca.senecacollege.malibuluminahotel.models.*;
+import ca.senecacollege.malibuluminahotel.models.enums.*;
 import ca.senecacollege.malibuluminahotel.repositories.*;
 
 import java.math.BigDecimal;
@@ -1457,6 +1455,89 @@ public final class RepositoryTest {
             if (guest != null && guest.getGuestId() != null) {
                 guestRepository
                         .findById(guest.getGuestId())
+                        .ifPresent(guestRepository::delete);
+            }
+        }
+    }
+
+    public static void testPaymentSave() {
+
+        IGuestRepository guestRepository = new GuestRepositoryImpl();
+        IReservationRepository reservationRepository = new ReservationRepositoryImpl();
+        IBillRepository billRepository = new BillRepositoryImpl();
+        IPaymentRepository paymentRepository = new PaymentRepositoryImpl();
+
+        Guest guest = null;
+        Reservation reservation = null;
+        Bill bill = null;
+        Payment payment = null;
+
+        try {
+
+            guest = guestRepository.save(new Guest(
+                    "John",
+                    "Doe",
+                    "payment.test@hotel.ca",
+                    "416-555-1111"
+            ));
+
+            reservation = reservationRepository.save(new Reservation(
+                    guest,
+                    LocalDate.now().plusDays(1),
+                    LocalDate.now().plusDays(3)
+            ));
+
+            bill = new Bill(
+                    reservation,
+                    new BigDecimal("500.00"),
+                    BigDecimal.ZERO,
+                    new BigDecimal("65.00"),
+                    new BigDecimal("565.00"),
+                    new BigDecimal("565.00")
+            );
+
+            bill = billRepository.save(bill);
+
+            payment = new Payment(
+                    bill,
+                    new BigDecimal("200.00"),
+                    PaymentMethod.CREDIT_CARD,
+                    PaymentStatus.COMPLETED,
+                    "TEST-12345"
+            );
+
+            payment = paymentRepository.save(payment);
+
+            System.out.println("Payment ID: " + payment.getPaymentId());
+
+            Payment loaded = paymentRepository
+                    .findById(payment.getPaymentId())
+                    .orElseThrow();
+
+            System.out.println("Amount: " + loaded.getAmount());
+            System.out.println("Method: " + loaded.getPaymentMethod());
+            System.out.println("Status: " + loaded.getPaymentStatus());
+            System.out.println("Reference: " + loaded.getTransactionReference());
+
+        } finally {
+
+            if (payment != null && payment.getPaymentId() != null) {
+                paymentRepository.findById(payment.getPaymentId())
+                        .ifPresent(paymentRepository::delete);
+            }
+
+            if (bill != null && bill.getBillId() != null) {
+                billRepository.findById(bill.getBillId())
+                        .ifPresent(billRepository::delete);
+            }
+
+            if (reservation != null && reservation.getReservationId() != null) {
+                reservationRepository.findById(reservation.getReservationId())
+                        .ifPresent(reservationRepository::delete);
+            }
+
+            if (guest != null && guest.getGuestId() != null) {
+                guestRepository.findById(guest.getGuestId())
                         .ifPresent(guestRepository::delete);
             }
         }

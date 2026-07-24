@@ -1,4 +1,4 @@
-package ca.senecacollege.malibuluminahotel.models;
+package ca.senecacollege.malibuluminahotel.tests;
 
 import ca.senecacollege.malibuluminahotel.config.EntityManagerFactoryProvider;
 import ca.senecacollege.malibuluminahotel.models.AddOn;
