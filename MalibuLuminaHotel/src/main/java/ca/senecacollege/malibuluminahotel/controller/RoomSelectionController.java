@@ -1,4 +1,6 @@
 package ca.senecacollege.malibuluminahotel.controller;
+import ca.senecacollege.malibuluminahotel.app.BookingSession;
+import ca.senecacollege.malibuluminahotel.models.enums.RoomTypeName;
 
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import javafx.event.ActionEvent;
@@ -8,6 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 public class RoomSelectionController {
+
+    private RoomTypeName selectedRoomType;
 
     @FXML
     private ImageView singleRoomImage;
@@ -51,14 +55,22 @@ public class RoomSelectionController {
     @FXML
     private void handleContinue(ActionEvent event) {
 
-        SceneNavigator.switchScene(
-                event,
-                "ReservationDetails.fxml"
-        );
-    }
+        if (selectedRoomType == null) {
 
-    @FXML
-    private void handleSelectRoom(ActionEvent event) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            alert.setTitle("Room Selection");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                    "Please select a room type."
+            );
+
+            alert.showAndWait();
+            return;
+        }
+
+        BookingSession.getInstance()
+                .setSelectedRoomTypeName(selectedRoomType);
 
         SceneNavigator.switchScene(
                 event,
@@ -85,5 +97,59 @@ public class RoomSelectionController {
         );
 
         alert.showAndWait();
+    }
+
+    @FXML
+    private void handleSelectSingleRoom(ActionEvent event) {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        alert.setTitle("Test");
+        alert.setHeaderText(null);
+        alert.setContentText(
+                BookingSession.getInstance().getCheckInDate()
+                        + "\n" +
+                        BookingSession.getInstance().getCheckOutDate()
+        );
+
+        alert.showAndWait();
+
+        BookingSession.getInstance()
+                .setSelectedRoomTypeName(
+                        RoomTypeName.SINGLE
+                );
+
+        SceneNavigator.switchScene(
+                event,
+                "ReservationDetails.fxml"
+        );
+    }
+
+    @FXML
+    private void handleSelectDoubleRoom(ActionEvent event) {
+
+        BookingSession.getInstance()
+                .setSelectedRoomTypeName(
+                        RoomTypeName.DOUBLE
+                );
+
+        SceneNavigator.switchScene(
+                event,
+                "ReservationDetails.fxml"
+        );
+    }
+
+    @FXML
+    private void handleSelectPenthouse(ActionEvent event) {
+
+        BookingSession.getInstance()
+                .setSelectedRoomTypeName(
+                        RoomTypeName.PENTHOUSE
+                );
+
+        SceneNavigator.switchScene(
+                event,
+                "ReservationDetails.fxml"
+        );
     }
 }

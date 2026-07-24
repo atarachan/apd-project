@@ -1,4 +1,5 @@
 package ca.senecacollege.malibuluminahotel.controller;
+import ca.senecacollege.malibuluminahotel.app.BookingSession;
 
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import javafx.event.ActionEvent;
@@ -48,6 +49,24 @@ public class ReservationDetailsController {
             alert.showAndWait();
             return;
         }
+
+        BookingSession session = BookingSession.getInstance();
+
+        session.setGuestFirstName(
+                firstNameField.getText().trim()
+        );
+
+        session.setGuestLastName(
+                lastNameField.getText().trim()
+        );
+
+        session.setGuestEmail(
+                emailField.getText().trim()
+        );
+
+        session.setGuestPhone(
+                phoneField.getText().trim()
+        );
 
         SceneNavigator.switchScene(
                 event,

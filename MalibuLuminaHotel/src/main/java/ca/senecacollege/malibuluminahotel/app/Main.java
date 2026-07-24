@@ -28,9 +28,8 @@ public class Main extends Application {
 
         RepositoryTest.testBillRepository();
 
-
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/fxml/AdminLoyalty.fxml")
+                getClass().getResource("/view/fxml/Welcome.fxml")
         );
 
         Scene scene = new Scene(loader.load());

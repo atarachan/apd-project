@@ -1,4 +1,6 @@
 package ca.senecacollege.malibuluminahotel.controller;
+import ca.senecacollege.malibuluminahotel.app.BookingSession;
+import javafx.scene.control.CheckBox;
 
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import javafx.event.ActionEvent;
@@ -6,6 +8,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
 public class AddOnsController {
+
+    @FXML
+    private CheckBox breakfastCheckBox;
+
+    @FXML
+    private CheckBox wifiCheckBox;
+
+    @FXML
+    private CheckBox parkingCheckBox;
+
+    @FXML
+    private CheckBox spaCheckBox;
 
     @FXML
     private void handleBack(ActionEvent event) {
@@ -18,6 +32,25 @@ public class AddOnsController {
 
     @FXML
     private void handleContinue(ActionEvent event) {
+
+        BookingSession session =
+                BookingSession.getInstance();
+
+        session.setBreakfastSelected(
+                breakfastCheckBox.isSelected()
+        );
+
+        session.setWifiSelected(
+                wifiCheckBox.isSelected()
+        );
+
+        session.setParkingSelected(
+                parkingCheckBox.isSelected()
+        );
+
+        session.setSpaSelected(
+                spaCheckBox.isSelected()
+        );
 
         SceneNavigator.switchScene(
                 event,

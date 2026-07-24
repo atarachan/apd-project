@@ -1,4 +1,6 @@
 package ca.senecacollege.malibuluminahotel.controller;
+import ca.senecacollege.malibuluminahotel.app.BookingSession;
+
 
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import javafx.event.ActionEvent;
@@ -26,10 +28,23 @@ public class GuestPreferenceController {
     @FXML
     private void handleContinue(ActionEvent event) {
 
-        if (checkInDatePicker.getValue() != null &&
-                checkOutDatePicker.getValue() != null &&
-                checkOutDatePicker.getValue().isBefore(
-                        checkInDatePicker.getValue())) {
+        if (checkInDatePicker.getValue() == null
+                || checkOutDatePicker.getValue() == null) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            alert.setTitle("Missing Dates");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                    "Please select both check-in and check-out dates."
+            );
+
+            alert.showAndWait();
+            return;
+        }
+
+        if (checkOutDatePicker.getValue().isBefore(
+                checkInDatePicker.getValue())) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
 
@@ -42,6 +57,17 @@ public class GuestPreferenceController {
             alert.showAndWait();
             return;
         }
+
+        BookingSession session = BookingSession.getInstance();
+
+        session.setCheckInDate(
+                checkInDatePicker.getValue()
+        );
+
+        session.setCheckOutDate(
+                checkOutDatePicker.getValue()
+        );
+
 
         SceneNavigator.switchScene(
                 event,

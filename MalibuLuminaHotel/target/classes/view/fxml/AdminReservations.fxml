@@ -13,6 +13,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminReservationsController"
             prefWidth="1280"
             prefHeight="800"
             stylesheets="@../css/style.css">
@@ -57,14 +58,16 @@
 
                 <HBox spacing="8">
 
-                    <TextField promptText="Reservation ID or Name"
+                    <TextField fx:id="searchField"
+                               promptText="Reservation ID or Name"
                                prefWidth="165"
                                prefHeight="38"/>
 
                     <Button text="Search"
                             prefWidth="77"
                             prefHeight="38"
-                            styleClass="primary-button"/>
+                            styleClass="primary-button"
+                            onAction="#handleSearch"/>
 
                 </HBox>
 
@@ -337,12 +340,14 @@
             <Button text="Back to Dashboard"
                     prefWidth="220"
                     prefHeight="55"
-                    styleClass="secondary-button"/>
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
 
             <Button text="Logout"
                     prefWidth="220"
                     prefHeight="55"
-                    styleClass="primary-button"/>
+                    styleClass="primary-button"
+                    onAction="#handleLogout"/>
 
         </HBox>
 
