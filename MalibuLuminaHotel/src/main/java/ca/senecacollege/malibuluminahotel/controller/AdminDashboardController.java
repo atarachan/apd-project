@@ -70,9 +70,9 @@ public class AdminDashboardController {
     @FXML
     private void handleWaitlist(ActionEvent event) {
 
-        showMessage(
-                "Waitlist",
-                "Waitlist module selected."
+        SceneNavigator.switchScene(
+                event,
+                "AdminWaitlist.fxml"
         );
     }
 

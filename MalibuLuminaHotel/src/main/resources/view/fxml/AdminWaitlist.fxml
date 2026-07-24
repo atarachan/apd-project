@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminWaitlistController"
+            prefWidth="1280"
+            prefHeight="800"
+            stylesheets="@../css/style.css">
+
+    <top>
+        <VBox alignment="CENTER" spacing="12">
+            <padding>
+                <Insets top="25" bottom="25"/>
+            </padding>
+
+            <Label text="Waitlist Management"
+                   styleClass="title-label"/>
+
+            <Label text="Manage guests waiting for room availability"
+                   styleClass="subtitle-label"/>
+        </VBox>
+    </top>
+
+    <left>
+
+        <VBox spacing="14"
+              prefWidth="320"
+              styleClass="option-card">
+
+            <padding>
+                <Insets top="24" right="18" bottom="24" left="18"/>
+            </padding>
+
+            <Label text="Add Guest to Waitlist"
+                   styleClass="section-label"/>
+
+            <TextField fx:id="guestNameField"
+                       promptText="Guest Name"/>
+
+            <TextField fx:id="phoneField"
+                       promptText="Phone Number"/>
+
+            <ComboBox fx:id="roomTypeComboBox"
+                      promptText="Room Type">
+
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Single Room"/>
+                        <String fx:value="Double Room"/>
+                        <String fx:value="Penthouse"/>
+                    </FXCollections>
+                </items>
+
+            </ComboBox>
+
+            <DatePicker fx:id="checkInDatePicker"/>
+            <DatePicker fx:id="checkOutDatePicker"/>
+
+            <Button text="Add to Waitlist"
+                    prefWidth="250"
+                    prefHeight="45"
+                    styleClass="primary-button"
+                    onAction="#handleAddToWaitlist"/>
+
+        </VBox>
+
+    </left>
+
+    <center>
+
+        <VBox spacing="18"
+              styleClass="option-card">
+
+            <padding>
+                <Insets top="24" right="30" bottom="24" left="30"/>
+            </padding>
+
+            <Label text="Current Waitlist"
+                   styleClass="section-label"/>
+
+            <VBox spacing="0"
+                  styleClass="table-container">
+
+                <HBox spacing="0"
+                      styleClass="table-header-row">
+
+                    <Label text="ID"
+                           prefWidth="80"
+                           styleClass="table-header"/>
+
+                    <Label text="Guest"
+                           prefWidth="180"
+                           styleClass="table-header"/>
+
+                    <Label text="Room Type"
+                           prefWidth="180"
+                           styleClass="table-header"/>
+
+                    <Label text="Check In"
+                           prefWidth="150"
+                           styleClass="table-header"/>
+
+                    <Label text="Check Out"
+                           prefWidth="150"
+                           styleClass="table-header"/>
+
+                    <Label text="Status"
+                           prefWidth="150"
+                           styleClass="table-header"/>
+
+                </HBox>
+
+                <HBox spacing="0"
+                      styleClass="table-data-row">
+
+                    <Label text="W001"
+                           prefWidth="80"
+                           styleClass="table-cell"/>
+
+                    <Label text="David Wilson"
+                           prefWidth="180"
+                           styleClass="table-cell"/>
+
+                    <Label text="Double Room"
+                           prefWidth="180"
+                           styleClass="table-cell"/>
+
+                    <Label text="2026-08-10"
+                           prefWidth="150"
+                           styleClass="table-cell"/>
+
+                    <Label text="2026-08-15"
+                           prefWidth="150"
+                           styleClass="table-cell"/>
+
+                    <Label text="Waiting"
+                           prefWidth="150"
+                           styleClass="table-cell"/>
+
+                </HBox>
+
+            </VBox>
+
+            <Button text="Convert To Reservation"
+                    prefWidth="250"
+                    prefHeight="50"
+                    styleClass="primary-button"
+                    onAction="#handleConvertReservation"/>
+
+        </VBox>
+
+    </center>
+
+    <bottom>
+
+        <HBox alignment="CENTER"
+              spacing="30">
+
+            <padding>
+                <Insets top="25" bottom="25"/>
+            </padding>
+
+            <Button text="Back to Dashboard"
+                    prefWidth="220"
+                    prefHeight="55"
+                    styleClass="secondary-button"
+                    onAction="#handleBack"/>
+
+            <Button text="Logout"
+                    prefWidth="220"
+                    prefHeight="55"
+                    styleClass="secondary-button"
+                    onAction="#handleLogout"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>
