@@ -45,7 +45,7 @@ public class AdminDashboardController {
 
         SceneNavigator.switchScene(
                 event,
-                "AdminFeedback.fxml"
+                "AdminGuestFeedback.fxml"
         );
     }
 

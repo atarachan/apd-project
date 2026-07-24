@@ -11,6 +11,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminGuestFeedbackController"
             prefWidth="1280"
             prefHeight="800"
             stylesheets="@../css/style.css">
@@ -81,13 +82,15 @@
                         <Label text="Admin Response:"
                                styleClass="field-label"/>
 
-                        <TextArea promptText="Enter response..."
+                        <TextArea fx:id="responseField1"
+                                  promptText="Enter response..."
                                   prefRowCount="3"/>
 
                         <Button text="Submit Response"
                                 prefWidth="180"
                                 prefHeight="45"
-                                styleClass="primary-button"/>
+                                styleClass="primary-button"
+                                onAction="#handleSubmitResponse1"/>
 
                     </VBox>
 
@@ -121,13 +124,15 @@
                         <Label text="Admin Response:"
                                styleClass="field-label"/>
 
-                        <TextArea promptText="Enter response..."
+                        <TextArea fx:id="responseField2"
+                                  promptText="Enter response..."
                                   prefRowCount="3"/>
 
                         <Button text="Submit Response"
                                 prefWidth="180"
                                 prefHeight="45"
-                                styleClass="primary-button"/>
+                                styleClass="primary-button"
+                                onAction="#handleSubmitResponse2"/>
 
                     </VBox>
 
@@ -151,7 +156,8 @@
             <Button text="Back to Dashboard"
                     prefWidth="220"
                     prefHeight="55"
-                    styleClass="secondary-button"/>
+                    styleClass="secondary-button"
+                    onAction="#handleBackToDashboard"/>
 
         </HBox>
 
