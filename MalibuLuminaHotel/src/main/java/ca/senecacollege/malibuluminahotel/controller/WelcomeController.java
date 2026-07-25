@@ -45,15 +45,6 @@ public class WelcomeController {
     }
 
     @FXML
-    private void handleViewRoomTypes(ActionEvent event) {
-
-        SceneNavigator.switchScene(
-                event,
-                "RoomSelection.fxml"
-        );
-    }
-
-    @FXML
     private void handleAdminLogin(ActionEvent event) {
 
         SceneNavigator.switchScene(
