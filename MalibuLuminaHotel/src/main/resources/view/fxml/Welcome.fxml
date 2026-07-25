@@ -92,12 +92,6 @@
                         styleClass="primary-button"
                         onAction="#handleStartReservation"/>
 
-                <Button text="View Room Types"
-                        prefWidth="220"
-                        prefHeight="55"
-                        styleClass="secondary-button"
-                        onAction="#handleViewRoomTypes"/>
-
                 <Button fx:id="rulesButton"
                         text="Rules &amp; Regulations"
                         prefWidth="220"
