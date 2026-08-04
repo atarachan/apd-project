@@ -1,5 +1,6 @@
 package ca.senecacollege.malibuluminahotel.controller;
 
+import ca.senecacollege.malibuluminahotel.config.InjectorHolder;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ public class SceneManager {
             FXMLLoader loader = new FXMLLoader(
                     SceneManager.class.getResource("/view/fxml/" + fxmlFile)
             );
+            loader.setControllerFactory(InjectorHolder.getInjector()::getInstance);
 
             Parent root = loader.load();
 

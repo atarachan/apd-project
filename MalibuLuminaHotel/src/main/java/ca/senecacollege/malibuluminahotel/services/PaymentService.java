@@ -8,6 +8,7 @@ import ca.senecacollege.malibuluminahotel.models.enums.PaymentMethod;
 import ca.senecacollege.malibuluminahotel.models.enums.PaymentStatus;
 import ca.senecacollege.malibuluminahotel.repositories.IBillRepository;
 import ca.senecacollege.malibuluminahotel.repositories.IPaymentRepository;
+import com.google.inject.Inject;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,16 +18,19 @@ import java.util.UUID;
 /**
  * Service for processing payments, refunds, and deposits.
  */
-public class PaymentService {
+public class PaymentService implements IPaymentService {
 
     private final IPaymentRepository paymentRepository;
     private final IBillRepository billRepository;
-    private final LoyaltyService loyaltyService;
+    private final ILoyaltyService loyaltyService;
 
-    public PaymentService(IPaymentRepository paymentRepository, IBillRepository billRepository) {
+    @Inject
+    public PaymentService(IPaymentRepository paymentRepository,
+                          IBillRepository billRepository,
+                          ILoyaltyService loyaltyService) {
         this.paymentRepository = paymentRepository;
         this.billRepository = billRepository;
-        this.loyaltyService = new LoyaltyService();
+        this.loyaltyService = loyaltyService;
     }
 
     /**
@@ -38,6 +42,7 @@ public class PaymentService {
      * @return The created payment
      * @throws IllegalArgumentException if amount exceeds balance due
      */
+    @Override
     public Payment processPayment(Bill bill, PaymentMethod method, BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Payment amount must be positive");
@@ -75,6 +80,7 @@ public class PaymentService {
      * @return The refund payment record
      * @throws IllegalArgumentException if amount exceeds original payment
      */
+    @Override
     public Payment processRefund(Payment payment, BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Refund amount must be positive");
@@ -113,6 +119,7 @@ public class PaymentService {
      * @param amount Deposit amount
      * @return The deposit payment
      */
+    @Override
     public Payment processDeposit(Bill bill, BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Deposit amount must be positive");
@@ -137,6 +144,7 @@ public class PaymentService {
     /**
      * Get total payments for a bill.
      */
+    @Override
     public BigDecimal getTotalPayments(Bill bill) {
         return paymentRepository.findByBill(bill).stream()
                 .map(Payment::getAmount)

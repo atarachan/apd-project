@@ -3,7 +3,10 @@ package ca.senecacollege.malibuluminahotel.controller;
 import ca.senecacollege.malibuluminahotel.app.BookingSession;
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
-import ca.senecacollege.malibuluminahotel.services.BookingService;
+import ca.senecacollege.malibuluminahotel.services.BillLineItem;
+import ca.senecacollege.malibuluminahotel.services.BillSummary;
+import ca.senecacollege.malibuluminahotel.services.IBookingService;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -25,13 +28,17 @@ public class GuestCheckoutController {
     @FXML private Label taxLabel;
     @FXML private Label totalLabel;
 
-    private BookingService bookingService;
-    private BookingService.BillSummary billSummary;
+    private final IBookingService bookingService;
+    private BillSummary billSummary;
     private NumberFormat currencyFormat;
+
+    @Inject
+    public GuestCheckoutController(IBookingService bookingService) {
+        this.bookingService = bookingService;
+    }
 
     @FXML
     public void initialize() {
-        bookingService = new BookingService();
         currencyFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
 
         try {
@@ -57,7 +64,7 @@ public class GuestCheckoutController {
     private void populateBillLines() {
         billLinesBox.getChildren().clear();
 
-        for (BookingService.BillLineItem lineItem : billSummary.lineItems()) {
+        for (BillLineItem lineItem : billSummary.lineItems()) {
             HBox row = new HBox(12);
             row.setPadding(new Insets(4, 0, 4, 0));
 

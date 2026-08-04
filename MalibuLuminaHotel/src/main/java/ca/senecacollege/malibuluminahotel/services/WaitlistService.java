@@ -7,7 +7,7 @@ import ca.senecacollege.malibuluminahotel.models.RoomType;
 import ca.senecacollege.malibuluminahotel.models.WaitlistEntry;
 import ca.senecacollege.malibuluminahotel.models.enums.WaitlistStatusType;
 import ca.senecacollege.malibuluminahotel.repositories.IWaitlistEntryRepository;
-import ca.senecacollege.malibuluminahotel.repositories.WaitlistEntryRepositoryImpl;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,26 +19,21 @@ import java.util.Optional;
  * Service class for managing waitlist operations.
  * Integrates with Observer pattern for room availability notifications.
  */
-public class WaitlistService {
+public class WaitlistService implements IWaitlistService {
 
     private static final Logger logger = LoggerFactory.getLogger(WaitlistService.class);
     private final IWaitlistEntryRepository waitlistRepository;
     private final AdminNotificationManager notificationManager;
 
-    public WaitlistService() {
-        this.waitlistRepository = new WaitlistEntryRepositoryImpl();
+    @Inject
+    public WaitlistService(IWaitlistEntryRepository waitlistRepository) {
+        this.waitlistRepository = waitlistRepository;
         this.notificationManager = AdminNotificationManager.getInstance();
 
-        // Register default observer for waitlist notifications
         WaitlistNotificationObserver observer = new WaitlistNotificationObserver();
         notificationManager.attach(observer);
 
         logger.info("WaitlistService initialized with notification observer");
-    }
-
-    public WaitlistService(IWaitlistEntryRepository waitlistRepository) {
-        this.waitlistRepository = waitlistRepository;
-        this.notificationManager = AdminNotificationManager.getInstance();
     }
 
     /**
@@ -50,6 +45,7 @@ public class WaitlistService {
      * @param checkout Requested checkout date
      * @return The created waitlist entry
      */
+    @Override
     public WaitlistEntry addToWaitlist(Guest guest, RoomType roomType, LocalDate checkin, LocalDate checkout) {
         logger.info("Adding guest {} to waitlist for room type: {}",
                 guest.getEmail(), roomType.getRoomTypeName());
@@ -64,6 +60,7 @@ public class WaitlistService {
     /**
      * Get all waitlist entries.
      */
+    @Override
     public List<WaitlistEntry> getAllWaitlistEntries() {
         return waitlistRepository.findAll();
     }
@@ -71,6 +68,7 @@ public class WaitlistService {
     /**
      * Get waitlist entries by status.
      */
+    @Override
     public List<WaitlistEntry> getEntriesByStatus(WaitlistStatusType status) {
         return waitlistRepository.findByStatus(status);
     }
@@ -78,6 +76,7 @@ public class WaitlistService {
     /**
      * Get waitlist entries for a specific room type with status IN_QUEUE.
      */
+    @Override
     public List<WaitlistEntry> getQueuedEntriesForRoomType(RoomType roomType) {
         return waitlistRepository.findByRoomTypeAndStatus(roomType, WaitlistStatusType.IN_QUEUE);
     }
@@ -85,6 +84,7 @@ public class WaitlistService {
     /**
      * Notify guest that room is available (marks as SPOT_AVAILABLE).
      */
+    @Override
     public void notifyGuestSpotAvailable(WaitlistEntry entry) {
         logger.info("Notifying guest for waitlist entry ID: {}", entry.getWaitlistId());
         entry.notifyGuest(); // Sets status to SPOT_AVAILABLE
@@ -95,6 +95,7 @@ public class WaitlistService {
     /**
      * Withdraw a waitlist entry.
      */
+    @Override
     public void withdrawEntry(WaitlistEntry entry) {
         logger.info("Withdrawing waitlist entry ID: {}", entry.getWaitlistId());
         entry.setStatus(WaitlistStatusType.WITHDRAWN);
@@ -104,6 +105,7 @@ public class WaitlistService {
     /**
      * Delete waitlist entry.
      */
+    @Override
     public void deleteEntry(WaitlistEntry entry) {
         logger.info("Deleting waitlist entry ID: {}", entry.getWaitlistId());
         waitlistRepository.delete(entry);
@@ -112,6 +114,7 @@ public class WaitlistService {
     /**
      * Find waitlist entry by ID.
      */
+    @Override
     public Optional<WaitlistEntry> findById(Long id) {
         return waitlistRepository.findById(id);
     }

@@ -4,8 +4,8 @@ import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import ca.senecacollege.malibuluminahotel.models.Bill;
 import ca.senecacollege.malibuluminahotel.models.Guest;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
-import ca.senecacollege.malibuluminahotel.repositories.BillRepositoryImpl;
 import ca.senecacollege.malibuluminahotel.repositories.IBillRepository;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -19,10 +19,16 @@ public class AdminBillingController {
 
     @FXML private VBox billsTableBody;
 
+    private final IBillRepository billRepository;
+
+    @Inject
+    public AdminBillingController(IBillRepository billRepository) {
+        this.billRepository = billRepository;
+    }
+
     @FXML
     public void initialize() {
-        IBillRepository repo = new BillRepositoryImpl();
-        List<Bill> bills = repo.findAllWithDetails();
+        List<Bill> bills = billRepository.findAllWithDetails();
 
         if (bills.isEmpty()) {
             Label empty = new Label("No billing records found.");

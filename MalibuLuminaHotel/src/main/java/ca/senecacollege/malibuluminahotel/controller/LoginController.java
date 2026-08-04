@@ -1,9 +1,8 @@
 package ca.senecacollege.malibuluminahotel.controller;
 
 import ca.senecacollege.malibuluminahotel.models.AdminUser;
-import ca.senecacollege.malibuluminahotel.repositories.AdminUserRepositoryImpl;
-import ca.senecacollege.malibuluminahotel.repositories.IAdminUserRepository;
-import ca.senecacollege.malibuluminahotel.security.AuthenticationService;
+import ca.senecacollege.malibuluminahotel.security.IAuthenticationService;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -38,8 +37,12 @@ public class LoginController {
     @FXML
     private Button backButton;
 
-    private AuthenticationService authService;
-    private IAdminUserRepository adminUserRepository;
+    private final IAuthenticationService authService;
+
+    @Inject
+    public LoginController(IAuthenticationService authService) {
+        this.authService = authService;
+    }
 
     /**
      * Initialize method called after FXML loading.
@@ -47,10 +50,6 @@ public class LoginController {
     @FXML
     public void initialize() {
         logger.info("LoginController initialized");
-
-        // Initialize repositories and services
-        adminUserRepository = new AdminUserRepositoryImpl();
-        authService = new AuthenticationService(adminUserRepository);
 
         // Add Enter key handler for password field
         passwordField.setOnAction(event -> handleLogin());

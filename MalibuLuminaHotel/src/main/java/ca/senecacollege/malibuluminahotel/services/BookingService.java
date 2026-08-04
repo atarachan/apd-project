@@ -14,11 +14,7 @@ import ca.senecacollege.malibuluminahotel.repositories.IReservationRepository;
 import ca.senecacollege.malibuluminahotel.repositories.IReservationRepository.ReservationItemDraft;
 import ca.senecacollege.malibuluminahotel.repositories.IRoomRepository;
 import ca.senecacollege.malibuluminahotel.repositories.IRoomTypeRepository;
-import ca.senecacollege.malibuluminahotel.repositories.AddOnRepositoryImpl;
-import ca.senecacollege.malibuluminahotel.repositories.GuestRepositoryImpl;
-import ca.senecacollege.malibuluminahotel.repositories.ReservationRepositoryImpl;
-import ca.senecacollege.malibuluminahotel.repositories.RoomRepositoryImpl;
-import ca.senecacollege.malibuluminahotel.repositories.RoomTypeRepositoryImpl;
+import com.google.inject.Inject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -32,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class BookingService {
+public class BookingService implements IBookingService {
 
     private static final BigDecimal TAX_RATE = new BigDecimal("0.13");
 
@@ -42,17 +38,23 @@ public class BookingService {
     private final IReservationRepository reservationRepo;
     private final IAddOnRepository addOnRepo;
 
-    public BookingService() {
-        this.guestRepo = new GuestRepositoryImpl();
-        this.roomRepo = new RoomRepositoryImpl();
-        this.roomTypeRepo = new RoomTypeRepositoryImpl();
-        this.reservationRepo = new ReservationRepositoryImpl();
-        this.addOnRepo = new AddOnRepositoryImpl();
+    @Inject
+    public BookingService(IGuestRepository guestRepo,
+                          IRoomRepository roomRepo,
+                          IRoomTypeRepository roomTypeRepo,
+                          IReservationRepository reservationRepo,
+                          IAddOnRepository addOnRepo) {
+        this.guestRepo = guestRepo;
+        this.roomRepo = roomRepo;
+        this.roomTypeRepo = roomTypeRepo;
+        this.reservationRepo = reservationRepo;
+        this.addOnRepo = addOnRepo;
     }
 
     // Calculates the full bill for the current session without touching the DB.
     // Called by GuestCheckoutController to populate the bill summary screen.
     // NOW USES DECORATOR PATTERN for add-on pricing!
+    @Override
     public BillSummary calculateBill(BookingSession session) {
         LocalDate checkIn = session.getCheckInDate();
         LocalDate checkOut = session.getCheckOutDate();
@@ -199,6 +201,7 @@ public class BookingService {
 
     // Persists the full booking to the database.
     // Called by GuestCheckoutController when the guest confirms.
+    @Override
     public Reservation createReservation(BookingSession session, BillSummary bill) {
 
         // Find existing guest by email or build a new one
@@ -293,21 +296,4 @@ public class BookingService {
         return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY;
     }
 
-    // Immutable result of a bill calculation — passed from controller to
-    // createReservation()
-    public record BillSummary(
-            BigDecimal roomTotal,
-            BigDecimal addOnTotal,
-            BigDecimal subtotal,
-            BigDecimal tax,
-            BigDecimal total,
-            long nights,
-            List<BillLineItem> lineItems) {
-    }
-
-    public record BillLineItem(
-            String description,
-            String calculation,
-            BigDecimal amount) {
-    }
 }

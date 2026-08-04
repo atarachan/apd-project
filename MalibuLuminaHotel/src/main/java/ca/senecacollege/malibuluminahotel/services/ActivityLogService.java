@@ -3,8 +3,8 @@ package ca.senecacollege.malibuluminahotel.services;
 import ca.senecacollege.malibuluminahotel.models.ActivityLog;
 import ca.senecacollege.malibuluminahotel.models.AdminUser;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
-import ca.senecacollege.malibuluminahotel.repositories.ActivityLogRepositoryImpl;
 import ca.senecacollege.malibuluminahotel.repositories.IActivityLogRepository;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,15 +15,12 @@ import java.util.List;
  * Service class for managing activity log operations.
  * Provides audit trail for admin actions.
  */
-public class ActivityLogService {
+public class ActivityLogService implements IActivityLogService {
 
     private static final Logger logger = LoggerFactory.getLogger(ActivityLogService.class);
     private final IActivityLogRepository activityLogRepository;
 
-    public ActivityLogService() {
-        this.activityLogRepository = new ActivityLogRepositoryImpl();
-    }
-
+    @Inject
     public ActivityLogService(IActivityLogRepository activityLogRepository) {
         this.activityLogRepository = activityLogRepository;
     }
@@ -38,6 +35,7 @@ public class ActivityLogService {
      * @param message    Descriptive message
      * @return The saved activity log
      */
+    @Override
     public ActivityLog log(AdminUser adminUser, String action, String entityType, Long entityId, String message) {
         logger.debug("Logging action: {} by admin: {}", action, adminUser.getUsername());
 
@@ -53,6 +51,7 @@ public class ActivityLogService {
     /**
      * Log an action related to a reservation.
      */
+    @Override
     public ActivityLog logReservationAction(AdminUser adminUser, Reservation reservation, String action,
             String message) {
         logger.debug("Logging reservation action: {} for reservation ID: {}", action, reservation.getReservationId());
@@ -66,6 +65,7 @@ public class ActivityLogService {
     /**
      * Get all activity logs.
      */
+    @Override
     public List<ActivityLog> getAllLogs() {
         return activityLogRepository.findAll();
     }
@@ -73,6 +73,7 @@ public class ActivityLogService {
     /**
      * Get activity logs for a specific admin user.
      */
+    @Override
     public List<ActivityLog> getLogsByAdmin(AdminUser adminUser) {
         return activityLogRepository.findByAdminUser(adminUser);
     }
@@ -80,6 +81,7 @@ public class ActivityLogService {
     /**
      * Get activity logs within a time range.
      */
+    @Override
     public List<ActivityLog> getLogsByTimeRange(LocalDateTime start, LocalDateTime end) {
         return activityLogRepository.findByTimestampBetween(start, end);
     }
@@ -87,6 +89,7 @@ public class ActivityLogService {
     /**
      * Get activity logs by action type.
      */
+    @Override
     public List<ActivityLog> getLogsByAction(String action) {
         return activityLogRepository.findByAction(action);
     }
@@ -94,6 +97,7 @@ public class ActivityLogService {
     /**
      * Get recent activity logs.
      */
+    @Override
     public List<ActivityLog> getRecentLogs(int limit) {
         return activityLogRepository.findRecent(limit);
     }
@@ -101,6 +105,7 @@ public class ActivityLogService {
     /**
      * Log reservation creation.
      */
+    @Override
     public ActivityLog logReservationCreated(AdminUser adminUser, Reservation reservation) {
         return logReservationAction(adminUser, reservation, "RESERVATION_CREATED",
                 "Created reservation for guest: " + reservation.getGuest().getFirstName() + " " +
@@ -110,6 +115,7 @@ public class ActivityLogService {
     /**
      * Log reservation update.
      */
+    @Override
     public ActivityLog logReservationUpdated(AdminUser adminUser, Reservation reservation) {
         return logReservationAction(adminUser, reservation, "RESERVATION_UPDATED",
                 "Updated reservation #" + reservation.getReservationId());
@@ -118,6 +124,7 @@ public class ActivityLogService {
     /**
      * Log reservation cancellation.
      */
+    @Override
     public ActivityLog logReservationCancelled(AdminUser adminUser, Reservation reservation) {
         return logReservationAction(adminUser, reservation, "RESERVATION_CANCELLED",
                 "Cancelled reservation #" + reservation.getReservationId());

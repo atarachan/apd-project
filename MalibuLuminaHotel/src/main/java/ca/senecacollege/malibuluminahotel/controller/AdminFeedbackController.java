@@ -3,7 +3,8 @@ package ca.senecacollege.malibuluminahotel.controller;
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import ca.senecacollege.malibuluminahotel.models.Feedback;
 import ca.senecacollege.malibuluminahotel.models.Guest;
-import ca.senecacollege.malibuluminahotel.services.FeedbackService;
+import ca.senecacollege.malibuluminahotel.services.IFeedbackService;
+import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,10 +34,11 @@ public class AdminFeedbackController {
     @FXML
     private ComboBox<Integer> minRatingFilter;
 
-    private final FeedbackService feedbackService;
+    private final IFeedbackService feedbackService;
 
-    public AdminFeedbackController() {
-        this.feedbackService = new FeedbackService();
+    @Inject
+    public AdminFeedbackController(IFeedbackService feedbackService) {
+        this.feedbackService = feedbackService;
     }
 
     @FXML

@@ -2,6 +2,7 @@ package ca.senecacollege.malibuluminahotel.services;
 
 import ca.senecacollege.malibuluminahotel.models.*;
 import ca.senecacollege.malibuluminahotel.repositories.*;
+import com.google.inject.Inject;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ import java.util.*;
 /**
  * Service for generating various reports.
  */
-public class ReportService {
+public class ReportService implements IReportService {
 
     private final IReservationRepository reservationRepository;
     private final IBillRepository billRepository;
@@ -21,12 +22,17 @@ public class ReportService {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public ReportService() {
-        this.reservationRepository = new ReservationRepositoryImpl();
-        this.billRepository = new BillRepositoryImpl();
-        this.roomRepository = new RoomRepositoryImpl();
-        this.activityLogRepository = new ActivityLogRepositoryImpl();
-        this.feedbackRepository = new FeedbackRepositoryImpl();
+    @Inject
+    public ReportService(IReservationRepository reservationRepository,
+                         IBillRepository billRepository,
+                         IRoomRepository roomRepository,
+                         IActivityLogRepository activityLogRepository,
+                         IFeedbackRepository feedbackRepository) {
+        this.reservationRepository = reservationRepository;
+        this.billRepository = billRepository;
+        this.roomRepository = roomRepository;
+        this.activityLogRepository = activityLogRepository;
+        this.feedbackRepository = feedbackRepository;
     }
 
     /**
@@ -36,6 +42,7 @@ public class ReportService {
      * @param endDate   End date
      * @return List of revenue data by date
      */
+    @Override
     public List<Map<String, String>> generateRevenueReport(LocalDate startDate, LocalDate endDate) {
         List<Map<String, String>> reportData = new ArrayList<>();
 
@@ -81,6 +88,7 @@ public class ReportService {
      * @param endDate   End date
      * @return List of occupancy data by date
      */
+    @Override
     public List<Map<String, String>> generateOccupancyReport(LocalDate startDate, LocalDate endDate) {
         List<Map<String, String>> reportData = new ArrayList<>();
 
@@ -124,6 +132,7 @@ public class ReportService {
      * @param endDate   End date
      * @return List of activity log entries
      */
+    @Override
     public List<Map<String, String>> generateActivityLogReport(LocalDate startDate, LocalDate endDate) {
         List<Map<String, String>> reportData = new ArrayList<>();
 
@@ -150,6 +159,7 @@ public class ReportService {
      *
      * @return Summary statistics for feedback
      */
+    @Override
     public Map<String, Object> generateFeedbackSummary() {
         Map<String, Object> summary = new LinkedHashMap<>();
 

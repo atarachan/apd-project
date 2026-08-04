@@ -4,6 +4,7 @@ import ca.senecacollege.malibuluminahotel.models.AdminUser;
 import ca.senecacollege.malibuluminahotel.models.Bill;
 import ca.senecacollege.malibuluminahotel.models.enums.UserRole;
 import ca.senecacollege.malibuluminahotel.repositories.IBillRepository;
+import com.google.inject.Inject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,7 +14,7 @@ import java.math.RoundingMode;
  * ADMIN role: max 15% discount
  * MANAGER role: max 30% discount
  */
-public class DiscountService {
+public class DiscountService implements IDiscountService {
 
     private static final BigDecimal ADMIN_MAX_DISCOUNT_PCT = new BigDecimal("15");
     private static final BigDecimal MANAGER_MAX_DISCOUNT_PCT = new BigDecimal("30");
@@ -21,6 +22,7 @@ public class DiscountService {
 
     private final IBillRepository billRepository;
 
+    @Inject
     public DiscountService(IBillRepository billRepository) {
         this.billRepository = billRepository;
     }
@@ -34,6 +36,7 @@ public class DiscountService {
      * @return Discount amount
      * @throws IllegalArgumentException if percentage exceeds role cap
      */
+    @Override
     public BigDecimal calculateDiscount(BigDecimal subtotal, double percentage, AdminUser adminUser) {
         BigDecimal discountPct = new BigDecimal(Double.toString(percentage));
 
@@ -58,6 +61,7 @@ public class DiscountService {
      * @param adminUser  Admin user applying the discount
      * @throws IllegalArgumentException if percentage exceeds role cap
      */
+    @Override
     public void applyDiscount(Bill bill, double percentage, AdminUser adminUser) {
         BigDecimal discountAmount = calculateDiscount(bill.getSubtotal(), percentage, adminUser);
 
@@ -78,6 +82,7 @@ public class DiscountService {
     /**
      * Get maximum discount percentage for a role.
      */
+    @Override
     public BigDecimal getMaxDiscountPercentage(UserRole role) {
         return switch (role) {
             case ADMIN -> ADMIN_MAX_DISCOUNT_PCT;
@@ -88,6 +93,7 @@ public class DiscountService {
     /**
      * Validate if a discount percentage is allowed for a role.
      */
+    @Override
     public boolean isDiscountAllowed(double percentage, UserRole role) {
         BigDecimal discountPct = new BigDecimal(Double.toString(percentage));
         BigDecimal maxPct = getMaxDiscountPercentage(role);

@@ -6,13 +6,10 @@ import ca.senecacollege.malibuluminahotel.models.Bill;
 import ca.senecacollege.malibuluminahotel.models.Payment;
 import ca.senecacollege.malibuluminahotel.models.enums.PaymentMethod;
 import ca.senecacollege.malibuluminahotel.models.enums.UserRole;
-import ca.senecacollege.malibuluminahotel.repositories.BillRepositoryImpl;
-import ca.senecacollege.malibuluminahotel.repositories.IBillRepository;
-import ca.senecacollege.malibuluminahotel.repositories.IPaymentRepository;
-import ca.senecacollege.malibuluminahotel.repositories.PaymentRepositoryImpl;
 import ca.senecacollege.malibuluminahotel.security.SessionManager;
-import ca.senecacollege.malibuluminahotel.services.DiscountService;
-import ca.senecacollege.malibuluminahotel.services.PaymentService;
+import ca.senecacollege.malibuluminahotel.services.IDiscountService;
+import ca.senecacollege.malibuluminahotel.services.IPaymentService;
+import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,16 +37,15 @@ public class AdminCheckoutController {
     @FXML
     private Label balanceDueLabel;
 
-    private final PaymentService paymentService;
-    private final DiscountService discountService;
+    private final IPaymentService paymentService;
+    private final IDiscountService discountService;
     private Bill currentBill; // In real implementation, would be loaded from reservation
     private BigDecimal currentTotal;
 
-    public AdminCheckoutController() {
-        IPaymentRepository paymentRepo = new PaymentRepositoryImpl();
-        IBillRepository billRepo = new BillRepositoryImpl();
-        this.paymentService = new PaymentService(paymentRepo, billRepo);
-        this.discountService = new DiscountService(billRepo);
+    @Inject
+    public AdminCheckoutController(IPaymentService paymentService, IDiscountService discountService) {
+        this.paymentService = paymentService;
+        this.discountService = discountService;
         this.currentTotal = BASE_TOTAL;
     }
 

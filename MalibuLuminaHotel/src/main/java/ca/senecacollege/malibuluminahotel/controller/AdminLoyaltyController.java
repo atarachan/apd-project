@@ -3,7 +3,7 @@ package ca.senecacollege.malibuluminahotel.controller;
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import ca.senecacollege.malibuluminahotel.models.LoyaltyAccount;
 import ca.senecacollege.malibuluminahotel.repositories.ILoyaltyAccountRepository;
-import ca.senecacollege.malibuluminahotel.repositories.LoyaltyAccountRepositoryImpl;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -34,12 +34,15 @@ public class AdminLoyaltyController {
     @FXML
     private TableColumn<LoyaltyAccountDisplay, String> valueColumn;
 
-    private ILoyaltyAccountRepository loyaltyRepository;
+    private final ILoyaltyAccountRepository loyaltyRepository;
+
+    @Inject
+    public AdminLoyaltyController(ILoyaltyAccountRepository loyaltyRepository) {
+        this.loyaltyRepository = loyaltyRepository;
+    }
 
     @FXML
     public void initialize() {
-        loyaltyRepository = new LoyaltyAccountRepositoryImpl();
-
         // Initialize table columns if table exists (FXML may not have TableView yet)
         if (loyaltyTable != null) {
             setupTable();

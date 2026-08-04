@@ -5,7 +5,7 @@ import ca.senecacollege.malibuluminahotel.models.LoyaltyAccount;
 import ca.senecacollege.malibuluminahotel.models.LoyaltyTransaction;
 import ca.senecacollege.malibuluminahotel.models.enums.LoyaltyTransactionType;
 import ca.senecacollege.malibuluminahotel.repositories.ILoyaltyAccountRepository;
-import ca.senecacollege.malibuluminahotel.repositories.LoyaltyAccountRepositoryImpl;
+import com.google.inject.Inject;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 /**
  * Service for managing loyalty program operations.
  */
-public class LoyaltyService {
+public class LoyaltyService implements ILoyaltyService {
 
     private static final Logger LOGGER = Logger.getLogger(LoyaltyService.class.getName());
     private static final int POINTS_PER_DOLLAR = 10; // 10 points per $1 spent
@@ -23,13 +23,15 @@ public class LoyaltyService {
 
     private final ILoyaltyAccountRepository loyaltyAccountRepository;
 
-    public LoyaltyService() {
-        this.loyaltyAccountRepository = new LoyaltyAccountRepositoryImpl();
+    @Inject
+    public LoyaltyService(ILoyaltyAccountRepository loyaltyAccountRepository) {
+        this.loyaltyAccountRepository = loyaltyAccountRepository;
     }
 
     /**
      * Enrolls a guest in the loyalty program.
      */
+    @Override
     public LoyaltyAccount enrollGuest(Guest guest) {
         if (guest == null) {
             throw new IllegalArgumentException("Guest cannot be null");
@@ -56,6 +58,7 @@ public class LoyaltyService {
     /**
      * Awards points based on payment amount.
      */
+    @Override
     public void earnPoints(LoyaltyAccount account, BigDecimal paymentAmount) {
         if (account == null) {
             throw new IllegalArgumentException("Loyalty account cannot be null");
@@ -86,6 +89,7 @@ public class LoyaltyService {
      * Redeems points for payment credit.
      * Returns the dollar amount credited.
      */
+    @Override
     public BigDecimal redeemPoints(LoyaltyAccount account, int pointsToRedeem) {
         if (account == null) {
             throw new IllegalArgumentException("Loyalty account cannot be null");
@@ -121,6 +125,7 @@ public class LoyaltyService {
     /**
      * Gets loyalty account for a guest.
      */
+    @Override
     public Optional<LoyaltyAccount> getAccountByGuest(Guest guest) {
         if (guest == null) {
             return Optional.empty();
@@ -131,6 +136,7 @@ public class LoyaltyService {
     /**
      * Gets loyalty account by member number.
      */
+    @Override
     public Optional<LoyaltyAccount> getAccountByMemberNumber(String memberNumber) {
         if (memberNumber == null || memberNumber.trim().isEmpty()) {
             return Optional.empty();
@@ -141,6 +147,7 @@ public class LoyaltyService {
     /**
      * Checks if a guest is enrolled in the loyalty program.
      */
+    @Override
     public boolean isEnrolled(Guest guest) {
         return getAccountByGuest(guest).isPresent();
     }

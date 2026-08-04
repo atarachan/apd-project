@@ -2,6 +2,7 @@ package ca.senecacollege.malibuluminahotel.security;
 
 import ca.senecacollege.malibuluminahotel.models.AdminUser;
 import ca.senecacollege.malibuluminahotel.repositories.IAdminUserRepository;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ import java.util.Optional;
  * @author Malibu Lumina Hotel Team
  * @version 1.0
  */
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
     
@@ -27,6 +28,7 @@ public class AuthenticationService {
      * 
      * @param adminUserRepository Repository for admin user operations
      */
+    @Inject
     public AuthenticationService(IAdminUserRepository adminUserRepository) {
         this.adminUserRepository = adminUserRepository;
         this.sessionManager = SessionManager.getInstance();
@@ -40,6 +42,7 @@ public class AuthenticationService {
      * @param password The plaintext password to verify
      * @return Optional containing the AdminUser if authentication succeeds, empty otherwise
      */
+    @Override
     public Optional<AdminUser> authenticate(String username, String password) {
         logger.debug("Authentication attempt for user: {}", username);
 
@@ -91,6 +94,7 @@ public class AuthenticationService {
     /**
      * Logout the current user.
      */
+    @Override
     public void logout() {
         sessionManager.logout();
         logger.info("User logged out");
@@ -101,6 +105,7 @@ public class AuthenticationService {
      * 
      * @return Optional containing the current user if logged in
      */
+    @Override
     public Optional<AdminUser> getCurrentUser() {
         return Optional.ofNullable(sessionManager.getCurrentUser());
     }
@@ -110,6 +115,7 @@ public class AuthenticationService {
      * 
      * @return true if a user is logged in
      */
+    @Override
     public boolean isLoggedIn() {
         return sessionManager.isLoggedIn();
     }

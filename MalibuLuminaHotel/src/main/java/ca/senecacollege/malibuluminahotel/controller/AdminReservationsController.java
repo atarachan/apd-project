@@ -6,7 +6,8 @@ import ca.senecacollege.malibuluminahotel.models.enums.ReservationStatus;
 import ca.senecacollege.malibuluminahotel.models.enums.RoomTypeName;
 import ca.senecacollege.malibuluminahotel.repositories.*;
 import ca.senecacollege.malibuluminahotel.security.SessionManager;
-import ca.senecacollege.malibuluminahotel.services.ActivityLogService;
+import ca.senecacollege.malibuluminahotel.services.IActivityLogService;
+import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,23 +27,30 @@ public class AdminReservationsController {
     @FXML
     private VBox reservationsTableBody;
 
-    private IReservationRepository reservationRepository;
-    private IGuestRepository guestRepository;
-    private IRoomRepository roomRepository;
-    private IRoomTypeRepository roomTypeRepository;
-    private IReservationItemRepository reservationItemRepository;
-    private ActivityLogService activityLogService;
+    private final IReservationRepository reservationRepository;
+    private final IGuestRepository guestRepository;
+    private final IRoomRepository roomRepository;
+    private final IRoomTypeRepository roomTypeRepository;
+    private final IReservationItemRepository reservationItemRepository;
+    private final IActivityLogService activityLogService;
+
+    @Inject
+    public AdminReservationsController(IReservationRepository reservationRepository,
+                                       IGuestRepository guestRepository,
+                                       IRoomRepository roomRepository,
+                                       IRoomTypeRepository roomTypeRepository,
+                                       IReservationItemRepository reservationItemRepository,
+                                       IActivityLogService activityLogService) {
+        this.reservationRepository = reservationRepository;
+        this.guestRepository = guestRepository;
+        this.roomRepository = roomRepository;
+        this.roomTypeRepository = roomTypeRepository;
+        this.reservationItemRepository = reservationItemRepository;
+        this.activityLogService = activityLogService;
+    }
 
     @FXML
     public void initialize() {
-        // Initialize repositories
-        reservationRepository = new ReservationRepositoryImpl();
-        guestRepository = new GuestRepositoryImpl();
-        roomRepository = new RoomRepositoryImpl();
-        roomTypeRepository = new RoomTypeRepositoryImpl();
-        reservationItemRepository = new ReservationItemRepositoryImpl();
-        activityLogService = new ActivityLogService();
-
         loadReservations();
     }
 

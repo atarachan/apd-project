@@ -4,7 +4,7 @@ import ca.senecacollege.malibuluminahotel.app.BookingSession;
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import ca.senecacollege.malibuluminahotel.models.enums.RoomTypeName;
 import ca.senecacollege.malibuluminahotel.repositories.IRoomRepository;
-import ca.senecacollege.malibuluminahotel.repositories.RoomRepositoryImpl;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -24,7 +24,12 @@ public class RoomSelectionController {
     @FXML private Button doubleSelectButton;
     @FXML private Button penthouseSelectButton;
 
-    private final IRoomRepository roomRepository = new RoomRepositoryImpl();
+    private final IRoomRepository roomRepository;
+
+    @Inject
+    public RoomSelectionController(IRoomRepository roomRepository) {
+        this.roomRepository = roomRepository;
+    }
 
     @FXML
     public void initialize() {

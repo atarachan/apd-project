@@ -1,6 +1,7 @@
 package ca.senecacollege.malibuluminahotel.app;
 
 import ca.senecacollege.malibuluminahotel.config.EntityManagerFactoryProvider;
+import ca.senecacollege.malibuluminahotel.config.InjectorHolder;
 import ca.senecacollege.malibuluminahotel.services.DataSeeder;
 import ca.senecacollege.malibuluminahotel.util.LoggerConfig;
 import javafx.application.Application;
@@ -22,6 +23,7 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/view/fxml/Welcome.fxml"));
+        loader.setControllerFactory(InjectorHolder.getInjector()::getInstance);
 
         Scene scene = new Scene(loader.load());
 

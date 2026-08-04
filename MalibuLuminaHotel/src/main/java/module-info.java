@@ -10,9 +10,14 @@ module ca.senecacollege.malibuluminahotel {
     requires com.opencsv;
     requires kernel;
     requires layout;
+    requires com.google.guice;
 
     opens ca.senecacollege.malibuluminahotel.app to javafx.fxml;
-    opens ca.senecacollege.malibuluminahotel.controller to javafx.fxml;
+    opens ca.senecacollege.malibuluminahotel.controller to javafx.fxml, com.google.guice;
+    opens ca.senecacollege.malibuluminahotel.services to com.google.guice;
+    opens ca.senecacollege.malibuluminahotel.security to com.google.guice;
+    opens ca.senecacollege.malibuluminahotel.repositories to com.google.guice;
+    opens ca.senecacollege.malibuluminahotel.config to com.google.guice;
 
     opens ca.senecacollege.malibuluminahotel.models to org.hibernate.orm.core, javafx.fxml;
     opens ca.senecacollege.malibuluminahotel.models.enums to org.hibernate.orm.core;

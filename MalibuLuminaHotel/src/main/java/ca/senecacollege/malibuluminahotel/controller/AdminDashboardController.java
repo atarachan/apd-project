@@ -5,7 +5,7 @@ import ca.senecacollege.malibuluminahotel.models.Guest;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
 import ca.senecacollege.malibuluminahotel.models.enums.ReservationStatus;
 import ca.senecacollege.malibuluminahotel.repositories.IReservationRepository;
-import ca.senecacollege.malibuluminahotel.repositories.ReservationRepositoryImpl;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,10 +21,16 @@ public class AdminDashboardController {
     @FXML private TextField searchField;
     @FXML private VBox reservationsTableBody;
 
+    private final IReservationRepository reservationRepository;
+
+    @Inject
+    public AdminDashboardController(IReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
+
     @FXML
     public void initialize() {
-        IReservationRepository repo = new ReservationRepositoryImpl();
-        List<Reservation> reservations = repo.findAll();
+        List<Reservation> reservations = reservationRepository.findAll();
 
         if (reservations.isEmpty()) {
             Label empty = new Label("No reservations found.");

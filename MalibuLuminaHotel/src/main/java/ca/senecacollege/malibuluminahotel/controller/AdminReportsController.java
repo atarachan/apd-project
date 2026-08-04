@@ -1,10 +1,11 @@
 package ca.senecacollege.malibuluminahotel.controller;
 
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
-import ca.senecacollege.malibuluminahotel.services.ReportService;
+import ca.senecacollege.malibuluminahotel.services.IReportService;
 import ca.senecacollege.malibuluminahotel.util.CsvExporter;
 import ca.senecacollege.malibuluminahotel.util.PdfExporter;
 import ca.senecacollege.malibuluminahotel.util.TxtExporter;
+import com.google.inject.Inject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,12 +41,16 @@ public class AdminReportsController {
     @FXML
     private Button exportTxtButton;
 
-    private ReportService reportService;
+    private final IReportService reportService;
     private List<Map<String, String>> currentReportData;
+
+    @Inject
+    public AdminReportsController(IReportService reportService) {
+        this.reportService = reportService;
+    }
 
     @FXML
     public void initialize() {
-        reportService = new ReportService();
         currentReportData = new ArrayList<>();
 
         // Setup report type combo box

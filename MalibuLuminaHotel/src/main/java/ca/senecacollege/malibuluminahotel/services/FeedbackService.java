@@ -3,8 +3,8 @@ package ca.senecacollege.malibuluminahotel.services;
 import ca.senecacollege.malibuluminahotel.models.Feedback;
 import ca.senecacollege.malibuluminahotel.models.Guest;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
-import ca.senecacollege.malibuluminahotel.repositories.FeedbackRepositoryImpl;
 import ca.senecacollege.malibuluminahotel.repositories.IFeedbackRepository;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,15 +14,12 @@ import java.util.Optional;
 /**
  * Service class for managing feedback operations.
  */
-public class FeedbackService {
+public class FeedbackService implements IFeedbackService {
 
     private static final Logger logger = LoggerFactory.getLogger(FeedbackService.class);
     private final IFeedbackRepository feedbackRepository;
 
-    public FeedbackService() {
-        this.feedbackRepository = new FeedbackRepositoryImpl();
-    }
-
+    @Inject
     public FeedbackService(IFeedbackRepository feedbackRepository) {
         this.feedbackRepository = feedbackRepository;
     }
@@ -35,6 +32,7 @@ public class FeedbackService {
      * @param comment     Feedback comment
      * @return The saved feedback
      */
+    @Override
     public Feedback submitFeedback(Reservation reservation, int rating, String comment) {
         logger.info("Submitting feedback for reservation ID: {}", reservation.getReservationId());
 
@@ -61,6 +59,7 @@ public class FeedbackService {
     /**
      * Get all feedback entries.
      */
+    @Override
     public List<Feedback> getAllFeedback() {
         return feedbackRepository.findAll();
     }
@@ -68,6 +67,7 @@ public class FeedbackService {
     /**
      * Get feedback by reservation.
      */
+    @Override
     public Optional<Feedback> getFeedbackByReservation(Reservation reservation) {
         return feedbackRepository.findByReservation(reservation);
     }
@@ -75,6 +75,7 @@ public class FeedbackService {
     /**
      * Get feedback with rating >= specified value.
      */
+    @Override
     public List<Feedback> getFeedbackByMinRating(int minRating) {
         return feedbackRepository.findByRatingGreaterThanOrEqual(minRating);
     }
@@ -82,6 +83,7 @@ public class FeedbackService {
     /**
      * Get average rating across all feedback.
      */
+    @Override
     public double getAverageRating() {
         Double avg = feedbackRepository.getAverageRating();
         return avg != null ? avg : 0.0;
@@ -90,6 +92,7 @@ public class FeedbackService {
     /**
      * Delete feedback.
      */
+    @Override
     public void deleteFeedback(Feedback feedback) {
         logger.info("Deleting feedback ID: {}", feedback.getFeedbackId());
         feedbackRepository.delete(feedback);

@@ -4,7 +4,8 @@ import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import ca.senecacollege.malibuluminahotel.models.Guest;
 import ca.senecacollege.malibuluminahotel.models.WaitlistEntry;
 import ca.senecacollege.malibuluminahotel.models.enums.WaitlistStatusType;
-import ca.senecacollege.malibuluminahotel.services.WaitlistService;
+import ca.senecacollege.malibuluminahotel.services.IWaitlistService;
+import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,10 +39,11 @@ public class AdminWaitlistController {
     @FXML
     private ComboBox<String> statusFilter;
 
-    private final WaitlistService waitlistService;
+    private final IWaitlistService waitlistService;
 
-    public AdminWaitlistController() {
-        this.waitlistService = new WaitlistService();
+    @Inject
+    public AdminWaitlistController(IWaitlistService waitlistService) {
+        this.waitlistService = waitlistService;
     }
 
     @FXML
