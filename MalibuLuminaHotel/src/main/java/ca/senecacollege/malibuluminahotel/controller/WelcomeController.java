@@ -49,7 +49,7 @@ public class WelcomeController {
 
         SceneNavigator.switchScene(
                 event,
-                "AdminDashboard.fxml"
+                "Login.fxml"
         );
     }
 

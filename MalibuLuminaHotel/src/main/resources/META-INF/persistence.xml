@@ -12,6 +12,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <class>ca.senecacollege.malibuluminahotel.models.AddOn</class>
+        <class>ca.senecacollege.malibuluminahotel.models.AdminUser</class>
         <class>ca.senecacollege.malibuluminahotel.models.Bill</class>
         <class>ca.senecacollege.malibuluminahotel.models.Guest</class>
         <class>ca.senecacollege.malibuluminahotel.models.Payment</class>
