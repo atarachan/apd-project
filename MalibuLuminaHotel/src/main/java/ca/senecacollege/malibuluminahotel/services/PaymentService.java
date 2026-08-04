@@ -27,9 +27,9 @@ public class PaymentService {
     /**
      * Process a payment for a bill.
      *
-     * @param bill          The bill to apply payment to
-     * @param method        Payment method
-     * @param amount        Payment amount
+     * @param bill   The bill to apply payment to
+     * @param method Payment method
+     * @param amount Payment amount
      * @return The created payment
      * @throws IllegalArgumentException if amount exceeds balance due
      */
@@ -40,8 +40,7 @@ public class PaymentService {
 
         if (amount.compareTo(bill.getBalanceDue()) > 0) {
             throw new IllegalArgumentException(
-                    "Payment amount (" + amount + ") exceeds balance due (" + bill.getBalanceDue() + ")"
-            );
+                    "Payment amount (" + amount + ") exceeds balance due (" + bill.getBalanceDue() + ")");
         }
 
         // Create payment record
@@ -63,8 +62,8 @@ public class PaymentService {
     /**
      * Process a refund for a payment.
      *
-     * @param payment      The original payment to refund
-     * @param amount       Refund amount
+     * @param payment The original payment to refund
+     * @param amount  Refund amount
      * @return The refund payment record
      * @throws IllegalArgumentException if amount exceeds original payment
      */
@@ -75,8 +74,7 @@ public class PaymentService {
 
         if (amount.compareTo(payment.getAmount()) > 0) {
             throw new IllegalArgumentException(
-                    "Refund amount (" + amount + ") exceeds original payment (" + payment.getAmount() + ")"
-            );
+                    "Refund amount (" + amount + ") exceeds original payment (" + payment.getAmount() + ")");
         }
 
         // Create refund payment record (negative amount)
@@ -86,8 +84,7 @@ public class PaymentService {
                 amount.negate(),
                 payment.getPaymentMethod(),
                 PaymentStatus.REFUNDED,
-                transactionRef
-        );
+                transactionRef);
 
         // Update bill balance (add refund amount back)
         Bill bill = payment.getBill();
@@ -104,8 +101,8 @@ public class PaymentService {
     /**
      * Process a deposit payment.
      *
-     * @param bill     The bill to apply deposit to
-     * @param amount   Deposit amount
+     * @param bill   The bill to apply deposit to
+     * @param amount Deposit amount
      * @return The deposit payment
      */
     public Payment processDeposit(Bill bill, BigDecimal amount) {

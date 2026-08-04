@@ -2,7 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -18,71 +22,79 @@
         <VBox alignment="CENTER" spacing="8">
             <padding><Insets top="20" bottom="14"/></padding>
             <Label text="Reports" styleClass="title-label"/>
-            <Label text="Occupancy, revenue, and operational summaries" styleClass="subtitle-label"/>
+            <Label text="Generate and export reports" styleClass="subtitle-label"/>
         </VBox>
     </top>
 
     <center>
-        <VBox spacing="20" alignment="CENTER" styleClass="option-card">
+        <VBox spacing="20" alignment="TOP_CENTER" styleClass="option-card">
             <padding><Insets top="30" right="40" bottom="30" left="40"/></padding>
 
-            <HBox spacing="24" alignment="CENTER">
-
-                <VBox spacing="10" styleClass="form-card" prefWidth="250">
-                    <padding><Insets top="24" right="20" bottom="24" left="20"/></padding>
-                    <Label text="Total Reservations" styleClass="field-label"/>
-                    <Label text="127" styleClass="section-label"/>
-                    <Label text="This month" styleClass="description-label"/>
-                </VBox>
-
-                <VBox spacing="10" styleClass="form-card" prefWidth="250">
-                    <padding><Insets top="24" right="20" bottom="24" left="20"/></padding>
-                    <Label text="Occupancy Rate" styleClass="field-label"/>
-                    <Label text="84%" styleClass="section-label"/>
-                    <Label text="Current period" styleClass="description-label"/>
-                </VBox>
-
-                <VBox spacing="10" styleClass="form-card" prefWidth="250">
-                    <padding><Insets top="24" right="20" bottom="24" left="20"/></padding>
-                    <Label text="Total Revenue" styleClass="field-label"/>
-                    <Label text="CAD 48,320" styleClass="section-label"/>
-                    <Label text="This month" styleClass="description-label"/>
-                </VBox>
-
-            </HBox>
-
+            <!-- Report Controls -->
             <VBox spacing="14" styleClass="form-card" prefWidth="800">
                 <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
-                <Label text="Room Type Breakdown" styleClass="section-label"/>
+                <Label text="Report Configuration" styleClass="section-label"/>
 
-                <HBox spacing="0" styleClass="table-header-row">
-                    <Label text="Room Type"   prefWidth="200" styleClass="table-header"/>
-                    <Label text="Bookings"    prefWidth="150" styleClass="table-header"/>
-                    <Label text="Avg. Nights" prefWidth="150" styleClass="table-header"/>
-                    <Label text="Revenue"     prefWidth="200" styleClass="table-header"/>
-                </HBox>
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <VBox spacing="6">
+                        <Label text="Report Type" styleClass="field-label"/>
+                        <ComboBox fx:id="reportTypeComboBox" prefWidth="200"/>
+                    </VBox>
 
-                <HBox spacing="0" styleClass="table-data-row">
-                    <Label text="Single"    prefWidth="200" styleClass="table-cell"/>
-                    <Label text="68"        prefWidth="150" styleClass="table-cell"/>
-                    <Label text="3.2"       prefWidth="150" styleClass="table-cell"/>
-                    <Label text="CAD 26,112" prefWidth="200" styleClass="table-cell"/>
-                </HBox>
+                    <VBox spacing="6">
+                        <Label text="Start Date" styleClass="field-label"/>
+                        <DatePicker fx:id="startDatePicker" prefWidth="150"/>
+                    </VBox>
 
-                <HBox spacing="0" styleClass="table-data-row">
-                    <Label text="Double"    prefWidth="200" styleClass="table-cell"/>
-                    <Label text="42"        prefWidth="150" styleClass="table-cell"/>
-                    <Label text="4.1"       prefWidth="150" styleClass="table-cell"/>
-                    <Label text="CAD 30,996" prefWidth="200" styleClass="table-cell"/>
-                </HBox>
+                    <VBox spacing="6">
+                        <Label text="End Date" styleClass="field-label"/>
+                        <DatePicker fx:id="endDatePicker" prefWidth="150"/>
+                    </VBox>
 
-                <HBox spacing="0" styleClass="table-data-row">
-                    <Label text="Penthouse" prefWidth="200" styleClass="table-cell"/>
-                    <Label text="17"        prefWidth="150" styleClass="table-cell"/>
-                    <Label text="2.8"       prefWidth="150" styleClass="table-cell"/>
-                    <Label text="CAD 16,660" prefWidth="200" styleClass="table-cell"/>
+                    <VBox spacing="6">
+                        <Label text=" " styleClass="field-label"/>
+                        <Button fx:id="generateButton" text="Generate Report" 
+                                prefWidth="150" prefHeight="35"
+                                styleClass="primary-button"
+                                onAction="#handleGenerateReport"/>
+                    </VBox>
                 </HBox>
             </VBox>
+
+            <!-- Report Table -->
+            <VBox spacing="10" styleClass="form-card" prefWidth="800" prefHeight="300">
+                <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
+                <Label text="Report Data" styleClass="section-label"/>
+                <TableView fx:id="reportTableView" prefHeight="220"/>
+            </VBox>
+
+            <!-- Summary and Export -->
+            <HBox spacing="20" alignment="TOP_CENTER">
+                <!-- Summary -->
+                <VBox spacing="10" styleClass="form-card" prefWidth="400" prefHeight="180">
+                    <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
+                    <Label text="Summary" styleClass="section-label"/>
+                    <TextArea fx:id="summaryTextArea" prefHeight="100" editable="false"/>
+                </VBox>
+
+                <!-- Export Buttons -->
+                <VBox spacing="10" styleClass="form-card" prefWidth="360" prefHeight="180" alignment="CENTER">
+                    <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
+                    <Label text="Export Options" styleClass="section-label"/>
+                    <Button fx:id="exportCsvButton" text="Export to CSV" 
+                            prefWidth="200" prefHeight="35"
+                            styleClass="primary-button"
+                            onAction="#handleExportCsv"/>
+                    <Button fx:id="exportPdfButton" text="Export to PDF" 
+                            prefWidth="200" prefHeight="35"
+                            styleClass="primary-button"
+                            onAction="#handleExportPdf"/>
+                    <Button fx:id="exportTxtButton" text="Export Summary to TXT" 
+                            prefWidth="200" prefHeight="35"
+                            styleClass="primary-button"
+                            onAction="#handleExportTxt"/>
+                </VBox>
+            </HBox>
         </VBox>
     </center>
 

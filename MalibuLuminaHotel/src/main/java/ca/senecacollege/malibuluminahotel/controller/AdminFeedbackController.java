@@ -16,14 +16,22 @@ import java.util.List;
 
 public class AdminFeedbackController {
 
-    @FXML private TableView<FeedbackTableRow> feedbackTable;
-    @FXML private TableColumn<FeedbackTableRow, String> guestColumn;
-    @FXML private TableColumn<FeedbackTableRow, String> roomTypeColumn;
-    @FXML private TableColumn<FeedbackTableRow, Integer> ratingColumn;
-    @FXML private TableColumn<FeedbackTableRow, String> commentColumn;
-    @FXML private TableColumn<FeedbackTableRow, String> dateColumn;
-    @FXML private Label averageRatingLabel;
-    @FXML private ComboBox<Integer> minRatingFilter;
+    @FXML
+    private TableView<FeedbackTableRow> feedbackTable;
+    @FXML
+    private TableColumn<FeedbackTableRow, String> guestColumn;
+    @FXML
+    private TableColumn<FeedbackTableRow, String> roomTypeColumn;
+    @FXML
+    private TableColumn<FeedbackTableRow, Integer> ratingColumn;
+    @FXML
+    private TableColumn<FeedbackTableRow, String> commentColumn;
+    @FXML
+    private TableColumn<FeedbackTableRow, String> dateColumn;
+    @FXML
+    private Label averageRatingLabel;
+    @FXML
+    private ComboBox<Integer> minRatingFilter;
 
     private final FeedbackService feedbackService;
 
@@ -141,18 +149,32 @@ public class AdminFeedbackController {
             Guest guest = feedback.getGuest();
             this.guestName = guest.getFirstName() + " " + guest.getLastName();
             // Get room type from first reservation item if available
-            this.roomType = feedback.getReservation().getReservationItems().isEmpty() ? 
-                    "N/A" : 
-                    feedback.getReservation().getReservationItems().get(0).getRoom().getRoomType().getRoomTypeName().toString();
+            this.roomType = feedback.getReservation().getReservationItems().isEmpty() ? "N/A"
+                    : feedback.getReservation().getReservationItems().get(0).getRoom().getRoomType().getRoomTypeName()
+                            .toString();
             this.rating = feedback.getRating();
             this.comment = feedback.getComment();
             this.date = feedback.getSubmittedDate().toString();
         }
 
-        public String getGuestName() { return guestName; }
-        public String getRoomType() { return roomType; }
-        public int getRating() { return rating; }
-        public String getComment() { return comment; }
-        public String getDate() { return date; }
+        public String getGuestName() {
+            return guestName;
+        }
+
+        public String getRoomType() {
+            return roomType;
+        }
+
+        public int getRating() {
+            return rating;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public String getDate() {
+            return date;
+        }
     }
 }

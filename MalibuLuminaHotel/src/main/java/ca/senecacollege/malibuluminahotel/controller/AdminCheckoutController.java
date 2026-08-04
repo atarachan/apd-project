@@ -27,12 +27,18 @@ public class AdminCheckoutController {
     private static final BigDecimal ADMIN_CAP_PCT = new BigDecimal("15");
     private static final BigDecimal BASE_TOTAL = new BigDecimal("1096.10");
 
-    @FXML private ComboBox<String> discountTypeCombo;
-    @FXML private TextField discountValueField;
-    @FXML private Label totalLabel;
-    @FXML private ComboBox<String> paymentMethodCombo;
-    @FXML private TextField paymentAmountField;
-    @FXML private Label balanceDueLabel;
+    @FXML
+    private ComboBox<String> discountTypeCombo;
+    @FXML
+    private TextField discountValueField;
+    @FXML
+    private Label totalLabel;
+    @FXML
+    private ComboBox<String> paymentMethodCombo;
+    @FXML
+    private TextField paymentAmountField;
+    @FXML
+    private Label balanceDueLabel;
 
     private final PaymentService paymentService;
     private final DiscountService discountService;
@@ -52,8 +58,7 @@ public class AdminCheckoutController {
         // Initialize payment method dropdown if it exists
         if (paymentMethodCombo != null) {
             paymentMethodCombo.setItems(FXCollections.observableArrayList(
-                    "CASH", "CREDIT_CARD", "DEBIT_CARD", "APPLE_PAY", "GOOGLE_PAY"
-            ));
+                    "CASH", "CREDIT_CARD", "DEBIT_CARD", "APPLE_PAY", "GOOGLE_PAY"));
         }
 
         // Update balance due label
@@ -89,9 +94,8 @@ public class AdminCheckoutController {
         if (type.equals("Percentage")) {
             // Get current admin user to check role limits
             AdminUser admin = SessionManager.getInstance().getCurrentUser();
-            BigDecimal maxPct = admin != null ? 
-                    discountService.getMaxDiscountPercentage(admin.getRole()) : 
-                    ADMIN_CAP_PCT;
+            BigDecimal maxPct = admin != null ? discountService.getMaxDiscountPercentage(admin.getRole())
+                    : ADMIN_CAP_PCT;
 
             if (inputValue.compareTo(maxPct) > 0) {
                 String roleName = admin != null ? admin.getRole().toString() : "ADMIN";
@@ -104,9 +108,8 @@ public class AdminCheckoutController {
                     .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
         } else {
             AdminUser admin = SessionManager.getInstance().getCurrentUser();
-            BigDecimal maxPct = admin != null ?
-                    discountService.getMaxDiscountPercentage(admin.getRole()) :
-                    ADMIN_CAP_PCT;
+            BigDecimal maxPct = admin != null ? discountService.getMaxDiscountPercentage(admin.getRole())
+                    : ADMIN_CAP_PCT;
 
             BigDecimal maxFixed = BASE_TOTAL
                     .multiply(maxPct)
@@ -156,22 +159,22 @@ public class AdminCheckoutController {
         }
 
         if (amount.compareTo(currentTotal) > 0) {
-            showAlert(Alert.AlertType.WARNING, "Amount Exceeds Balance", 
+            showAlert(Alert.AlertType.WARNING, "Amount Exceeds Balance",
                     "Payment amount cannot exceed balance due (" + currentTotal + ").");
             return;
         }
 
         // In a real implementation with actual Bill entity:
         // try {
-        //     PaymentMethod method = PaymentMethod.valueOf(methodStr);
-        //     Payment payment = paymentService.processPayment(currentBill, method, amount);
-        //     currentTotal = currentTotal.subtract(amount);
-        //     updateTotalDisplay();
-        //     showAlert(Alert.AlertType.INFORMATION, "Payment Successful",
-        //             "Payment of $" + amount + " processed successfully.\n" +
-        //             "Transaction: " + payment.getTransactionReference());
+        // PaymentMethod method = PaymentMethod.valueOf(methodStr);
+        // Payment payment = paymentService.processPayment(currentBill, method, amount);
+        // currentTotal = currentTotal.subtract(amount);
+        // updateTotalDisplay();
+        // showAlert(Alert.AlertType.INFORMATION, "Payment Successful",
+        // "Payment of $" + amount + " processed successfully.\n" +
+        // "Transaction: " + payment.getTransactionReference());
         // } catch (Exception e) {
-        //     showAlert(Alert.AlertType.ERROR, "Payment Failed", e.getMessage());
+        // showAlert(Alert.AlertType.ERROR, "Payment Failed", e.getMessage());
         // }
 
         // Mock implementation for demonstration

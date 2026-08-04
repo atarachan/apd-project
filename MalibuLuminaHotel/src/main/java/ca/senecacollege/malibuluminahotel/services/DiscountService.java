@@ -28,9 +28,9 @@ public class DiscountService {
     /**
      * Calculate discount amount based on percentage and role cap.
      *
-     * @param subtotal        Bill subtotal
-     * @param percentage      Discount percentage (e.g., 10 for 10%)
-     * @param adminUser       Admin user applying the discount
+     * @param subtotal   Bill subtotal
+     * @param percentage Discount percentage (e.g., 10 for 10%)
+     * @param adminUser  Admin user applying the discount
      * @return Discount amount
      * @throws IllegalArgumentException if percentage exceeds role cap
      */
@@ -42,8 +42,7 @@ public class DiscountService {
         if (discountPct.compareTo(maxPct) > 0) {
             throw new IllegalArgumentException(
                     "Discount percentage " + percentage + "% exceeds " +
-                            adminUser.getRole() + " role limit of " + maxPct + "%"
-            );
+                            adminUser.getRole() + " role limit of " + maxPct + "%");
         }
 
         // Calculate discount amount
@@ -54,9 +53,9 @@ public class DiscountService {
     /**
      * Apply discount to a bill.
      *
-     * @param bill           Bill to apply discount to
-     * @param percentage     Discount percentage
-     * @param adminUser      Admin user applying the discount
+     * @param bill       Bill to apply discount to
+     * @param percentage Discount percentage
+     * @param adminUser  Admin user applying the discount
      * @throws IllegalArgumentException if percentage exceeds role cap
      */
     public void applyDiscount(Bill bill, double percentage, AdminUser adminUser) {

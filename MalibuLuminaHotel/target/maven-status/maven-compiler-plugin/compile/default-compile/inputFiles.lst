@@ -102,6 +102,7 @@ D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\FeedbackService.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\PaymentService.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\PricingStrategy.java
+D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\ReportService.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\StandardPricingStrategy.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\WaitlistService.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\WeekendPricingStrategy.java
@@ -110,4 +111,7 @@ D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\tests\Phase1PatternTest.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\tests\Phase2SecurityTest.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\tests\RepositoryTest.java
+D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\util\CsvExporter.java
+D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\util\PdfExporter.java
+D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\util\TxtExporter.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\module-info.java

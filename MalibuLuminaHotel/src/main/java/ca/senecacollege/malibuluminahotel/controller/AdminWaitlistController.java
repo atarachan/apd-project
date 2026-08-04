@@ -17,16 +17,26 @@ import java.util.List;
 
 public class AdminWaitlistController {
 
-    @FXML private TableView<WaitlistTableRow> waitlistTable;
-    @FXML private TableColumn<WaitlistTableRow, Long> idColumn;
-    @FXML private TableColumn<WaitlistTableRow, String> guestNameColumn;
-    @FXML private TableColumn<WaitlistTableRow, String> phoneColumn;
-    @FXML private TableColumn<WaitlistTableRow, String> roomTypeColumn;
-    @FXML private TableColumn<WaitlistTableRow, String> checkInColumn;
-    @FXML private TableColumn<WaitlistTableRow, String> checkOutColumn;
-    @FXML private TableColumn<WaitlistTableRow, String> dateAddedColumn;
-    @FXML private TableColumn<WaitlistTableRow, String> statusColumn;
-    @FXML private ComboBox<String> statusFilter;
+    @FXML
+    private TableView<WaitlistTableRow> waitlistTable;
+    @FXML
+    private TableColumn<WaitlistTableRow, Long> idColumn;
+    @FXML
+    private TableColumn<WaitlistTableRow, String> guestNameColumn;
+    @FXML
+    private TableColumn<WaitlistTableRow, String> phoneColumn;
+    @FXML
+    private TableColumn<WaitlistTableRow, String> roomTypeColumn;
+    @FXML
+    private TableColumn<WaitlistTableRow, String> checkInColumn;
+    @FXML
+    private TableColumn<WaitlistTableRow, String> checkOutColumn;
+    @FXML
+    private TableColumn<WaitlistTableRow, String> dateAddedColumn;
+    @FXML
+    private TableColumn<WaitlistTableRow, String> statusColumn;
+    @FXML
+    private ComboBox<String> statusFilter;
 
     private final WaitlistService waitlistService;
 
@@ -53,8 +63,7 @@ public class AdminWaitlistController {
         // Initialize filter if it exists
         if (statusFilter != null) {
             statusFilter.setItems(FXCollections.observableArrayList(
-                    "All", "IN_QUEUE", "SPOT_AVAILABLE", "WITHDRAWN"
-            ));
+                    "All", "IN_QUEUE", "SPOT_AVAILABLE", "WITHDRAWN"));
             statusFilter.setValue("All");
         }
     }
@@ -164,13 +173,36 @@ public class AdminWaitlistController {
             this.status = entry.getStatus().toString();
         }
 
-        public Long getWaitlistId() { return waitlistId; }
-        public String getGuestName() { return guestName; }
-        public String getPhone() { return phone; }
-        public String getRoomType() { return roomType; }
-        public String getCheckIn() { return checkIn; }
-        public String getCheckOut() { return checkOut; }
-        public String getDateAdded() { return dateAdded; }
-        public String getStatus() { return status; }
+        public Long getWaitlistId() {
+            return waitlistId;
+        }
+
+        public String getGuestName() {
+            return guestName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public String getRoomType() {
+            return roomType;
+        }
+
+        public String getCheckIn() {
+            return checkIn;
+        }
+
+        public String getCheckOut() {
+            return checkOut;
+        }
+
+        public String getDateAdded() {
+            return dateAdded;
+        }
+
+        public String getStatus() {
+            return status;
+        }
     }
 }
