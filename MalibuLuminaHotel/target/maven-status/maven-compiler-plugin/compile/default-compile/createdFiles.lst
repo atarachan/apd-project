@@ -17,6 +17,7 @@ ca\senecacollege\malibuluminahotel\models\AddOn.class
 ca\senecacollege\malibuluminahotel\controller\AdminReservationsController$1.class
 ca\senecacollege\malibuluminahotel\repositories\IGuestRepository.class
 ca\senecacollege\malibuluminahotel\tests\Phase2SecurityTest.class
+ca\senecacollege\malibuluminahotel\services\DiscountService$1.class
 ca\senecacollege\malibuluminahotel\repositories\ReservationRepositoryImpl.class
 ca\senecacollege\malibuluminahotel\app\BookingSession.class
 ca\senecacollege\malibuluminahotel\repositories\ReservationItemAddOnRepositoryImpl.class
@@ -32,7 +33,9 @@ ca\senecacollege\malibuluminahotel\services\StandardPricingStrategy.class
 ca\senecacollege\malibuluminahotel\repositories\ILoyaltyAccountRepository.class
 ca\senecacollege\malibuluminahotel\repositories\WaitlistEntryRepositoryImpl.class
 ca\senecacollege\malibuluminahotel\events\WaitlistNotificationObserver.class
+ca\senecacollege\malibuluminahotel\services\PaymentService.class
 ca\senecacollege\malibuluminahotel\models\enums\PaymentMethod.class
+ca\senecacollege\malibuluminahotel\services\DiscountService.class
 module-info.class
 ca\senecacollege\malibuluminahotel\services\WeekendPricingStrategy.class
 ca\senecacollege\malibuluminahotel\repositories\LoyaltyTransactionRepositoryImpl.class
@@ -81,7 +84,6 @@ ca\senecacollege\malibuluminahotel\repositories\AddOnRepositoryImpl.class
 ca\senecacollege\malibuluminahotel\decorators\BreakfastDecorator.class
 ca\senecacollege\malibuluminahotel\models\enums\PricingModel.class
 ca\senecacollege\malibuluminahotel\models\ReservationItemAddOn.class
-ca\senecacollege\malibuluminahotel\controller\AdminWaitlistController.class
 ca\senecacollege\malibuluminahotel\models\enums\WaitlistStatus.class
 ca\senecacollege\malibuluminahotel\models\WaitlistEntry.class
 ca\senecacollege\malibuluminahotel\repositories\RoomTypeRepositoryImpl.class
@@ -96,14 +98,12 @@ ca\senecacollege\malibuluminahotel\events\AdminNotificationManager.class
 ca\senecacollege\malibuluminahotel\models\enums\UserRole.class
 ca\senecacollege\malibuluminahotel\services\WaitlistService.class
 ca\senecacollege\malibuluminahotel\repositories\IActivityLogRepository.class
-ca\senecacollege\malibuluminahotel\controller\AdminCheckoutController.class
 ca\senecacollege\malibuluminahotel\decorators\BookingComponent.class
 ca\senecacollege\malibuluminahotel\models\Payment.class
 ca\senecacollege\malibuluminahotel\models\Reservation.class
 ca\senecacollege\malibuluminahotel\decorators\BaseBooking.class
 ca\senecacollege\malibuluminahotel\models\RoomType.class
 ca\senecacollege\malibuluminahotel\repositories\AdminUserRepositoryImpl.class
-ca\senecacollege\malibuluminahotel\controller\AdminFeedbackController.class
 ca\senecacollege\malibuluminahotel\controller\LoginController.class
 ca\senecacollege\malibuluminahotel\decorators\ParkingDecorator.class
 ca\senecacollege\malibuluminahotel\models\enums\FeedbackCategory.class

@@ -23,8 +23,8 @@ public class ActivityLogRepositoryImpl extends AbstractRepository<ActivityLog, L
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<ActivityLog> query = em.createQuery(
-                "SELECT a FROM ActivityLog a WHERE a.admin = :admin ORDER BY a.timestamp DESC", 
-                ActivityLog.class);
+                    "SELECT a FROM ActivityLog a WHERE a.admin = :admin ORDER BY a.timestamp DESC",
+                    ActivityLog.class);
             query.setParameter("admin", adminUser);
             return query.getResultList();
         } finally {
@@ -37,9 +37,9 @@ public class ActivityLogRepositoryImpl extends AbstractRepository<ActivityLog, L
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<ActivityLog> query = em.createQuery(
-                "SELECT a FROM ActivityLog a WHERE a.timestamp >= :start AND a.timestamp <= :end " +
-                "ORDER BY a.timestamp DESC", 
-                ActivityLog.class);
+                    "SELECT a FROM ActivityLog a WHERE a.timestamp >= :start AND a.timestamp <= :end " +
+                            "ORDER BY a.timestamp DESC",
+                    ActivityLog.class);
             query.setParameter("start", start);
             query.setParameter("end", end);
             return query.getResultList();
@@ -53,8 +53,8 @@ public class ActivityLogRepositoryImpl extends AbstractRepository<ActivityLog, L
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<ActivityLog> query = em.createQuery(
-                "SELECT a FROM ActivityLog a WHERE a.activityType = :activityType ORDER BY a.timestamp DESC", 
-                ActivityLog.class);
+                    "SELECT a FROM ActivityLog a WHERE a.activityType = :activityType ORDER BY a.timestamp DESC",
+                    ActivityLog.class);
             query.setParameter("activityType", action);
             return query.getResultList();
         } finally {
@@ -67,8 +67,8 @@ public class ActivityLogRepositoryImpl extends AbstractRepository<ActivityLog, L
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<ActivityLog> query = em.createQuery(
-                "SELECT a FROM ActivityLog a ORDER BY a.timestamp DESC", 
-                ActivityLog.class);
+                    "SELECT a FROM ActivityLog a ORDER BY a.timestamp DESC",
+                    ActivityLog.class);
             query.setMaxResults(limit);
             return query.getResultList();
         } finally {

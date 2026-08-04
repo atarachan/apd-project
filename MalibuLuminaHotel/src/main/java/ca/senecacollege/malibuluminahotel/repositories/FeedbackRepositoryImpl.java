@@ -24,8 +24,8 @@ public class FeedbackRepositoryImpl extends AbstractRepository<Feedback, Long> i
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<Feedback> query = em.createQuery(
-                "SELECT f FROM Feedback f WHERE f.reservation = :reservation", 
-                Feedback.class);
+                    "SELECT f FROM Feedback f WHERE f.reservation = :reservation",
+                    Feedback.class);
             query.setParameter("reservation", reservation);
             return query.getResultStream().findFirst();
         } catch (NoResultException e) {
@@ -40,8 +40,8 @@ public class FeedbackRepositoryImpl extends AbstractRepository<Feedback, Long> i
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<Feedback> query = em.createQuery(
-                "SELECT f FROM Feedback f WHERE f.rating >= :rating ORDER BY f.submittedAt DESC", 
-                Feedback.class);
+                    "SELECT f FROM Feedback f WHERE f.rating >= :rating ORDER BY f.submittedAt DESC",
+                    Feedback.class);
             query.setParameter("rating", rating);
             return query.getResultList();
         } finally {
@@ -54,7 +54,7 @@ public class FeedbackRepositoryImpl extends AbstractRepository<Feedback, Long> i
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<Double> query = em.createQuery(
-                "SELECT AVG(f.rating) FROM Feedback f", Double.class);
+                    "SELECT AVG(f.rating) FROM Feedback f", Double.class);
             Double avg = query.getSingleResult();
             return avg != null ? avg : 0.0;
         } finally {

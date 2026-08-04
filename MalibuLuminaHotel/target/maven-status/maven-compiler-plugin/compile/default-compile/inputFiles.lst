@@ -98,7 +98,9 @@ D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\ActivityLogService.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\BookingService.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\DataSeeder.java
+D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\DiscountService.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\FeedbackService.java
+D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\PaymentService.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\PricingStrategy.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\StandardPricingStrategy.java
 D:\Seneca sem6\APD\Group-Project\apd-project\MalibuLuminaHotel\src\main\java\ca\senecacollege\malibuluminahotel\services\WaitlistService.java
