@@ -85,4 +85,41 @@ public class LoyaltyAccount implements Serializable {
             addTransaction(transaction);
         }
     }
+
+    // Getters and Setters
+    public Long getLoyaltyId() {
+        return loyaltyId;
+    }
+
+    public void setLoyaltyId(Long loyaltyId) {
+        this.loyaltyId = loyaltyId;
+    }
+
+    public Guest getGuest() {
+        return guest;
+    }
+
+    public void setGuest(Guest guest) {
+        this.guest = guest;
+    }
+
+    public String getMemberNumber() {
+        return memberNumber;
+    }
+
+    public void setMemberNumber(String memberNumber) {
+        this.memberNumber = memberNumber;
+    }
+
+    public int getCurrentPoints() {
+        return currentPoints;
+    }
+
+    public void setCurrentPoints(int currentPoints) {
+        this.currentPoints = currentPoints;
+    }
+
+    public List<LoyaltyTransaction> getTransactions() {
+        return transactions;
+    }
 }

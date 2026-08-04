@@ -17,11 +17,9 @@ ca\senecacollege\malibuluminahotel\services\BookingService.class
 ca\senecacollege\malibuluminahotel\repositories\IRoomRepository.class
 ca\senecacollege\malibuluminahotel\controller\AdminWaitlistController$WaitlistTableRow.class
 ca\senecacollege\malibuluminahotel\models\AddOn.class
-ca\senecacollege\malibuluminahotel\controller\AdminReservationsController$1.class
 ca\senecacollege\malibuluminahotel\repositories\IGuestRepository.class
 ca\senecacollege\malibuluminahotel\tests\Phase2SecurityTest.class
 ca\senecacollege\malibuluminahotel\util\CsvExporter.class
-ca\senecacollege\malibuluminahotel\services\DiscountService$1.class
 ca\senecacollege\malibuluminahotel\repositories\ReservationRepositoryImpl.class
 ca\senecacollege\malibuluminahotel\app\BookingSession.class
 ca\senecacollege\malibuluminahotel\repositories\ReservationItemAddOnRepositoryImpl.class
@@ -66,13 +64,11 @@ ca\senecacollege\malibuluminahotel\repositories\LoyaltyAccountRepositoryImpl.cla
 ca\senecacollege\malibuluminahotel\repositories\IReservationRepository.class
 ca\senecacollege\malibuluminahotel\events\RoomAvailabilitySubject.class
 ca\senecacollege\malibuluminahotel\app\Main.class
-ca\senecacollege\malibuluminahotel\controller\AdminDashboardController$1.class
 ca\senecacollege\malibuluminahotel\services\BookingService$BillSummary.class
 ca\senecacollege\malibuluminahotel\factories\RoomFactory.class
 ca\senecacollege\malibuluminahotel\repositories\BillRepositoryImpl.class
 ca\senecacollege\malibuluminahotel\repositories\IRepository.class
 ca\senecacollege\malibuluminahotel\repositories\ActivityLogRepositoryImpl.class
-ca\senecacollege\malibuluminahotel\factories\RoomFactory$1.class
 ca\senecacollege\malibuluminahotel\repositories\IPaymentRepository.class
 ca\senecacollege\malibuluminahotel\controller\AdminReservationsController.class
 ca\senecacollege\malibuluminahotel\tests\DatabaseTest.class

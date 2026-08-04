@@ -2,15 +2,20 @@ package ca.senecacollege.malibuluminahotel.controller;
 
 import ca.senecacollege.malibuluminahotel.app.BookingSession;
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
+import ca.senecacollege.malibuluminahotel.models.Guest;
+import ca.senecacollege.malibuluminahotel.models.LoyaltyAccount;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
 import ca.senecacollege.malibuluminahotel.services.BookingService;
+import ca.senecacollege.malibuluminahotel.services.LoyaltyService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Optional;
 
 public class GuestCheckoutController {
 
@@ -21,11 +26,13 @@ public class GuestCheckoutController {
     @FXML private Label totalLabel;
 
     private BookingService bookingService;
+    private LoyaltyService loyaltyService;
     private BookingService.BillSummary billSummary;
 
     @FXML
     public void initialize() {
         bookingService = new BookingService();
+        loyaltyService = new LoyaltyService();
 
         try {
             billSummary = bookingService.calculateBill(BookingSession.getInstance());
@@ -63,6 +70,9 @@ public class GuestCheckoutController {
 
             BookingSession.getInstance().setSavedReservationId(reservation.getReservationId());
 
+            // Offer loyalty enrollment
+            offerLoyaltyEnrollment(reservation.getGuest());
+
             SceneNavigator.switchScene(event, "Confirmation.fxml");
 
         } catch (IllegalStateException e) {
@@ -85,5 +95,43 @@ public class GuestCheckoutController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /**
+     * Offers loyalty program enrollment to the guest.
+     */
+    private void offerLoyaltyEnrollment(Guest guest) {
+        try {
+            // Check if already enrolled
+            if (loyaltyService.isEnrolled(guest)) {
+                return; // Already a member
+            }
+
+            // Show enrollment offer
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Join Loyalty Program");
+            alert.setHeaderText("Earn Points on Your Stay!");
+            alert.setContentText("Would you like to join our loyalty program and start earning points? \n\n" +
+                    "Benefits:\n" +
+                    "• Earn 10 points per dollar spent\n" +
+                    "• Redeem points for discounts\n" +
+                    "• Exclusive member offers\n\n" +
+                    "Join now?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                LoyaltyAccount account = loyaltyService.enrollGuest(guest);
+                
+                Alert success = new Alert(Alert.AlertType.INFORMATION);
+                success.setTitle("Welcome to Loyalty Program!");
+                success.setHeaderText("Enrollment Successful");
+                success.setContentText("Your member number is: " + account.getMemberNumber() + "\n" +
+                        "Current points: " + account.getCurrentPoints());
+                success.showAndWait();
+            }
+        } catch (Exception e) {
+            // Log error but don't interrupt checkout flow
+            System.err.println("Failed to offer loyalty enrollment: " + e.getMessage());
+        }
     }
 }

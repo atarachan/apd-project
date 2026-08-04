@@ -21,15 +21,24 @@ import java.util.Map;
 
 public class AdminReportsController {
 
-    @FXML private ComboBox<String> reportTypeComboBox;
-    @FXML private DatePicker startDatePicker;
-    @FXML private DatePicker endDatePicker;
-    @FXML private TableView<Map<String, String>> reportTableView;
-    @FXML private TextArea summaryTextArea;
-    @FXML private Button generateButton;
-    @FXML private Button exportCsvButton;
-    @FXML private Button exportPdfButton;
-    @FXML private Button exportTxtButton;
+    @FXML
+    private ComboBox<String> reportTypeComboBox;
+    @FXML
+    private DatePicker startDatePicker;
+    @FXML
+    private DatePicker endDatePicker;
+    @FXML
+    private TableView<Map<String, String>> reportTableView;
+    @FXML
+    private TextArea summaryTextArea;
+    @FXML
+    private Button generateButton;
+    @FXML
+    private Button exportCsvButton;
+    @FXML
+    private Button exportPdfButton;
+    @FXML
+    private Button exportTxtButton;
 
     private ReportService reportService;
     private List<Map<String, String>> currentReportData;
@@ -44,8 +53,7 @@ public class AdminReportsController {
                 "Revenue Report",
                 "Occupancy Report",
                 "Activity Log Report",
-                "Feedback Summary"
-        ));
+                "Feedback Summary"));
         reportTypeComboBox.getSelectionModel().selectFirst();
 
         // Set default date range (last 30 days)
@@ -117,19 +125,18 @@ public class AdminReportsController {
 
     private void generateFeedbackSummary() {
         Map<String, Object> summary = reportService.generateFeedbackSummary();
-        
+
         // Convert summary to table format
         currentReportData = new ArrayList<>();
         for (Map.Entry<String, Object> entry : summary.entrySet()) {
             Map<String, String> row = Map.of(
                     "Metric", entry.getKey(),
-                    "Value", entry.getValue().toString()
-            );
+                    "Value", entry.getValue().toString());
             currentReportData.add(row);
         }
-        
+
         displayReportInTable(currentReportData);
-        
+
         // Build summary text
         StringBuilder sb = new StringBuilder("Feedback Summary\n\n");
         for (Map.Entry<String, Object> entry : summary.entrySet()) {
@@ -153,8 +160,8 @@ public class AdminReportsController {
         Map<String, String> firstRow = data.get(0);
         for (String columnName : firstRow.keySet()) {
             TableColumn<Map<String, String>, String> column = new TableColumn<>(columnName);
-            column.setCellValueFactory(cellData -> 
-                    new SimpleStringProperty(cellData.getValue().getOrDefault(columnName, "")));
+            column.setCellValueFactory(
+                    cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(columnName, "")));
             column.setPrefWidth(150);
             reportTableView.getColumns().add(column);
         }

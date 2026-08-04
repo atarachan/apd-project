@@ -2,6 +2,7 @@ package ca.senecacollege.malibuluminahotel.app;
 
 import ca.senecacollege.malibuluminahotel.config.EntityManagerFactoryProvider;
 import ca.senecacollege.malibuluminahotel.services.DataSeeder;
+import ca.senecacollege.malibuluminahotel.util.LoggerConfig;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +12,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        // Configure file logging with rotation
+        LoggerConfig.configure();
 
         EntityManagerFactoryProvider.getEntityManagerFactory();
 

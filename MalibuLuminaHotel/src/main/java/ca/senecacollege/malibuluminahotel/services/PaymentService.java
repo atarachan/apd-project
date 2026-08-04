@@ -1,6 +1,8 @@
 package ca.senecacollege.malibuluminahotel.services;
 
 import ca.senecacollege.malibuluminahotel.models.Bill;
+import ca.senecacollege.malibuluminahotel.models.Guest;
+import ca.senecacollege.malibuluminahotel.models.LoyaltyAccount;
 import ca.senecacollege.malibuluminahotel.models.Payment;
 import ca.senecacollege.malibuluminahotel.models.enums.PaymentMethod;
 import ca.senecacollege.malibuluminahotel.models.enums.PaymentStatus;
@@ -9,6 +11,7 @@ import ca.senecacollege.malibuluminahotel.repositories.IPaymentRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -18,10 +21,12 @@ public class PaymentService {
 
     private final IPaymentRepository paymentRepository;
     private final IBillRepository billRepository;
+    private final LoyaltyService loyaltyService;
 
     public PaymentService(IPaymentRepository paymentRepository, IBillRepository billRepository) {
         this.paymentRepository = paymentRepository;
         this.billRepository = billRepository;
+        this.loyaltyService = new LoyaltyService();
     }
 
     /**
@@ -55,6 +60,9 @@ public class PaymentService {
         // Save payment and update bill
         paymentRepository.save(payment);
         billRepository.save(bill);
+
+        // Award loyalty points if guest is enrolled
+        awardLoyaltyPoints(bill, amount);
 
         return payment;
     }
@@ -140,5 +148,24 @@ public class PaymentService {
      */
     private String generateTransactionReference() {
         return "TXN-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    /**
+     * Award loyalty points for payment if guest is enrolled.
+     */
+    private void awardLoyaltyPoints(Bill bill, BigDecimal paymentAmount) {
+        try {
+            // Get guest from bill's reservation
+            Guest guest = bill.getReservation().getGuest();
+            
+            // Check if guest has loyalty account
+            Optional<LoyaltyAccount> accountOpt = loyaltyService.getAccountByGuest(guest);
+            if (accountOpt.isPresent()) {
+                loyaltyService.earnPoints(accountOpt.get(), paymentAmount);
+            }
+        } catch (Exception e) {
+            // Log error but don't fail payment processing
+            System.err.println("Failed to award loyalty points: " + e.getMessage());
+        }
     }
 }

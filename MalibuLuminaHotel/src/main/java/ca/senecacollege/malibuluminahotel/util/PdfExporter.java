@@ -24,7 +24,7 @@ public class PdfExporter {
      * @param title    Report title
      * @throws FileNotFoundException if file cannot be created
      */
-    public static void exportToPdf(List<Map<String, String>> data, String filename, String title) 
+    public static void exportToPdf(List<Map<String, String>> data, String filename, String title)
             throws FileNotFoundException {
         if (data == null || data.isEmpty()) {
             throw new IllegalArgumentException("Data cannot be null or empty");

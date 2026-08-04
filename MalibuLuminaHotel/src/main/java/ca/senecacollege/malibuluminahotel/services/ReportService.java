@@ -38,7 +38,7 @@ public class ReportService {
      */
     public List<Map<String, String>> generateRevenueReport(LocalDate startDate, LocalDate endDate) {
         List<Map<String, String>> reportData = new ArrayList<>();
-        
+
         // Get all bills in date range
         List<Bill> bills = billRepository.findAll().stream()
                 .filter(bill -> {
@@ -52,7 +52,7 @@ public class ReportService {
         for (Bill bill : bills) {
             LocalDate billDate = bill.getBillDate().toLocalDate();
             revenueByDate.putIfAbsent(billDate, new RevenueData());
-            
+
             RevenueData data = revenueByDate.get(billDate);
             data.count++;
             data.subtotal = data.subtotal.add(bill.getSubtotal());
@@ -83,7 +83,7 @@ public class ReportService {
      */
     public List<Map<String, String>> generateOccupancyReport(LocalDate startDate, LocalDate endDate) {
         List<Map<String, String>> reportData = new ArrayList<>();
-        
+
         List<Room> allRooms = roomRepository.findAll();
         int totalRooms = allRooms.size();
 
@@ -91,7 +91,7 @@ public class ReportService {
         LocalDate currentDate = startDate;
         while (!currentDate.isAfter(endDate)) {
             final LocalDate date = currentDate;
-            
+
             // Count occupied rooms
             long occupiedCount = reservationRepository.findAll().stream()
                     .filter(res -> {
@@ -126,11 +126,10 @@ public class ReportService {
      */
     public List<Map<String, String>> generateActivityLogReport(LocalDate startDate, LocalDate endDate) {
         List<Map<String, String>> reportData = new ArrayList<>();
-        
+
         List<ActivityLog> logs = activityLogRepository.findByTimestampBetween(
-                startDate.atStartOfDay(), 
-                endDate.atTime(23, 59, 59)
-        );
+                startDate.atStartOfDay(),
+                endDate.atTime(23, 59, 59));
 
         for (ActivityLog log : logs) {
             Map<String, String> row = new LinkedHashMap<>();
@@ -153,15 +152,15 @@ public class ReportService {
      */
     public Map<String, Object> generateFeedbackSummary() {
         Map<String, Object> summary = new LinkedHashMap<>();
-        
+
         List<Feedback> allFeedback = feedbackRepository.findAll();
-        
+
         summary.put("Total Feedback", allFeedback.size());
-        
+
         if (!allFeedback.isEmpty()) {
             Double avgRating = feedbackRepository.getAverageRating();
             summary.put("Average Rating", String.format("%.2f", avgRating != null ? avgRating : 0.0));
-            
+
             // Count by rating
             for (int i = 5; i >= 1; i--) {
                 final int rating = i;
@@ -171,7 +170,7 @@ public class ReportService {
         } else {
             summary.put("Average Rating", "N/A");
         }
-        
+
         return summary;
     }
 
