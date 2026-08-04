@@ -1,6 +1,7 @@
 package ca.senecacollege.malibuluminahotel.services;
 
 import ca.senecacollege.malibuluminahotel.app.BookingSession;
+import ca.senecacollege.malibuluminahotel.decorators.*;
 import ca.senecacollege.malibuluminahotel.models.AddOn;
 import ca.senecacollege.malibuluminahotel.models.Guest;
 import ca.senecacollege.malibuluminahotel.models.enums.PricingModel;
@@ -31,29 +32,30 @@ public class BookingService {
 
     private static final BigDecimal TAX_RATE = new BigDecimal("0.13");
 
-    private final IGuestRepository      guestRepo;
-    private final IRoomRepository       roomRepo;
-    private final IRoomTypeRepository   roomTypeRepo;
+    private final IGuestRepository guestRepo;
+    private final IRoomRepository roomRepo;
+    private final IRoomTypeRepository roomTypeRepo;
     private final IReservationRepository reservationRepo;
-    private final IAddOnRepository      addOnRepo;
+    private final IAddOnRepository addOnRepo;
 
     public BookingService() {
-        this.guestRepo       = new GuestRepositoryImpl();
-        this.roomRepo        = new RoomRepositoryImpl();
-        this.roomTypeRepo    = new RoomTypeRepositoryImpl();
+        this.guestRepo = new GuestRepositoryImpl();
+        this.roomRepo = new RoomRepositoryImpl();
+        this.roomTypeRepo = new RoomTypeRepositoryImpl();
         this.reservationRepo = new ReservationRepositoryImpl();
-        this.addOnRepo       = new AddOnRepositoryImpl();
+        this.addOnRepo = new AddOnRepositoryImpl();
     }
 
     // Calculates the full bill for the current session without touching the DB.
     // Called by GuestCheckoutController to populate the bill summary screen.
+    // NOW USES DECORATOR PATTERN for add-on pricing!
     public BillSummary calculateBill(BookingSession session) {
 
         RoomType roomType = roomTypeRepo.findByName(session.getSelectedRoomTypeName())
                 .orElseThrow(() -> new IllegalStateException(
                         "Room type not found: " + session.getSelectedRoomTypeName()));
 
-        LocalDate checkIn  = session.getCheckInDate();
+        LocalDate checkIn = session.getCheckInDate();
         LocalDate checkOut = session.getCheckOutDate();
         long nights = ChronoUnit.DAYS.between(checkIn, checkOut);
 
@@ -66,31 +68,69 @@ public class BookingService {
             roomTotal = roomTotal.add(strategy.calculateNightlyRate(roomType, date));
         }
 
-        // Add-on charges — use pricingModel from DB to determine per-night vs per-stay
-        BigDecimal addOnTotal = BigDecimal.ZERO;
+        // DECORATOR PATTERN: Build the booking component by wrapping with decorators
+        BookingComponent booking = buildDecoratedBooking(session, roomType, roomTotal, nights);
+
+        // Extract costs from the decorated booking
+        BigDecimal totalWithAddOns = booking.getCost();
+        BigDecimal addOnTotal = totalWithAddOns.subtract(roomTotal);
+
+        BigDecimal subtotal = totalWithAddOns;
+        BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal total = subtotal.add(tax);
+
+        return new BillSummary(roomTotal, addOnTotal, subtotal, tax, total, nights);
+    }
+
+    /**
+     * Builds a decorated booking component using the Decorator pattern.
+     * Starts with a base booking and wraps it with add-on decorators based on
+     * selections.
+     * 
+     * @param session   the current booking session
+     * @param roomType  the selected room type
+     * @param roomTotal the total room cost
+     * @param nights    the number of nights
+     * @return a fully decorated booking component
+     */
+    private BookingComponent buildDecoratedBooking(BookingSession session, RoomType roomType,
+            BigDecimal roomTotal, long nights) {
+        // Start with the base booking (room cost only)
+        String roomDescription = roomType.getRoomTypeName() + " for " + nights + " night(s)";
+        BookingComponent booking = new BaseBooking(roomTotal, roomDescription);
+
+        // Load add-ons from database
         List<AddOn> allAddOns = addOnRepo.findAll();
 
+        // Wrap the booking with decorator for each selected add-on
         for (AddOn addOn : allAddOns) {
             boolean selected = switch (addOn.getName()) {
                 case "Daily Breakfast" -> session.isBreakfastSelected();
-                case "Wi-Fi"           -> session.isWifiSelected();
-                case "Parking"         -> session.isParkingSelected();
-                case "Spa Package"     -> session.isSpaSelected();
-                default                -> false;
+                case "Wi-Fi" -> session.isWifiSelected();
+                case "Parking" -> session.isParkingSelected();
+                case "Spa Package" -> session.isSpaSelected();
+                default -> false;
             };
-            if (!selected) continue;
 
-            BigDecimal charge = addOn.getPricingModel() == PricingModel.PER_NIGHT
+            if (!selected)
+                continue;
+
+            // Calculate the add-on cost based on pricing model
+            BigDecimal addOnCost = addOn.getPricingModel() == PricingModel.PER_NIGHT
                     ? addOn.getPrice().multiply(BigDecimal.valueOf(nights))
                     : addOn.getPrice();
-            addOnTotal = addOnTotal.add(charge);
+
+            // Wrap the booking with the appropriate decorator
+            booking = switch (addOn.getName()) {
+                case "Daily Breakfast" -> new BreakfastDecorator(booking, addOnCost);
+                case "Wi-Fi" -> new WifiDecorator(booking, addOnCost);
+                case "Parking" -> new ParkingDecorator(booking, addOnCost);
+                case "Spa Package" -> new SpaDecorator(booking, addOnCost);
+                default -> booking; // No decorator for unknown add-ons
+            };
         }
 
-        BigDecimal subtotal = roomTotal.add(addOnTotal);
-        BigDecimal tax      = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal total    = subtotal.add(tax);
-
-        return new BillSummary(roomTotal, addOnTotal, subtotal, tax, total, nights);
+        return booking;
     }
 
     // Persists the full booking to the database.
@@ -112,10 +152,10 @@ public class BookingService {
         Room room = roomRepo.findFirstAvailable(
                 session.getSelectedRoomTypeName(),
                 session.getCheckInDate(),
-                session.getCheckOutDate()
-        ).orElseThrow(() -> new IllegalStateException(
-                "No available " + session.getSelectedRoomTypeName()
-                        + " rooms for the selected dates."));
+                session.getCheckOutDate()).orElseThrow(
+                        () -> new IllegalStateException(
+                                "No available " + session.getSelectedRoomTypeName()
+                                        + " rooms for the selected dates."));
 
         RoomType roomType = roomTypeRepo.findByName(session.getSelectedRoomTypeName())
                 .orElseThrow(() -> new IllegalStateException("Room type not found."));
@@ -133,8 +173,7 @@ public class BookingService {
                 addOnQuantities,
                 bill.subtotal(),
                 bill.tax(),
-                bill.total()
-        );
+                bill.total());
     }
 
     // Maps each selected add-on's DB id to the correct quantity.
@@ -144,10 +183,22 @@ public class BookingService {
 
         for (AddOn addOn : allAddOns) {
             switch (addOn.getName()) {
-                case "Daily Breakfast" -> { if (session.isBreakfastSelected()) map.put(addOn.getAddOnId(), nights); }
-                case "Wi-Fi"           -> { if (session.isWifiSelected())      map.put(addOn.getAddOnId(), nights); }
-                case "Parking"         -> { if (session.isParkingSelected())   map.put(addOn.getAddOnId(), nights); }
-                case "Spa Package"     -> { if (session.isSpaSelected())       map.put(addOn.getAddOnId(), 1);      }
+                case "Daily Breakfast" -> {
+                    if (session.isBreakfastSelected())
+                        map.put(addOn.getAddOnId(), nights);
+                }
+                case "Wi-Fi" -> {
+                    if (session.isWifiSelected())
+                        map.put(addOn.getAddOnId(), nights);
+                }
+                case "Parking" -> {
+                    if (session.isParkingSelected())
+                        map.put(addOn.getAddOnId(), nights);
+                }
+                case "Spa Package" -> {
+                    if (session.isSpaSelected())
+                        map.put(addOn.getAddOnId(), 1);
+                }
             }
         }
 
@@ -159,13 +210,14 @@ public class BookingService {
         return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY;
     }
 
-    // Immutable result of a bill calculation — passed from controller to createReservation()
+    // Immutable result of a bill calculation — passed from controller to
+    // createReservation()
     public record BillSummary(
             BigDecimal roomTotal,
             BigDecimal addOnTotal,
             BigDecimal subtotal,
             BigDecimal tax,
             BigDecimal total,
-            long nights
-    ) {}
+            long nights) {
+    }
 }
