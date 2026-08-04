@@ -3,15 +3,19 @@ package ca.senecacollege.malibuluminahotel.services;
 import ca.senecacollege.malibuluminahotel.config.EntityManagerFactoryProvider;
 import ca.senecacollege.malibuluminahotel.factories.RoomFactory;
 import ca.senecacollege.malibuluminahotel.models.AddOn;
+import ca.senecacollege.malibuluminahotel.models.AdminUser;
 import ca.senecacollege.malibuluminahotel.models.RoomType;
 import ca.senecacollege.malibuluminahotel.models.enums.PricingModel;
 import ca.senecacollege.malibuluminahotel.models.enums.RoomTypeName;
+import ca.senecacollege.malibuluminahotel.models.enums.UserRole;
+import ca.senecacollege.malibuluminahotel.security.PasswordHasher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class DataSeeder {
 
@@ -75,9 +79,28 @@ public class DataSeeder {
             em.persist(new AddOn("Spa Package", new BigDecimal("80.00"),
                     "Full access to our spa and wellness facilities.", PricingModel.PER_STAY));
 
+            // Seed default admin users
+            AdminUser admin = new AdminUser();
+            admin.setUsername("admin");
+            admin.setPassword(PasswordHasher.hashPassword("admin123"));
+            admin.setRole(UserRole.ADMIN);
+            admin.setFullName("System Administrator");
+            admin.setIsActive(true);
+            admin.setCreatedAt(LocalDateTime.now());
+            em.persist(admin);
+
+            AdminUser manager = new AdminUser();
+            manager.setUsername("manager");
+            manager.setPassword(PasswordHasher.hashPassword("manager123"));
+            manager.setRole(UserRole.MANAGER);
+            manager.setFullName("Hotel Manager");
+            manager.setIsActive(true);
+            manager.setCreatedAt(LocalDateTime.now());
+            em.persist(manager);
+
             tx.commit();
 
-            logger.info("Seeding complete: 3 room types, 10 rooms, 4 add-ons.");
+            logger.info("Seeding complete: 3 room types, 10 rooms, 4 add-ons, 2 admin users.");
 
         } catch (RuntimeException e) {
             if (tx.isActive()) tx.rollback();

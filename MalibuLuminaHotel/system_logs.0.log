@@ -1,0 +1,8 @@
+Aug 04, 2026 2:03:17 P.M. ca.senecacollege.malibuluminahotel.util.LoggerConfig configure
+INFO: File logging configured: system_logs.%g.log
+Aug 04, 2026 2:07:05 P.M. ca.senecacollege.malibuluminahotel.util.LoggerConfig configure
+INFO: File logging configured: system_logs.%g.log
+Aug 04, 2026 2:07:55 P.M. ca.senecacollege.malibuluminahotel.util.LoggerConfig configure
+INFO: File logging configured: system_logs.%g.log
+Aug 04, 2026 2:09:29 P.M. ca.senecacollege.malibuluminahotel.services.LoyaltyService enrollGuest
+INFO: Guest 1 enrolled in loyalty program with member number: ML00000001
