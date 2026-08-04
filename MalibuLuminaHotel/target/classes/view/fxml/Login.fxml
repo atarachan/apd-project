@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ca.senecacollege.malibuluminahotel.controller.LoginController"
+      alignment="CENTER"
+      spacing="20"
+      styleClass="root-container"
+      stylesheets="@../css/style.css">
+
+    <padding>
+        <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
+
+    <!-- Header -->
+    <VBox alignment="CENTER" spacing="10">
+        <Label text="Malibu Lumina Hotel" styleClass="header-title">
+            <font>
+                <Font name="System Bold" size="32"/>
+            </font>
+        </Label>
+        <Label text="Administrative Login" styleClass="subtitle">
+            <font>
+                <Font size="18"/>
+            </font>
+        </Label>
+    </VBox>
+
+    <!-- Spacer -->
+    <Region VBox.vgrow="ALWAYS" minHeight="30" maxHeight="30"/>
+
+    <!-- Login Form -->
+    <VBox alignment="CENTER" spacing="15" maxWidth="400" styleClass="form-container">
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+
+        <!-- Username Field -->
+        <VBox spacing="5">
+            <Label text="Username:" styleClass="form-label">
+                <font>
+                    <Font size="14"/>
+                </font>
+            </Label>
+            <TextField fx:id="usernameField" 
+                      promptText="Enter your username"
+                      styleClass="input-field"
+                      prefWidth="340">
+                <font>
+                    <Font size="14"/>
+                </font>
+            </TextField>
+        </VBox>
+
+        <!-- Password Field -->
+        <VBox spacing="5">
+            <Label text="Password:" styleClass="form-label">
+                <font>
+                    <Font size="14"/>
+                </font>
+            </Label>
+            <PasswordField fx:id="passwordField" 
+                          promptText="Enter your password"
+                          styleClass="input-field"
+                          prefWidth="340">
+                <font>
+                    <Font size="14"/>
+                </font>
+            </PasswordField>
+        </VBox>
+
+        <!-- Error Message Label -->
+        <Label fx:id="errorLabel" 
+               styleClass="error-label"
+               wrapText="true"
+               visible="false"
+               maxWidth="340">
+            <font>
+                <Font size="12"/>
+            </font>
+        </Label>
+
+        <!-- Login Button -->
+        <Button fx:id="loginButton"
+                text="Login"
+                onAction="#handleLogin"
+                styleClass="primary-button"
+                prefWidth="340"
+                prefHeight="45"
+                defaultButton="true">
+            <font>
+                <Font name="System Bold" size="16"/>
+            </font>
+        </Button>
+
+        <!-- Back Button -->
+        <Button fx:id="backButton"
+                text="Back to Welcome"
+                onAction="#handleBack"
+                styleClass="secondary-button"
+                prefWidth="340"
+                prefHeight="40">
+            <font>
+                <Font size="14"/>
+            </font>
+        </Button>
+    </VBox>
+
+    <!-- Spacer -->
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <!-- Footer Info -->
+    <VBox alignment="CENTER" spacing="5">
+        <Label text="Authorized Personnel Only" styleClass="footer-text">
+            <font>
+                <Font size="11"/>
+            </font>
+        </Label>
+        <Label text="© 2026 Malibu Lumina Hotel" styleClass="footer-text">
+            <font>
+                <Font size="10"/>
+            </font>
+        </Label>
+    </VBox>
+
+</VBox>
