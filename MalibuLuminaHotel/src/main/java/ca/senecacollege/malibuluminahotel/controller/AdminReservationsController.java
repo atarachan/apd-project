@@ -23,7 +23,8 @@ import java.util.Optional;
 
 public class AdminReservationsController {
 
-    @FXML private VBox reservationsTableBody;
+    @FXML
+    private VBox reservationsTableBody;
 
     private IReservationRepository reservationRepository;
     private IGuestRepository guestRepository;
@@ -64,14 +65,13 @@ public class AdminReservationsController {
             HBox row = new HBox();
             row.getStyleClass().add("table-data-row");
             row.getChildren().addAll(
-                cell("R" + r.getReservationId(), 130),
-                cell(g.getFirstName() + " " + g.getLastName(), 180),
-                cell(roomTypeName, 140),
-                cell(r.getCheckInDate() != null ? r.getCheckInDate().toString() : "—", 120),
-                cell(r.getCheckOutDate() != null ? r.getCheckOutDate().toString() : "—", 120),
-                cell(formatStatus(r.getStatus()), 160),
-                createActionButtons(r)
-            );
+                    cell("R" + r.getReservationId(), 130),
+                    cell(g.getFirstName() + " " + g.getLastName(), 180),
+                    cell(roomTypeName, 140),
+                    cell(r.getCheckInDate() != null ? r.getCheckInDate().toString() : "—", 120),
+                    cell(r.getCheckOutDate() != null ? r.getCheckOutDate().toString() : "—", 120),
+                    cell(formatStatus(r.getStatus()), 160),
+                    createActionButtons(r));
             reservationsTableBody.getChildren().add(row);
         }
     }
@@ -95,10 +95,13 @@ public class AdminReservationsController {
 
     private String getRoomTypeName(Reservation r) {
         List<ReservationItem> items = r.getReservationItems();
-        if (items == null || items.isEmpty()) return "—";
+        if (items == null || items.isEmpty())
+            return "—";
         ReservationItem first = items.get(0);
-        if (first.getRoom() == null) return "—";
-        if (first.getRoom().getRoomType() == null) return "—";
+        if (first.getRoom() == null)
+            return "—";
+        if (first.getRoom().getRoomType() == null)
+            return "—";
         String name = first.getRoom().getRoomType().getRoomTypeName().toString();
         return name.charAt(0) + name.substring(1).toLowerCase();
     }
@@ -111,7 +114,8 @@ public class AdminReservationsController {
     }
 
     private String formatStatus(ReservationStatus status) {
-        if (status == null) return "Pending";
+        if (status == null)
+            return "Pending";
         return switch (status) {
             case PENDING -> "Pending";
             case CONFIRMED -> "Confirmed";
@@ -155,7 +159,8 @@ public class AdminReservationsController {
                 reservation.setCheckInDate(updated.getCheckInDate());
                 reservation.setCheckOutDate(updated.getCheckOutDate());
                 reservation.setStatus(updated.getStatus());
-                reservation.setNumberOfGuests(updated.getNumberOfGuests());
+                reservation.setAdults(updated.getAdults());
+                reservation.setChildren(updated.getChildren());
 
                 // Save the updated reservation
                 reservationRepository.save(reservation);
@@ -223,6 +228,7 @@ public class AdminReservationsController {
             public String toString(Guest guest) {
                 return guest == null ? "" : guest.getFirstName() + " " + guest.getLastName();
             }
+
             @Override
             public Guest fromString(String string) {
                 return null;
@@ -233,8 +239,9 @@ public class AdminReservationsController {
         DatePicker checkInPicker = new DatePicker();
         DatePicker checkOutPicker = new DatePicker();
 
-        // Number of guests
-        Spinner<Integer> guestsSpinner = new Spinner<>(1, 10, 1);
+        // Number of adults and children
+        Spinner<Integer> adultsSpinner = new Spinner<>(1, 10, 1);
+        Spinner<Integer> childrenSpinner = new Spinner<>(0, 10, 0);
 
         // Status
         ComboBox<ReservationStatus> statusCombo = new ComboBox<>();
@@ -245,7 +252,8 @@ public class AdminReservationsController {
             guestCombo.setValue(existing.getGuest());
             checkInPicker.setValue(existing.getCheckInDate());
             checkOutPicker.setValue(existing.getCheckOutDate());
-            guestsSpinner.getValueFactory().setValue(existing.getNumberOfGuests());
+            adultsSpinner.getValueFactory().setValue(existing.getAdults());
+            childrenSpinner.getValueFactory().setValue(existing.getChildren());
             statusCombo.setValue(existing.getStatus());
             guestCombo.setDisable(true); // Don't allow changing guest
         } else {
@@ -260,10 +268,12 @@ public class AdminReservationsController {
         grid.add(checkInPicker, 1, 1);
         grid.add(new Label("Check-Out Date:"), 0, 2);
         grid.add(checkOutPicker, 1, 2);
-        grid.add(new Label("Number of Guests:"), 0, 3);
-        grid.add(guestsSpinner, 1, 3);
-        grid.add(new Label("Status:"), 0, 4);
-        grid.add(statusCombo, 1, 4);
+        grid.add(new Label("Adults:"), 0, 3);
+        grid.add(adultsSpinner, 1, 3);
+        grid.add(new Label("Children:"), 0, 4);
+        grid.add(childrenSpinner, 1, 4);
+        grid.add(new Label("Status:"), 0, 5);
+        grid.add(statusCombo, 1, 5);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -273,7 +283,8 @@ public class AdminReservationsController {
                 Guest selectedGuest = guestCombo.getValue();
                 LocalDate checkIn = checkInPicker.getValue();
                 LocalDate checkOut = checkOutPicker.getValue();
-                Integer numGuests = guestsSpinner.getValue();
+                Integer adults = adultsSpinner.getValue();
+                Integer children = childrenSpinner.getValue();
                 ReservationStatus status = statusCombo.getValue();
 
                 if (selectedGuest == null || checkIn == null || checkOut == null) {
@@ -291,7 +302,8 @@ public class AdminReservationsController {
                     existing.setCheckInDate(checkIn);
                     existing.setCheckOutDate(checkOut);
                     existing.setStatus(status);
-                    existing.setNumberOfGuests(numGuests);
+                    existing.setAdults(adults);
+                    existing.setChildren(children);
                     return existing;
                 } else {
                     // Create new reservation
@@ -299,7 +311,8 @@ public class AdminReservationsController {
                     newReservation.setGuest(selectedGuest);
                     newReservation.setCheckInDate(checkIn);
                     newReservation.setCheckOutDate(checkOut);
-                    newReservation.setNumberOfGuests(numGuests);
+                    newReservation.setAdults(adults);
+                    newReservation.setChildren(children);
                     newReservation.setStatus(status);
                     return newReservation;
                 }
