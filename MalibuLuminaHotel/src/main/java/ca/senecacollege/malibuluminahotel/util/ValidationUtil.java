@@ -13,13 +13,11 @@ public class ValidationUtil {
 
     // Email regex pattern: basic validation
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
-        "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-    );
+            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 
     // Phone pattern: supports various formats (10 digits with optional formatting)
     private static final Pattern PHONE_PATTERN = Pattern.compile(
-        "^(\\+?1[-\\s]?)?\\(?([0-9]{3})\\)?[-\\s]?([0-9]{3})[-\\s]?([0-9]{4})$"
-    );
+            "^(\\+?1[-\\s]?)?\\(?([0-9]{3})\\)?[-\\s]?([0-9]{3})[-\\s]?([0-9]{4})$");
 
     /**
      * Validates email format.
@@ -75,13 +73,13 @@ public class ValidationUtil {
         if (rooms == null || rooms.isEmpty()) {
             return false;
         }
-        
+
         int totalCapacity = rooms.stream()
-            .mapToInt(room -> room.getRoomType().getMaxOccupancy())
-            .sum();
-        
+                .mapToInt(room -> room.getRoomType().getMaxOccupancy())
+                .sum();
+
         int totalGuests = adults + children;
-        
+
         return totalGuests > 0 && totalGuests <= totalCapacity;
     }
 

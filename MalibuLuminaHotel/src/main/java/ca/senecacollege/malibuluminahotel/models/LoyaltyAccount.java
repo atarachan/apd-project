@@ -17,29 +17,16 @@ public class LoyaltyAccount implements Serializable {
     private Long loyaltyId;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "guest_id",
-            nullable = false,
-            unique = true
-    )
+    @JoinColumn(name = "guest_id", nullable = false, unique = true)
     private Guest guest;
 
-    @Column(
-            name = "member_number",
-            nullable = false,
-            unique = true,
-            length = 20
-    )
+    @Column(name = "member_number", nullable = false, unique = true, length = 20)
     private String memberNumber;
 
     @Column(name = "current_points", nullable = false)
     private int currentPoints;
 
-    @OneToMany(
-            mappedBy = "loyaltyAccount",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "loyaltyAccount", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LoyaltyTransaction> transactions = new ArrayList<>();
 
     public LoyaltyAccount() {
@@ -53,7 +40,6 @@ public class LoyaltyAccount implements Serializable {
         this.guest = guest;
         this.memberNumber = memberNumber;
     }
-
 
     public void addTransaction(LoyaltyTransaction transaction) {
         if (transaction == null) {

@@ -157,7 +157,7 @@ public class PaymentService {
         try {
             // Get guest from bill's reservation
             Guest guest = bill.getReservation().getGuest();
-            
+
             // Check if guest has loyalty account
             Optional<LoyaltyAccount> accountOpt = loyaltyService.getAccountByGuest(guest);
             if (accountOpt.isPresent()) {

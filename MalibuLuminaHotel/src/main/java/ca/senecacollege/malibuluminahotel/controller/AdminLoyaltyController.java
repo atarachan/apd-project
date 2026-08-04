@@ -21,19 +21,25 @@ public class AdminLoyaltyController {
 
     private static final Logger LOGGER = Logger.getLogger(AdminLoyaltyController.class.getName());
 
-    @FXML private TableView<LoyaltyAccountDisplay> loyaltyTable;
-    @FXML private TableColumn<LoyaltyAccountDisplay, String> memberNumberColumn;
-    @FXML private TableColumn<LoyaltyAccountDisplay, String> guestNameColumn;
-    @FXML private TableColumn<LoyaltyAccountDisplay, String> emailColumn;
-    @FXML private TableColumn<LoyaltyAccountDisplay, Integer> pointsColumn;
-    @FXML private TableColumn<LoyaltyAccountDisplay, String> valueColumn;
+    @FXML
+    private TableView<LoyaltyAccountDisplay> loyaltyTable;
+    @FXML
+    private TableColumn<LoyaltyAccountDisplay, String> memberNumberColumn;
+    @FXML
+    private TableColumn<LoyaltyAccountDisplay, String> guestNameColumn;
+    @FXML
+    private TableColumn<LoyaltyAccountDisplay, String> emailColumn;
+    @FXML
+    private TableColumn<LoyaltyAccountDisplay, Integer> pointsColumn;
+    @FXML
+    private TableColumn<LoyaltyAccountDisplay, String> valueColumn;
 
     private ILoyaltyAccountRepository loyaltyRepository;
 
     @FXML
     public void initialize() {
         loyaltyRepository = new LoyaltyAccountRepositoryImpl();
-        
+
         // Initialize table columns if table exists (FXML may not have TableView yet)
         if (loyaltyTable != null) {
             setupTable();
@@ -53,18 +59,17 @@ public class AdminLoyaltyController {
         try {
             List<LoyaltyAccount> accounts = loyaltyRepository.findAll();
             loyaltyTable.getItems().clear();
-            
+
             for (LoyaltyAccount account : accounts) {
                 LoyaltyAccountDisplay display = new LoyaltyAccountDisplay(
-                    account.getMemberNumber(),
-                    account.getGuest().getFirstName() + " " + account.getGuest().getLastName(),
-                    account.getGuest().getEmail(),
-                    account.getCurrentPoints(),
-                    String.format("CAD %.2f", account.getCurrentPoints() * 0.01)
-                );
+                        account.getMemberNumber(),
+                        account.getGuest().getFirstName() + " " + account.getGuest().getLastName(),
+                        account.getGuest().getEmail(),
+                        account.getCurrentPoints(),
+                        String.format("CAD %.2f", account.getCurrentPoints() * 0.01));
                 loyaltyTable.getItems().add(display);
             }
-            
+
             LOGGER.info("Loaded " + accounts.size() + " loyalty accounts");
         } catch (Exception e) {
             LOGGER.severe("Failed to load loyalty accounts: " + e.getMessage());
@@ -95,7 +100,8 @@ public class AdminLoyaltyController {
         private final Integer points;
         private final String value;
 
-        public LoyaltyAccountDisplay(String memberNumber, String guestName, String email, Integer points, String value) {
+        public LoyaltyAccountDisplay(String memberNumber, String guestName, String email, Integer points,
+                String value) {
             this.memberNumber = memberNumber;
             this.guestName = guestName;
             this.email = email;
@@ -103,10 +109,24 @@ public class AdminLoyaltyController {
             this.value = value;
         }
 
-        public String getMemberNumber() { return memberNumber; }
-        public String getGuestName() { return guestName; }
-        public String getEmail() { return email; }
-        public Integer getPoints() { return points; }
-        public String getValue() { return value; }
+        public String getMemberNumber() {
+            return memberNumber;
+        }
+
+        public String getGuestName() {
+            return guestName;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public Integer getPoints() {
+            return points;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 }

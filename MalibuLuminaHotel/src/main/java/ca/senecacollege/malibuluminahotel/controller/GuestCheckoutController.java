@@ -19,11 +19,16 @@ import java.util.Optional;
 
 public class GuestCheckoutController {
 
-    @FXML private Label roomChargesLabel;
-    @FXML private Label addOnsLabel;
-    @FXML private Label subtotalLabel;
-    @FXML private Label taxLabel;
-    @FXML private Label totalLabel;
+    @FXML
+    private Label roomChargesLabel;
+    @FXML
+    private Label addOnsLabel;
+    @FXML
+    private Label subtotalLabel;
+    @FXML
+    private Label taxLabel;
+    @FXML
+    private Label totalLabel;
 
     private BookingService bookingService;
     private LoyaltyService loyaltyService;
@@ -121,7 +126,7 @@ public class GuestCheckoutController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 LoyaltyAccount account = loyaltyService.enrollGuest(guest);
-                
+
                 Alert success = new Alert(Alert.AlertType.INFORMATION);
                 success.setTitle("Welcome to Loyalty Program!");
                 success.setHeaderText("Enrollment Successful");

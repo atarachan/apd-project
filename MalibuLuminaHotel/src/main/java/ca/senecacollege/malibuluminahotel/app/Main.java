@@ -21,8 +21,7 @@ public class Main extends Application {
         DataSeeder.seed();
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/fxml/Welcome.fxml")
-        );
+                getClass().getResource("/view/fxml/Welcome.fxml"));
 
         Scene scene = new Scene(loader.load());
 

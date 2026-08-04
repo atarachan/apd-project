@@ -94,7 +94,8 @@ public class LoyaltyService {
             throw new IllegalArgumentException("Points to redeem must be positive");
         }
         if (account.getCurrentPoints() < pointsToRedeem) {
-            throw new IllegalArgumentException("Insufficient points. Available: " + account.getCurrentPoints() + ", Requested: " + pointsToRedeem);
+            throw new IllegalArgumentException(
+                    "Insufficient points. Available: " + account.getCurrentPoints() + ", Requested: " + pointsToRedeem);
         }
 
         // Calculate dollar value ($0.01 per point)
@@ -112,7 +113,8 @@ public class LoyaltyService {
         account.addTransaction(transaction);
         loyaltyAccountRepository.save(account);
 
-        LOGGER.info("Redeemed " + pointsToRedeem + " points from member " + account.getMemberNumber() + " for $" + creditAmount);
+        LOGGER.info("Redeemed " + pointsToRedeem + " points from member " + account.getMemberNumber() + " for $"
+                + creditAmount);
         return creditAmount;
     }
 
