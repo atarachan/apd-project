@@ -32,6 +32,13 @@
             <Label text="Select the room that best fits your stay."
                    styleClass="subtitle-label"/>
 
+            <Label fx:id="recommendationLabel"
+                   text=""
+                   wrapText="true"
+                   textAlignment="CENTER"
+                   maxWidth="900"
+                   styleClass="description-label"/>
+
         </VBox>
 
     </top>
@@ -79,7 +86,8 @@
                     <Label text="- Free Wi-Fi"
                            style="-fx-font-size:17px;"/>
 
-                    <Button text="Select"
+                    <Button fx:id="singleSelectButton"
+                            text="Select"
                             prefWidth="170"
                             prefHeight="50"
                             styleClass="primary-button"
@@ -120,7 +128,8 @@
                     <Label text="- Balcony"
                            style="-fx-font-size:17px;"/>
 
-                    <Button text="Select"
+                    <Button fx:id="doubleSelectButton"
+                            text="Select"
                             prefWidth="170"
                             prefHeight="50"
                             styleClass="primary-button"
@@ -161,7 +170,8 @@
                     <Label text="- Ocean View"
                            style="-fx-font-size:17px;"/>
 
-                    <Button text="Select"
+                    <Button fx:id="penthouseSelectButton"
+                            text="Select"
                             prefWidth="170"
                             prefHeight="50"
                             styleClass="primary-button"

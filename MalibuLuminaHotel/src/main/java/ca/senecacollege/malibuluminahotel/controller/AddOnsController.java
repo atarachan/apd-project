@@ -26,6 +26,13 @@ public class AddOnsController {
         session.setWifiSelected(wifiCheckBox.isSelected());
         session.setParkingSelected(parkingCheckBox.isSelected());
         session.setSpaSelected(spaCheckBox.isSelected());
+        session.addCurrentReservationItemSelection();
+
+        if (session.getReservationItemSelectionCount() < session.getRoomCount()) {
+            session.clearCurrentRoomSelection();
+            SceneNavigator.switchScene(event, "RoomSelection.fxml");
+            return;
+        }
 
         SceneNavigator.switchScene(event, "GuestCheckout.fxml");
     }

@@ -11,6 +11,7 @@ import ca.senecacollege.malibuluminahotel.models.RoomType;
 import ca.senecacollege.malibuluminahotel.repositories.IAddOnRepository;
 import ca.senecacollege.malibuluminahotel.repositories.IGuestRepository;
 import ca.senecacollege.malibuluminahotel.repositories.IReservationRepository;
+import ca.senecacollege.malibuluminahotel.repositories.IReservationRepository.ReservationItemDraft;
 import ca.senecacollege.malibuluminahotel.repositories.IRoomRepository;
 import ca.senecacollege.malibuluminahotel.repositories.IRoomTypeRepository;
 import ca.senecacollege.malibuluminahotel.repositories.AddOnRepositoryImpl;
@@ -24,9 +25,12 @@ import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class BookingService {
 
@@ -50,17 +54,88 @@ public class BookingService {
     // Called by GuestCheckoutController to populate the bill summary screen.
     // NOW USES DECORATOR PATTERN for add-on pricing!
     public BillSummary calculateBill(BookingSession session) {
-
-        RoomType roomType = roomTypeRepo.findByName(session.getSelectedRoomTypeName())
-                .orElseThrow(() -> new IllegalStateException(
-                        "Room type not found: " + session.getSelectedRoomTypeName()));
-
         LocalDate checkIn = session.getCheckInDate();
         LocalDate checkOut = session.getCheckOutDate();
         long nights = ChronoUnit.DAYS.between(checkIn, checkOut);
 
-        // Apply the correct pricing strategy per night (Standard vs Weekend)
+        System.out.println("nights: " + nights);
+
         BigDecimal roomTotal = BigDecimal.ZERO;
+        BigDecimal addOnTotal = BigDecimal.ZERO;
+        List<BillLineItem> lineItems = new ArrayList<>();
+        int roomNumber = 1;
+
+        for (BookingSession.ReservationItemSelection selection : session.getReservationItemSelections()) {
+            RoomType roomType = roomTypeRepo.findByName(selection.roomTypeName())
+                    .orElseThrow(() -> new IllegalStateException(
+                            "Room type not found: " + selection.roomTypeName()));
+
+            BigDecimal itemRoomTotal = calculateRoomTotal(roomType, checkIn, checkOut);
+            BookingComponent booking = buildDecoratedBooking(selection, roomType, itemRoomTotal, nights);
+            BigDecimal averageNightlyRate = itemRoomTotal
+                    .divide(BigDecimal.valueOf(nights), 2, RoundingMode.HALF_UP);
+
+            lineItems.add(new BillLineItem(
+                    "Room " + roomNumber + " - " + formatRoomTypeName(roomType),
+                    "CAD " + averageNightlyRate + " x " + nights + " night(s)",
+                    itemRoomTotal
+            ));
+            lineItems.addAll(buildAddOnLineItems(selection, nights));
+
+            roomTotal = roomTotal.add(itemRoomTotal);
+            addOnTotal = addOnTotal.add(booking.getCost().subtract(itemRoomTotal));
+            roomNumber++;
+        }
+
+        BigDecimal subtotal = roomTotal.add(addOnTotal);
+        BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal total = subtotal.add(tax);
+
+        return new BillSummary(roomTotal, addOnTotal, subtotal, tax, total, nights, lineItems);
+    }
+
+    private List<BillLineItem> buildAddOnLineItems(BookingSession.ReservationItemSelection selection, long nights) {
+        List<BillLineItem> lineItems = new ArrayList<>();
+        List<AddOn> allAddOns = addOnRepo.findAll();
+
+        for (AddOn addOn : allAddOns) {
+            boolean selected = switch (addOn.getName()) {
+                case "Daily Breakfast" -> selection.breakfastSelected();
+                case "Wi-Fi" -> selection.wifiSelected();
+                case "Parking" -> selection.parkingSelected();
+                case "Spa Package" -> selection.spaSelected();
+                default -> false;
+            };
+
+            if (!selected) {
+                continue;
+            }
+
+            int quantity = addOn.getPricingModel() == PricingModel.PER_NIGHT ? (int) nights : 1;
+            BigDecimal lineTotal = addOn.getPrice().multiply(BigDecimal.valueOf(quantity));
+            String unit = addOn.getPricingModel() == PricingModel.PER_NIGHT ? "night(s)" : "room";
+
+            lineItems.add(new BillLineItem(
+                    "  Add-on - " + addOn.getName(),
+                    "CAD " + addOn.getPrice() + " x " + quantity + " " + unit,
+                    lineTotal
+            ));
+        }
+
+        return lineItems;
+    }
+
+    private String formatRoomTypeName(RoomType roomType) {
+        return switch (roomType.getRoomTypeName()) {
+            case SINGLE -> "Single Room";
+            case DOUBLE -> "Double Room";
+            case PENTHOUSE -> "Penthouse";
+        };
+    }
+
+    private BigDecimal calculateRoomTotal(RoomType roomType, LocalDate checkIn, LocalDate checkOut) {
+        BigDecimal roomTotal = BigDecimal.ZERO;
+
         for (LocalDate date = checkIn; date.isBefore(checkOut); date = date.plusDays(1)) {
             PricingStrategy strategy = isWeekend(date)
                     ? new WeekendPricingStrategy()
@@ -68,18 +143,7 @@ public class BookingService {
             roomTotal = roomTotal.add(strategy.calculateNightlyRate(roomType, date));
         }
 
-        // DECORATOR PATTERN: Build the booking component by wrapping with decorators
-        BookingComponent booking = buildDecoratedBooking(session, roomType, roomTotal, nights);
-
-        // Extract costs from the decorated booking
-        BigDecimal totalWithAddOns = booking.getCost();
-        BigDecimal addOnTotal = totalWithAddOns.subtract(roomTotal);
-
-        BigDecimal subtotal = totalWithAddOns;
-        BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal total = subtotal.add(tax);
-
-        return new BillSummary(roomTotal, addOnTotal, subtotal, tax, total, nights);
+        return roomTotal;
     }
 
     /**
@@ -93,7 +157,7 @@ public class BookingService {
      * @param nights    the number of nights
      * @return a fully decorated booking component
      */
-    private BookingComponent buildDecoratedBooking(BookingSession session, RoomType roomType,
+    private BookingComponent buildDecoratedBooking(BookingSession.ReservationItemSelection selection, RoomType roomType,
             BigDecimal roomTotal, long nights) {
         // Start with the base booking (room cost only)
         String roomDescription = roomType.getRoomTypeName() + " for " + nights + " night(s)";
@@ -105,10 +169,10 @@ public class BookingService {
         // Wrap the booking with decorator for each selected add-on
         for (AddOn addOn : allAddOns) {
             boolean selected = switch (addOn.getName()) {
-                case "Daily Breakfast" -> session.isBreakfastSelected();
-                case "Wi-Fi" -> session.isWifiSelected();
-                case "Parking" -> session.isParkingSelected();
-                case "Spa Package" -> session.isSpaSelected();
+                case "Daily Breakfast" -> selection.breakfastSelected();
+                case "Wi-Fi" -> selection.wifiSelected();
+                case "Parking" -> selection.parkingSelected();
+                case "Spa Package" -> selection.spaSelected();
                 default -> false;
             };
 
@@ -148,19 +212,8 @@ public class BookingService {
                     return g;
                 });
 
-        // Find an available room of the selected type
-        Room room = roomRepo.findFirstAvailable(
-                session.getSelectedRoomTypeName(),
-                session.getCheckInDate(),
-                session.getCheckOutDate()).orElseThrow(
-                        () -> new IllegalStateException(
-                                "No available " + session.getSelectedRoomTypeName()
-                                        + " rooms for the selected dates."));
-
-        RoomType roomType = roomTypeRepo.findByName(session.getSelectedRoomTypeName())
-                .orElseThrow(() -> new IllegalStateException("Room type not found."));
-
-        Map<Long, Integer> addOnQuantities = buildAddOnQuantities(session, (int) bill.nights());
+        List<ReservationItemDraft> reservationItemDrafts = buildReservationItemDrafts(
+                session, (int) bill.nights());
 
         return reservationRepo.saveFullBooking(
                 guest,
@@ -168,35 +221,65 @@ public class BookingService {
                 session.getCheckOutDate(),
                 session.getAdults(),
                 session.getChildren(),
-                room.getRoomId(),
-                roomType.getBaseRate(),
-                addOnQuantities,
+                reservationItemDrafts,
                 bill.subtotal(),
                 bill.tax(),
                 bill.total());
     }
 
+    private List<ReservationItemDraft> buildReservationItemDrafts(BookingSession session, int nights) {
+        List<ReservationItemDraft> drafts = new ArrayList<>();
+        Set<Long> assignedRoomIds = new HashSet<>();
+
+        for (BookingSession.ReservationItemSelection selection : session.getReservationItemSelections()) {
+            RoomType roomType = roomTypeRepo.findByName(selection.roomTypeName())
+                    .orElseThrow(() -> new IllegalStateException(
+                            "Room type not found: " + selection.roomTypeName()));
+
+            Room room = roomRepo.findAvailable(
+                            selection.roomTypeName(),
+                            session.getCheckInDate(),
+                            session.getCheckOutDate(),
+                            session.getRoomCount())
+                    .stream()
+                    .filter(candidate -> !assignedRoomIds.contains(candidate.getRoomId()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException(
+                            "No available " + selection.roomTypeName()
+                                    + " rooms for the selected dates."));
+
+            assignedRoomIds.add(room.getRoomId());
+            drafts.add(new ReservationItemDraft(
+                    room.getRoomId(),
+                    roomType.getBaseRate(),
+                    buildAddOnQuantities(selection, nights)
+            ));
+        }
+
+        return drafts;
+    }
+
     // Maps each selected add-on's DB id to the correct quantity.
-    private Map<Long, Integer> buildAddOnQuantities(BookingSession session, int nights) {
+    private Map<Long, Integer> buildAddOnQuantities(BookingSession.ReservationItemSelection selection, int nights) {
         Map<Long, Integer> map = new LinkedHashMap<>();
         List<AddOn> allAddOns = addOnRepo.findAll();
 
         for (AddOn addOn : allAddOns) {
             switch (addOn.getName()) {
                 case "Daily Breakfast" -> {
-                    if (session.isBreakfastSelected())
+                    if (selection.breakfastSelected())
                         map.put(addOn.getAddOnId(), nights);
                 }
                 case "Wi-Fi" -> {
-                    if (session.isWifiSelected())
+                    if (selection.wifiSelected())
                         map.put(addOn.getAddOnId(), nights);
                 }
                 case "Parking" -> {
-                    if (session.isParkingSelected())
+                    if (selection.parkingSelected())
                         map.put(addOn.getAddOnId(), nights);
                 }
                 case "Spa Package" -> {
-                    if (session.isSpaSelected())
+                    if (selection.spaSelected())
                         map.put(addOn.getAddOnId(), 1);
                 }
             }
@@ -218,6 +301,13 @@ public class BookingService {
             BigDecimal subtotal,
             BigDecimal tax,
             BigDecimal total,
-            long nights) {
+            long nights,
+            List<BillLineItem> lineItems) {
+    }
+
+    public record BillLineItem(
+            String description,
+            String calculation,
+            BigDecimal amount) {
     }
 }

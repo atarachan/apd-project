@@ -8,6 +8,7 @@ import ca.senecacollege.malibuluminahotel.models.ReservationItem;
 import ca.senecacollege.malibuluminahotel.models.ReservationItemAddOn;
 import ca.senecacollege.malibuluminahotel.models.Room;
 import ca.senecacollege.malibuluminahotel.models.enums.ReservationStatus;
+import ca.senecacollege.malibuluminahotel.repositories.IReservationRepository.ReservationItemDraft;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -127,9 +128,7 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
             LocalDate checkOut,
             int adults,
             int children,
-            Long roomId,
-            BigDecimal nightlyRate,
-            Map<Long, Integer> addOnQuantities,
+            List<ReservationItemDraft> reservationItemDrafts,
             BigDecimal subtotal,
             BigDecimal tax,
             BigDecimal total) {
@@ -154,19 +153,21 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
             em.persist(reservation);
             em.flush();
 
-            // 3. Load room as a managed entity and persist the reservation item
-            Room room = em.find(Room.class, roomId);
-            ReservationItem item = new ReservationItem(reservation, room, nightlyRate, 1);
-            em.persist(item);
-            em.flush();
+            // 3. Load rooms as managed entities and persist one reservation item per room
+            for (ReservationItemDraft draft : reservationItemDrafts) {
+                Room room = em.find(Room.class, draft.roomId());
+                ReservationItem item = new ReservationItem(reservation, room, draft.nightlyRate(), 1);
+                em.persist(item);
+                em.flush();
 
-            // 4. Persist selected add-on line items
-            for (Map.Entry<Long, Integer> entry : addOnQuantities.entrySet()) {
-                AddOn addOn = em.find(AddOn.class, entry.getKey());
-                int qty = entry.getValue();
-                BigDecimal lineTotal = addOn.getPrice().multiply(BigDecimal.valueOf(qty));
-                ReservationItemAddOn lineItem = new ReservationItemAddOn(item, addOn, qty, lineTotal);
-                em.persist(lineItem);
+                // 4. Persist selected add-on line items for this room
+                for (Map.Entry<Long, Integer> entry : draft.addOnQuantities().entrySet()) {
+                    AddOn addOn = em.find(AddOn.class, entry.getKey());
+                    int qty = entry.getValue();
+                    BigDecimal lineTotal = addOn.getPrice().multiply(BigDecimal.valueOf(qty));
+                    ReservationItemAddOn lineItem = new ReservationItemAddOn(item, addOn, qty, lineTotal);
+                    em.persist(lineItem);
+                }
             }
 
             // 5. Persist bill linked to the reservation

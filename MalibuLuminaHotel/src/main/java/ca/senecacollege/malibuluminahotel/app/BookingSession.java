@@ -3,6 +3,8 @@ package ca.senecacollege.malibuluminahotel.app;
 import ca.senecacollege.malibuluminahotel.models.enums.RoomTypeName;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookingSession {
 
@@ -11,6 +13,8 @@ public class BookingSession {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private RoomTypeName selectedRoomTypeName;
+    private int roomCount = 1;
+    private final List<ReservationItemSelection> reservationItemSelections = new ArrayList<>();
 
     private int adults = 1;
     private int children = 0;
@@ -40,6 +44,8 @@ public class BookingSession {
         checkInDate = null;
         checkOutDate = null;
         selectedRoomTypeName = null;
+        roomCount = 1;
+        reservationItemSelections.clear();
         adults = 1;
         children = 0;
         guestFirstName = null;
@@ -75,6 +81,49 @@ public class BookingSession {
 
     public void setSelectedRoomTypeName(RoomTypeName selectedRoomTypeName) {
         this.selectedRoomTypeName = selectedRoomTypeName;
+    }
+
+    public int getRoomCount() {
+        return roomCount;
+    }
+
+    public void setRoomCount(int roomCount) {
+        this.roomCount = Math.max(1, roomCount);
+    }
+
+    public int getReservationItemSelectionCount() {
+        return reservationItemSelections.size();
+    }
+
+    public List<ReservationItemSelection> getReservationItemSelections() {
+        return List.copyOf(reservationItemSelections);
+    }
+
+    public void clearReservationItemSelections() {
+        reservationItemSelections.clear();
+        clearCurrentRoomSelection();
+    }
+
+    public void addCurrentReservationItemSelection() {
+        if (selectedRoomTypeName == null) {
+            throw new IllegalStateException("No room type selected.");
+        }
+
+        reservationItemSelections.add(new ReservationItemSelection(
+                selectedRoomTypeName,
+                breakfastSelected,
+                wifiSelected,
+                parkingSelected,
+                spaSelected
+        ));
+    }
+
+    public void clearCurrentRoomSelection() {
+        selectedRoomTypeName = null;
+        breakfastSelected = false;
+        wifiSelected = false;
+        parkingSelected = false;
+        spaSelected = false;
     }
 
     public int getAdults() {
@@ -163,5 +212,14 @@ public class BookingSession {
 
     public void setSavedReservationId(Long savedReservationId) {
         this.savedReservationId = savedReservationId;
+    }
+
+    public record ReservationItemSelection(
+            RoomTypeName roomTypeName,
+            boolean breakfastSelected,
+            boolean wifiSelected,
+            boolean parkingSelected,
+            boolean spaSelected
+    ) {
     }
 }

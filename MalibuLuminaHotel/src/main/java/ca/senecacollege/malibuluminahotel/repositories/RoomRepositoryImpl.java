@@ -110,6 +110,11 @@ public class RoomRepositoryImpl extends AbstractRepository<Room, Long> implement
 
     @Override
     public Optional<Room> findFirstAvailable(RoomTypeName roomTypeName, LocalDate checkIn, LocalDate checkOut) {
+        return findAvailable(roomTypeName, checkIn, checkOut, 1).stream().findFirst();
+    }
+
+    @Override
+    public List<Room> findAvailable(RoomTypeName roomTypeName, LocalDate checkIn, LocalDate checkOut, int limit) {
         EntityManager em = createEntityManager();
 
         try {
@@ -126,9 +131,8 @@ public class RoomRepositoryImpl extends AbstractRepository<Room, Long> implement
                     .setParameter("roomTypeName", roomTypeName)
                     .setParameter("checkIn", checkIn)
                     .setParameter("checkOut", checkOut)
-                    .setMaxResults(1)
-                    .getResultStream()
-                    .findFirst();
+                    .setMaxResults(limit)
+                    .getResultList();
 
         } finally {
             em.close();

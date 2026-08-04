@@ -21,4 +21,7 @@ public interface IRoomRepository extends IRepository<Room, Long> {
 
     // Returns the first room of the given type that has no overlapping reservation during the date range.
     Optional<Room> findFirstAvailable(RoomTypeName roomTypeName, LocalDate checkIn, LocalDate checkOut);
+
+    // Returns available rooms of the given type up to the requested limit.
+    List<Room> findAvailable(RoomTypeName roomTypeName, LocalDate checkIn, LocalDate checkOut, int limit);
 }

@@ -16,6 +16,7 @@ public class GuestPreferenceController {
     @FXML private DatePicker checkOutDatePicker;
     @FXML private ComboBox<String> adultsComboBox;
     @FXML private ComboBox<String> childrenComboBox;
+    @FXML private ComboBox<String> roomCountComboBox;
 
     @FXML
     private void handleBack(ActionEvent event) {
@@ -39,12 +40,15 @@ public class GuestPreferenceController {
 
         int adults   = parseCount(adultsComboBox.getValue(), 1);
         int children = parseCount(childrenComboBox.getValue(), 0);
+        int roomCount = parseCount(roomCountComboBox.getValue(), 1);
 
         BookingSession session = BookingSession.getInstance();
         session.setCheckInDate(checkIn);
         session.setCheckOutDate(checkOut);
         session.setAdults(adults);
         session.setChildren(children);
+        session.setRoomCount(roomCount);
+        session.clearReservationItemSelections();
 
         SceneNavigator.switchScene(event, "RoomSelection.fxml");
     }

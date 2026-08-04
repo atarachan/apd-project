@@ -80,7 +80,7 @@
                   maxWidth="700"
                   styleClass="option-card">
 
-                <CheckBox fx:id="spaCheckBox" text="Spa Package (+$80/Reservation)"/>
+                <CheckBox fx:id="spaCheckBox" text="Spa Package (+$80/room)"/>
 
                 <Label text="Enjoy access to our spa and wellness facilities."
                        wrapText="true"
