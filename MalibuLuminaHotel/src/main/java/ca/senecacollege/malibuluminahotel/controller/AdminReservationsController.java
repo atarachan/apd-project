@@ -1,28 +1,54 @@
 package ca.senecacollege.malibuluminahotel.controller;
 
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
-import ca.senecacollege.malibuluminahotel.models.Guest;
-import ca.senecacollege.malibuluminahotel.models.Reservation;
-import ca.senecacollege.malibuluminahotel.models.ReservationItem;
+import ca.senecacollege.malibuluminahotel.models.*;
 import ca.senecacollege.malibuluminahotel.models.enums.ReservationStatus;
-import ca.senecacollege.malibuluminahotel.repositories.IReservationRepository;
-import ca.senecacollege.malibuluminahotel.repositories.ReservationRepositoryImpl;
+import ca.senecacollege.malibuluminahotel.models.enums.RoomTypeName;
+import ca.senecacollege.malibuluminahotel.repositories.*;
+import ca.senecacollege.malibuluminahotel.security.SessionManager;
+import ca.senecacollege.malibuluminahotel.services.ActivityLogService;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class AdminReservationsController {
 
     @FXML private VBox reservationsTableBody;
 
+    private IReservationRepository reservationRepository;
+    private IGuestRepository guestRepository;
+    private IRoomRepository roomRepository;
+    private IRoomTypeRepository roomTypeRepository;
+    private IReservationItemRepository reservationItemRepository;
+    private ActivityLogService activityLogService;
+
     @FXML
     public void initialize() {
-        IReservationRepository repo = new ReservationRepositoryImpl();
-        List<Reservation> reservations = repo.findAllWithDetails();
+        // Initialize repositories
+        reservationRepository = new ReservationRepositoryImpl();
+        guestRepository = new GuestRepositoryImpl();
+        roomRepository = new RoomRepositoryImpl();
+        roomTypeRepository = new RoomTypeRepositoryImpl();
+        reservationItemRepository = new ReservationItemRepositoryImpl();
+        activityLogService = new ActivityLogService();
+
+        loadReservations();
+    }
+
+    private void loadReservations() {
+        reservationsTableBody.getChildren().clear();
+
+        List<Reservation> reservations = reservationRepository.findAllWithDetails();
 
         if (reservations.isEmpty()) {
             Label empty = new Label("No reservations found.");
@@ -43,10 +69,28 @@ public class AdminReservationsController {
                 cell(roomTypeName, 140),
                 cell(r.getCheckInDate() != null ? r.getCheckInDate().toString() : "—", 120),
                 cell(r.getCheckOutDate() != null ? r.getCheckOutDate().toString() : "—", 120),
-                cell(formatStatus(r.getStatus()), 160)
+                cell(formatStatus(r.getStatus()), 160),
+                createActionButtons(r)
             );
             reservationsTableBody.getChildren().add(row);
         }
+    }
+
+    private HBox createActionButtons(Reservation reservation) {
+        Button editBtn = new Button("Edit");
+        editBtn.getStyleClass().add("small-button");
+        editBtn.setPrefWidth(70);
+        editBtn.setOnAction(e -> handleEditReservation(reservation));
+
+        Button deleteBtn = new Button("Cancel");
+        deleteBtn.getStyleClass().add("small-button");
+        deleteBtn.setPrefWidth(70);
+        deleteBtn.setOnAction(e -> handleDeleteReservation(reservation));
+
+        HBox actions = new HBox(10, editBtn, deleteBtn);
+        actions.setPrefWidth(200);
+        actions.setAlignment(Pos.CENTER_LEFT);
+        return actions;
     }
 
     private String getRoomTypeName(Reservation r) {
@@ -75,6 +119,203 @@ public class AdminReservationsController {
             case CHECKED_OUT -> "Checked Out";
             case CANCELLED -> "Cancelled";
         };
+    }
+
+    @FXML
+    private void handleCreateReservation(ActionEvent event) {
+        Dialog<Reservation> dialog = createReservationDialog(null);
+        Optional<Reservation> result = dialog.showAndWait();
+
+        result.ifPresent(reservation -> {
+            try {
+                // Save the reservation
+                Reservation saved = reservationRepository.save(reservation);
+
+                // Log the action
+                AdminUser admin = SessionManager.getInstance().getCurrentUser();
+                if (admin != null) {
+                    activityLogService.logReservationCreated(admin, saved);
+                }
+
+                showAlert(Alert.AlertType.INFORMATION, "Success", "Reservation created successfully!");
+                loadReservations();
+            } catch (Exception e) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to create reservation: " + e.getMessage());
+            }
+        });
+    }
+
+    private void handleEditReservation(Reservation reservation) {
+        Dialog<Reservation> dialog = createReservationDialog(reservation);
+        Optional<Reservation> result = dialog.showAndWait();
+
+        result.ifPresent(updated -> {
+            try {
+                // Update reservation fields
+                reservation.setCheckInDate(updated.getCheckInDate());
+                reservation.setCheckOutDate(updated.getCheckOutDate());
+                reservation.setStatus(updated.getStatus());
+                reservation.setNumberOfGuests(updated.getNumberOfGuests());
+
+                // Save the updated reservation
+                reservationRepository.save(reservation);
+
+                // Log the action
+                AdminUser admin = SessionManager.getInstance().getCurrentUser();
+                if (admin != null) {
+                    activityLogService.logReservationUpdated(admin, reservation);
+                }
+
+                showAlert(Alert.AlertType.INFORMATION, "Success", "Reservation updated successfully!");
+                loadReservations();
+            } catch (Exception e) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to update reservation: " + e.getMessage());
+            }
+        });
+    }
+
+    private void handleDeleteReservation(Reservation reservation) {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Cancellation");
+        confirmAlert.setHeaderText("Cancel Reservation #" + reservation.getReservationId());
+        confirmAlert.setContentText("Are you sure you want to cancel this reservation?");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                // Mark as cancelled instead of deleting
+                reservation.setStatus(ReservationStatus.CANCELLED);
+                reservationRepository.save(reservation);
+
+                // Log the action
+                AdminUser admin = SessionManager.getInstance().getCurrentUser();
+                if (admin != null) {
+                    activityLogService.logReservationCancelled(admin, reservation);
+                }
+
+                showAlert(Alert.AlertType.INFORMATION, "Success", "Reservation cancelled successfully!");
+                loadReservations();
+            } catch (Exception e) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to cancel reservation: " + e.getMessage());
+            }
+        }
+    }
+
+    private Dialog<Reservation> createReservationDialog(Reservation existing) {
+        Dialog<Reservation> dialog = new Dialog<>();
+        dialog.setTitle(existing == null ? "Create New Reservation" : "Edit Reservation");
+        dialog.setHeaderText(existing == null ? "Enter reservation details" : "Update reservation details");
+
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        // Guest selection
+        ComboBox<Guest> guestCombo = new ComboBox<>();
+        List<Guest> guests = guestRepository.findAll();
+        guestCombo.setItems(FXCollections.observableArrayList(guests));
+        guestCombo.setConverter(new javafx.util.StringConverter<Guest>() {
+            @Override
+            public String toString(Guest guest) {
+                return guest == null ? "" : guest.getFirstName() + " " + guest.getLastName();
+            }
+            @Override
+            public Guest fromString(String string) {
+                return null;
+            }
+        });
+
+        // Date pickers
+        DatePicker checkInPicker = new DatePicker();
+        DatePicker checkOutPicker = new DatePicker();
+
+        // Number of guests
+        Spinner<Integer> guestsSpinner = new Spinner<>(1, 10, 1);
+
+        // Status
+        ComboBox<ReservationStatus> statusCombo = new ComboBox<>();
+        statusCombo.setItems(FXCollections.observableArrayList(ReservationStatus.values()));
+
+        // Set existing values if editing
+        if (existing != null) {
+            guestCombo.setValue(existing.getGuest());
+            checkInPicker.setValue(existing.getCheckInDate());
+            checkOutPicker.setValue(existing.getCheckOutDate());
+            guestsSpinner.getValueFactory().setValue(existing.getNumberOfGuests());
+            statusCombo.setValue(existing.getStatus());
+            guestCombo.setDisable(true); // Don't allow changing guest
+        } else {
+            checkInPicker.setValue(LocalDate.now());
+            checkOutPicker.setValue(LocalDate.now().plusDays(1));
+            statusCombo.setValue(ReservationStatus.PENDING);
+        }
+
+        grid.add(new Label("Guest:"), 0, 0);
+        grid.add(guestCombo, 1, 0);
+        grid.add(new Label("Check-In Date:"), 0, 1);
+        grid.add(checkInPicker, 1, 1);
+        grid.add(new Label("Check-Out Date:"), 0, 2);
+        grid.add(checkOutPicker, 1, 2);
+        grid.add(new Label("Number of Guests:"), 0, 3);
+        grid.add(guestsSpinner, 1, 3);
+        grid.add(new Label("Status:"), 0, 4);
+        grid.add(statusCombo, 1, 4);
+
+        dialog.getDialogPane().setContent(grid);
+
+        // Convert result to reservation
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                Guest selectedGuest = guestCombo.getValue();
+                LocalDate checkIn = checkInPicker.getValue();
+                LocalDate checkOut = checkOutPicker.getValue();
+                Integer numGuests = guestsSpinner.getValue();
+                ReservationStatus status = statusCombo.getValue();
+
+                if (selectedGuest == null || checkIn == null || checkOut == null) {
+                    showAlert(Alert.AlertType.ERROR, "Validation Error", "Please fill in all required fields.");
+                    return null;
+                }
+
+                if (checkOut.isBefore(checkIn) || checkOut.isEqual(checkIn)) {
+                    showAlert(Alert.AlertType.ERROR, "Validation Error", "Check-out date must be after check-in date.");
+                    return null;
+                }
+
+                if (existing != null) {
+                    // Return existing with updated values
+                    existing.setCheckInDate(checkIn);
+                    existing.setCheckOutDate(checkOut);
+                    existing.setStatus(status);
+                    existing.setNumberOfGuests(numGuests);
+                    return existing;
+                } else {
+                    // Create new reservation
+                    Reservation newReservation = new Reservation();
+                    newReservation.setGuest(selectedGuest);
+                    newReservation.setCheckInDate(checkIn);
+                    newReservation.setCheckOutDate(checkOut);
+                    newReservation.setNumberOfGuests(numGuests);
+                    newReservation.setStatus(status);
+                    return newReservation;
+                }
+            }
+            return null;
+        });
+
+        return dialog;
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     @FXML

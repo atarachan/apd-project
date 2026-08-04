@@ -70,7 +70,7 @@ public class LoyaltyService {
         // Create transaction
         LoyaltyTransaction transaction = new LoyaltyTransaction();
         transaction.setLoyaltyAccount(account);
-        transaction.setType(LoyaltyTransactionType.EARNED);
+        transaction.setType(LoyaltyTransactionType.EARN);
         transaction.setPoints(pointsEarned);
         transaction.setTransactionDate(LocalDateTime.now());
 
@@ -104,7 +104,7 @@ public class LoyaltyService {
         // Create transaction
         LoyaltyTransaction transaction = new LoyaltyTransaction();
         transaction.setLoyaltyAccount(account);
-        transaction.setType(LoyaltyTransactionType.REDEEMED);
+        transaction.setType(LoyaltyTransactionType.REDEEM);
         transaction.setPoints(-pointsToRedeem); // Negative for redemption
         transaction.setTransactionDate(LocalDateTime.now());
 

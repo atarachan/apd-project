@@ -97,4 +97,29 @@ public class ActivityLogService {
     public List<ActivityLog> getRecentLogs(int limit) {
         return activityLogRepository.findRecent(limit);
     }
+
+    /**
+     * Log reservation creation.
+     */
+    public ActivityLog logReservationCreated(AdminUser adminUser, Reservation reservation) {
+        return logReservationAction(adminUser, reservation, "RESERVATION_CREATED",
+                "Created reservation for guest: " + reservation.getGuest().getFirstName() + " " +
+                        reservation.getGuest().getLastName());
+    }
+
+    /**
+     * Log reservation update.
+     */
+    public ActivityLog logReservationUpdated(AdminUser adminUser, Reservation reservation) {
+        return logReservationAction(adminUser, reservation, "RESERVATION_UPDATED",
+                "Updated reservation #" + reservation.getReservationId());
+    }
+
+    /**
+     * Log reservation cancellation.
+     */
+    public ActivityLog logReservationCancelled(AdminUser adminUser, Reservation reservation) {
+        return logReservationAction(adminUser, reservation, "RESERVATION_CANCELLED",
+                "Cancelled reservation #" + reservation.getReservationId());
+    }
 }

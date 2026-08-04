@@ -26,7 +26,13 @@
         <VBox spacing="18" alignment="TOP_LEFT" styleClass="option-card">
             <padding><Insets top="24" right="30" bottom="24" left="30"/></padding>
 
-            <Label text="All Reservations" styleClass="section-label"/>
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="All Reservations" styleClass="section-label"/>
+                <Button text="+ Create New Reservation"
+                        prefWidth="200" prefHeight="40"
+                        styleClass="primary-button"
+                        onAction="#handleCreateReservation"/>
+            </HBox>
 
             <VBox spacing="0" styleClass="table-container">
                 <HBox spacing="0" styleClass="table-header-row">
@@ -36,6 +42,7 @@
                     <Label text="Check In"        prefWidth="120" styleClass="table-header"/>
                     <Label text="Check Out"       prefWidth="120" styleClass="table-header"/>
                     <Label text="Status"          prefWidth="160" styleClass="table-header"/>
+                    <Label text="Actions"         prefWidth="200" styleClass="table-header"/>
                 </HBox>
 
                 <VBox fx:id="reservationsTableBody" spacing="0"/>
