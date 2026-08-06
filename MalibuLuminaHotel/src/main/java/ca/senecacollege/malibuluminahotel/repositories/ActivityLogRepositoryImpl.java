@@ -23,7 +23,10 @@ public class ActivityLogRepositoryImpl extends AbstractRepository<ActivityLog, L
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<ActivityLog> query = em.createQuery(
-                    "SELECT a FROM ActivityLog a WHERE a.admin = :admin ORDER BY a.timestamp DESC",
+                    "SELECT a\n" +
+                            "FROM ActivityLog a\n" +
+                            "WHERE a.adminUser = :admin\n" +
+                            "ORDER BY a.timestamp DESC",
                     ActivityLog.class);
             query.setParameter("admin", adminUser);
             return query.getResultList();
@@ -37,7 +40,9 @@ public class ActivityLogRepositoryImpl extends AbstractRepository<ActivityLog, L
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<ActivityLog> query = em.createQuery(
-                    "SELECT a FROM ActivityLog a WHERE a.timestamp >= :start AND a.timestamp <= :end " +
+                    "SELECT a FROM ActivityLog a " +
+                            "LEFT JOIN FETCH a.adminUser " +
+                            "WHERE a.timestamp >= :start AND a.timestamp <= :end " +
                             "ORDER BY a.timestamp DESC",
                     ActivityLog.class);
             query.setParameter("start", start);
@@ -53,9 +58,12 @@ public class ActivityLogRepositoryImpl extends AbstractRepository<ActivityLog, L
         EntityManager em = EntityManagerFactoryProvider.createEntityManager();
         try {
             TypedQuery<ActivityLog> query = em.createQuery(
-                    "SELECT a FROM ActivityLog a WHERE a.activityType = :activityType ORDER BY a.timestamp DESC",
+                    "SELECT a\n" +
+                            "FROM ActivityLog a\n" +
+                            "WHERE a.action = :action\n" +
+                            "ORDER BY a.timestamp DESC",
                     ActivityLog.class);
-            query.setParameter("activityType", action);
+            query.setParameter("action", action);
             return query.getResultList();
         } finally {
             em.close();

@@ -171,7 +171,7 @@ public class AdminReservationsController {
                 reservation.setChildren(updated.getChildren());
 
                 // Save the updated reservation
-                reservationRepository.save(reservation);
+                reservationRepository.update(reservation);
 
                 // Log the action
                 AdminUser admin = SessionManager.getInstance().getCurrentUser();
@@ -198,7 +198,7 @@ public class AdminReservationsController {
             try {
                 // Mark as cancelled instead of deleting
                 reservation.setStatus(ReservationStatus.CANCELLED);
-                reservationRepository.save(reservation);
+                reservationRepository.update(reservation);
 
                 // Log the action
                 AdminUser admin = SessionManager.getInstance().getCurrentUser();

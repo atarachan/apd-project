@@ -7,6 +7,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ca.senecacollege.malibuluminahotel.controller.AdminLoyaltyController"
@@ -30,37 +32,35 @@
                 <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
                 <Label text="Member Points Overview" styleClass="section-label"/>
 
-                <HBox spacing="0" styleClass="table-header-row">
-                    <Label text="Member Number" prefWidth="160" styleClass="table-header"/>
-                    <Label text="Guest Name"    prefWidth="200" styleClass="table-header"/>
-                    <Label text="Email"         prefWidth="240" styleClass="table-header"/>
-                    <Label text="Points"        prefWidth="120" styleClass="table-header"/>
-                    <Label text="Value (CAD)"   prefWidth="130" styleClass="table-header"/>
-                </HBox>
+                <TableView fx:id="loyaltyTable"
+                           prefWidth="850"
+                           prefHeight="420">
 
-                <HBox spacing="0" styleClass="table-data-row">
-                    <Label text="LM-001"        prefWidth="160" styleClass="table-cell"/>
-                    <Label text="John Smith"    prefWidth="200" styleClass="table-cell"/>
-                    <Label text="john.smith@email.com" prefWidth="240" styleClass="table-cell"/>
-                    <Label text="1,200"         prefWidth="120" styleClass="table-cell"/>
-                    <Label text="CAD 12.00"     prefWidth="130" styleClass="table-cell"/>
-                </HBox>
+                    <columns>
 
-                <HBox spacing="0" styleClass="table-data-row">
-                    <Label text="LM-002"        prefWidth="160" styleClass="table-cell"/>
-                    <Label text="Emily Davis"   prefWidth="200" styleClass="table-cell"/>
-                    <Label text="emily.d@email.com" prefWidth="240" styleClass="table-cell"/>
-                    <Label text="3,500"         prefWidth="120" styleClass="table-cell"/>
-                    <Label text="CAD 35.00"     prefWidth="130" styleClass="table-cell"/>
-                </HBox>
+                        <TableColumn fx:id="memberNumberColumn"
+                                     text="Member Number"
+                                     prefWidth="160"/>
 
-                <HBox spacing="0" styleClass="table-data-row">
-                    <Label text="LM-003"         prefWidth="160" styleClass="table-cell"/>
-                    <Label text="Michael Brown"  prefWidth="200" styleClass="table-cell"/>
-                    <Label text="m.brown@email.com" prefWidth="240" styleClass="table-cell"/>
-                    <Label text="7,800"          prefWidth="120" styleClass="table-cell"/>
-                    <Label text="CAD 78.00"      prefWidth="130" styleClass="table-cell"/>
-                </HBox>
+                        <TableColumn fx:id="guestNameColumn"
+                                     text="Guest Name"
+                                     prefWidth="200"/>
+
+                        <TableColumn fx:id="emailColumn"
+                                     text="Email"
+                                     prefWidth="240"/>
+
+                        <TableColumn fx:id="pointsColumn"
+                                     text="Points"
+                                     prefWidth="120"/>
+
+                        <TableColumn fx:id="valueColumn"
+                                     text="Value (CAD)"
+                                     prefWidth="130"/>
+
+                    </columns>
+
+                </TableView>
             </VBox>
         </VBox>
     </center>

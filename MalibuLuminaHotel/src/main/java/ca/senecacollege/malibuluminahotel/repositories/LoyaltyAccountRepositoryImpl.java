@@ -72,4 +72,25 @@ public class LoyaltyAccountRepositoryImpl
             em.close();
         }
     }
+
+    @Override
+    public List<LoyaltyAccount> findAll() {
+
+        EntityManager em = createEntityManager();
+
+        try {
+
+            return em.createQuery(
+                    "SELECT la FROM LoyaltyAccount la " +
+                            "LEFT JOIN FETCH la.guest " +
+                            "ORDER BY la.memberNumber",
+                    LoyaltyAccount.class
+            ).getResultList();
+
+        } finally {
+
+            em.close();
+
+        }
+    }
 }
