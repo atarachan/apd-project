@@ -4,6 +4,7 @@ import ca.senecacollege.malibuluminahotel.app.BookingSession;
 import ca.senecacollege.malibuluminahotel.decorators.*;
 import ca.senecacollege.malibuluminahotel.models.AddOn;
 import ca.senecacollege.malibuluminahotel.models.Guest;
+import ca.senecacollege.malibuluminahotel.models.Payment;
 import ca.senecacollege.malibuluminahotel.models.enums.PricingModel;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
 import ca.senecacollege.malibuluminahotel.models.Room;
@@ -202,7 +203,7 @@ public class BookingService implements IBookingService {
     // Persists the full booking to the database.
     // Called by GuestCheckoutController when the guest confirms.
     @Override
-    public Reservation createReservation(BookingSession session, BillSummary bill) {
+    public Reservation createReservation(BookingSession session, BillSummary bill, Payment depositPayment) {
 
         // Find existing guest by email or build a new one
         Guest guest = guestRepo.findByEmail(session.getGuestEmail())
@@ -227,7 +228,8 @@ public class BookingService implements IBookingService {
                 reservationItemDrafts,
                 bill.subtotal(),
                 bill.tax(),
-                bill.total());
+                bill.total(),
+                depositPayment);
     }
 
     private List<ReservationItemDraft> buildReservationItemDrafts(BookingSession session, int nights) {

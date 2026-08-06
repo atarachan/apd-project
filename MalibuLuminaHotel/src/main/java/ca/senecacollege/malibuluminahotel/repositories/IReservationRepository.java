@@ -1,6 +1,7 @@
 package ca.senecacollege.malibuluminahotel.repositories;
 
 import ca.senecacollege.malibuluminahotel.models.Guest;
+import ca.senecacollege.malibuluminahotel.models.Payment;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
 import ca.senecacollege.malibuluminahotel.models.enums.ReservationStatus;
 
@@ -34,7 +35,8 @@ public interface IReservationRepository extends IRepository<Reservation, Long> {
             List<ReservationItemDraft> reservationItemDrafts,
             BigDecimal subtotal,
             BigDecimal tax,
-            BigDecimal total
+            BigDecimal total,
+            Payment depositPayment
     );
 
     record ReservationItemDraft(

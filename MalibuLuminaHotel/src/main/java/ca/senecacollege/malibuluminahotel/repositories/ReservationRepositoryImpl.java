@@ -3,6 +3,7 @@ package ca.senecacollege.malibuluminahotel.repositories;
 import ca.senecacollege.malibuluminahotel.models.AddOn;
 import ca.senecacollege.malibuluminahotel.models.Bill;
 import ca.senecacollege.malibuluminahotel.models.Guest;
+import ca.senecacollege.malibuluminahotel.models.Payment;
 import ca.senecacollege.malibuluminahotel.models.Reservation;
 import ca.senecacollege.malibuluminahotel.models.ReservationItem;
 import ca.senecacollege.malibuluminahotel.models.ReservationItemAddOn;
@@ -131,7 +132,8 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
             List<ReservationItemDraft> reservationItemDrafts,
             BigDecimal subtotal,
             BigDecimal tax,
-            BigDecimal total) {
+            BigDecimal total,
+            Payment depositPayment) {
 
         EntityManager em = createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -178,6 +180,12 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
             bill.setTotal(total);
             bill.setBalanceDue(total);
             bill.setDiscount(BigDecimal.ZERO);
+
+            if (depositPayment != null) {
+                bill.addPayment(depositPayment);
+                bill.setBalanceDue(total.subtract(depositPayment.getAmount()));
+            }
+
             em.persist(bill);
 
             tx.commit();
