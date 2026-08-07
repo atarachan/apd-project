@@ -40,6 +40,12 @@
                             styleClass="primary-button"
                             onAction="#handleCreateAccount"/>
 
+                    <Button text="Edit Account"
+                            prefWidth="150"
+                            prefHeight="36"
+                            styleClass="secondary-button"
+                            onAction="#handleEditAccount"/>
+
                 </HBox>
                 <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
 

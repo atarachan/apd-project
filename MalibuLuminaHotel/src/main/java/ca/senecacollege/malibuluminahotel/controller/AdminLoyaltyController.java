@@ -7,18 +7,11 @@ import ca.senecacollege.malibuluminahotel.repositories.IGuestRepository;
 import ca.senecacollege.malibuluminahotel.models.Guest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.Label;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.List;
 import java.util.logging.Logger;
@@ -192,6 +185,79 @@ public class AdminLoyaltyController {
             showError("Error", e.getMessage());
 
         }
+    }
+
+    @FXML
+    private void handleEditAccount(ActionEvent event) {
+
+        LoyaltyAccountDisplay selected =
+                loyaltyTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            showError("No Selection",
+                    "Please select a loyalty account to edit.");
+            return;
+        }
+
+        LoyaltyAccount account =
+                loyaltyRepository.findByMemberNumber(
+                        selected.getMemberNumber()).orElse(null);
+
+        if (account == null) {
+            showError("Error",
+                    "Unable to find the selected loyalty account.");
+            return;
+        }
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Edit Loyalty Account");
+
+        ButtonType saveButton =
+                new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(
+                saveButton,
+                ButtonType.CANCEL
+        );
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        Label guestLabel = new Label(
+                account.getGuest().getFirstName()
+                        + " "
+                        + account.getGuest().getLastName()
+        );
+
+        TextField memberNumberField =
+                new TextField(account.getMemberNumber());
+
+        Spinner<Integer> pointsSpinner =
+                new Spinner<>(0, 100000,
+                        account.getCurrentPoints());
+
+        grid.add(new Label("Guest"), 0, 0);
+        grid.add(guestLabel, 1, 0);
+
+        grid.add(new Label("Member Number"), 0, 1);
+        grid.add(memberNumberField, 1, 1);
+
+        grid.add(new Label("Points"), 0, 2);
+        grid.add(pointsSpinner, 1, 2);
+
+        dialog.getDialogPane().setContent(grid);
+
+        if (dialog.showAndWait().orElse(ButtonType.CANCEL) != saveButton) {
+            return;
+        }
+
+        account.setMemberNumber(memberNumberField.getText().trim());
+        account.setCurrentPoints(pointsSpinner.getValue());
+
+        loyaltyRepository.update(account);
+
+        loadLoyaltyAccounts();
     }
 
     @FXML

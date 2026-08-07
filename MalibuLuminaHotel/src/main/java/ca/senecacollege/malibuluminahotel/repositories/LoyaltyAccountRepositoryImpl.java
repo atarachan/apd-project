@@ -23,7 +23,9 @@ public class LoyaltyAccountRepositoryImpl
 
         try {
             return em.createQuery(
-                            "SELECT la FROM LoyaltyAccount la WHERE la.guest = :guest",
+                            "SELECT la FROM LoyaltyAccount la " +
+                                    "LEFT JOIN FETCH la.guest " +
+                                    "WHERE la.guest = :guest",
                             LoyaltyAccount.class)
                     .setParameter("guest", guest)
                     .getResultStream()
@@ -42,7 +44,9 @@ public class LoyaltyAccountRepositoryImpl
 
         try {
             return em.createQuery(
-                            "SELECT la FROM LoyaltyAccount la WHERE la.memberNumber = :memberNumber",
+                            "SELECT la FROM LoyaltyAccount la " +
+                                    "LEFT JOIN FETCH la.guest " +
+                                    "WHERE la.memberNumber = :memberNumber",
                             LoyaltyAccount.class)
                     .setParameter("memberNumber", memberNumber)
                     .getResultStream()
