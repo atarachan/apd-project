@@ -8,36 +8,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotel.db" beforeDir="false" afterPath="$PROJECT_DIR$/hotel.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminWaitlistController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminWaitlistController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/IWaitlistEntryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/IWaitlistEntryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/WaitlistEntryRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/WaitlistEntryRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/services/IWaitlistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/services/IWaitlistService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/services/WaitlistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/services/WaitlistService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/AdminLoyalty.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/AdminLoyalty.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/AdminWaitlist.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/AdminWaitlist.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/system_logs.0.log" beforeDir="false" afterPath="$PROJECT_DIR$/system_logs.0.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController$LoyaltyAccountDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController$LoyaltyAccountDisplay.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminWaitlistController$WaitlistTableRow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminWaitlistController$WaitlistTableRow.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminWaitlistController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminWaitlistController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/GuestCheckoutController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/GuestCheckoutController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository$ReservationItemDraft.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository$ReservationItemDraft.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IWaitlistEntryRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IWaitlistEntryRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/ReservationRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/ReservationRepositoryImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/WaitlistEntryRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/WaitlistEntryRepositoryImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BookingService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BookingService$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BookingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BookingService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/IBookingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/IBookingService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/IWaitlistService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/IWaitlistService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/WaitlistService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/WaitlistService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/fxml/AdminLoyalty.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/fxml/AdminLoyalty.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/fxml/AdminReservations.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/fxml/AdminReservations.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/fxml/AdminWaitlist.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/fxml/AdminWaitlist.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/fxml/GuestCheckout.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/fxml/GuestCheckout.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +93,7 @@
       <option name="presentableId" value="Default" />
       <updated>1784839515791</updated>
       <workItem from="1785970489231" duration="8868000" />
-      <workItem from="1786066762748" duration="9910000" />
+      <workItem from="1786066762748" duration="12035000" />
     </task>
     <servers />
   </component>

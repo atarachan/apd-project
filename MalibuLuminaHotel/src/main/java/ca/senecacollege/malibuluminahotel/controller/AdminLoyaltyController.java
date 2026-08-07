@@ -6,6 +6,7 @@ import ca.senecacollege.malibuluminahotel.repositories.ILoyaltyAccountRepository
 import ca.senecacollege.malibuluminahotel.repositories.IGuestRepository;
 import ca.senecacollege.malibuluminahotel.models.Guest;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -64,27 +65,47 @@ public class AdminLoyaltyController {
     }
 
     private void setupTable() {
-        memberNumberColumn.setCellValueFactory(new PropertyValueFactory<>("memberNumber"));
-        guestNameColumn.setCellValueFactory(new PropertyValueFactory<>("guestName"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        pointsColumn.setCellValueFactory(new PropertyValueFactory<>("points"));
-        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+
+        memberNumberColumn.setCellValueFactory(cell ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().getMemberNumber()));
+
+        guestNameColumn.setCellValueFactory(cell ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().getGuestName()));
+
+        emailColumn.setCellValueFactory(cell ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().getEmail()));
+
+        pointsColumn.setCellValueFactory(cell ->
+                new javafx.beans.property.SimpleObjectProperty<>(
+                        cell.getValue().getPoints()));
+
+        valueColumn.setCellValueFactory(cell ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().getValue()));
     }
 
     private void loadLoyaltyAccounts() {
         try {
             List<LoyaltyAccount> accounts = loyaltyRepository.findAll();
-            loyaltyTable.getItems().clear();
+            ObservableList<LoyaltyAccountDisplay> rows =
+                    FXCollections.observableArrayList();
 
             for (LoyaltyAccount account : accounts) {
-                LoyaltyAccountDisplay display = new LoyaltyAccountDisplay(
+
+                rows.add(new LoyaltyAccountDisplay(
                         account.getMemberNumber(),
                         account.getGuest().getFirstName() + " " + account.getGuest().getLastName(),
                         account.getGuest().getEmail(),
                         account.getCurrentPoints(),
-                        String.format("CAD %.2f", account.getCurrentPoints() * 0.01));
-                loyaltyTable.getItems().add(display);
+                        String.format("CAD %.2f", account.getCurrentPoints() * 0.01)
+                ));
             }
+
+            loyaltyTable.setItems(rows);
+            loyaltyTable.refresh();
 
             LOGGER.info("Loaded " + accounts.size() + " loyalty accounts");
         } catch (Exception e) {
@@ -143,7 +164,6 @@ public class AdminLoyaltyController {
         }
 
         Guest guest = guestCombo.getValue();
-        System.out.println("Guest = " + guest);
 
         if (guest == null) {
             showError("Error", "Please select a guest.");
@@ -156,25 +176,18 @@ public class AdminLoyaltyController {
         }
 
         String memberNumber = "MEM" + System.currentTimeMillis();
-        System.out.println("Member Number = " + memberNumber);
 
         LoyaltyAccount account = new LoyaltyAccount(guest, memberNumber);
 
         try {
 
-            System.out.println("About to save...");
-
             loyaltyRepository.save(account);
-
-            System.out.println("Saved!");
 
             loadLoyaltyAccounts();
 
-            System.out.println("Reloaded!");
-
         } catch (Exception e) {
 
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
 
             showError("Error", e.getMessage());
 
