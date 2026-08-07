@@ -127,13 +127,13 @@ public class AdminReservationsController {
     }
 
     private HBox createActionButtons(Reservation reservation) {
-        Button modifyBtn = rowButton("modify");
+        Button modifyBtn = rowButton("Modify");
         modifyBtn.setOnAction(e -> handleModifyReservation(reservation));
 
-        Button cancelBtn = rowButton("cancel");
+        Button cancelBtn = rowButton("Cancel");
         cancelBtn.setOnAction(e -> handleCancelReservation(reservation));
 
-        Button checkoutBtn = rowButton("checkout");
+        Button checkoutBtn = rowButton("Check Out");
         checkoutBtn.setOnAction(e -> handleCheckoutReservation(reservation));
 
         HBox actions = new HBox(8, modifyBtn, cancelBtn, checkoutBtn);
@@ -576,8 +576,18 @@ public class AdminReservationsController {
 
         TextField paymentAmountField = new TextField(checkoutDraft.requiredPayment().toPlainString());
         paymentAmountField.getStyleClass().add("input-field");
+        TextField cardholderNameField = new TextField();
+        cardholderNameField.setPromptText("Name on card");
+        cardholderNameField.getStyleClass().add("input-field");
+        TextField cardNumberField = new TextField();
+        cardNumberField.setPromptText("Card number");
+        cardNumberField.getStyleClass().add("input-field");
+        TextField expiryDateField = new TextField();
+        expiryDateField.setPromptText("MM/YY");
+        expiryDateField.getStyleClass().add("input-field");
         PasswordField cvvField = new PasswordField();
         cvvField.setPromptText("CVV");
+        cvvField.getStyleClass().add("input-field");
 
         GridPane paymentGrid = new GridPane();
         paymentGrid.setHgap(12);
@@ -586,8 +596,14 @@ public class AdminReservationsController {
         paymentGrid.add(paymentMethodCombo, 1, 0);
         paymentGrid.add(new Label("Payment Amount:"), 0, 1);
         paymentGrid.add(paymentAmountField, 1, 1);
-        paymentGrid.add(new Label("CVV:"), 0, 2);
-        paymentGrid.add(cvvField, 1, 2);
+        paymentGrid.add(new Label("Cardholder Name:"), 0, 2);
+        paymentGrid.add(cardholderNameField, 1, 2);
+        paymentGrid.add(new Label("Card Number:"), 0, 3);
+        paymentGrid.add(cardNumberField, 1, 3);
+        paymentGrid.add(new Label("Expiry Date:"), 0, 4);
+        paymentGrid.add(expiryDateField, 1, 4);
+        paymentGrid.add(new Label("CVV:"), 0, 5);
+        paymentGrid.add(cvvField, 1, 5);
         content.getChildren().add(paymentGrid);
 
         dialog.getDialogPane().setContent(content);
@@ -597,6 +613,14 @@ public class AdminReservationsController {
             BigDecimal enteredAmount = parseAmount(paymentAmountField.getText()).orElse(null);
             if (enteredAmount == null) {
                 showAlert(Alert.AlertType.ERROR, "Payment Error", "Enter a valid payment amount.");
+                event.consume();
+                return;
+            }
+            if (!hasText(cardholderNameField)
+                    || !hasText(cardNumberField)
+                    || !hasText(expiryDateField)
+                    || !hasText(cvvField)) {
+                showAlert(Alert.AlertType.ERROR, "Payment Error", "Enter all card payment details.");
                 event.consume();
                 return;
             }
@@ -618,6 +642,10 @@ public class AdminReservationsController {
         });
 
         return dialog;
+    }
+
+    private boolean hasText(TextField field) {
+        return field.getText() != null && !field.getText().trim().isEmpty();
     }
 
     private VBox buildBillView(BillSummary summary) {
