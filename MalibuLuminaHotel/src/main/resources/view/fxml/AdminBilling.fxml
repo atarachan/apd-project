@@ -38,6 +38,9 @@
                     <Label text="Tax (13%)"       prefWidth="120" styleClass="table-header"/>
                     <Label text="Total"           prefWidth="140" styleClass="table-header"/>
                     <Label text="Balance Due"     prefWidth="130" styleClass="table-header"/>
+                    <Label text="Action"
+                           prefWidth="120"
+                           styleClass="table-header"/>
                 </HBox>
 
                 <VBox fx:id="billsTableBody" spacing="0"/>

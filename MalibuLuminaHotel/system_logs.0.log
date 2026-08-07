@@ -4712,3 +4712,9 @@ Aug 07, 2026 8:47:41 A.M. ca.senecacollege.malibuluminahotel.controller.AdminLoy
 INFO: Loaded 3 loyalty accounts
 Aug 07, 2026 8:47:43 A.M. ca.senecacollege.malibuluminahotel.controller.AdminLoyaltyController loadLoyaltyAccounts
 INFO: Loaded 3 loyalty accounts
+Aug 07, 2026 1:56:49 P.M. ca.senecacollege.malibuluminahotel.util.LoggerConfig configure
+INFO: File logging configured: system_logs.%g.log
+Aug 07, 2026 1:57:11 P.M. ca.senecacollege.malibuluminahotel.controller.AdminLoyaltyController loadLoyaltyAccounts
+INFO: Loaded 3 loyalty accounts
+Aug 07, 2026 1:57:20 P.M. ca.senecacollege.malibuluminahotel.controller.AdminLoyaltyController loadLoyaltyAccounts
+INFO: Loaded 2 loyalty accounts

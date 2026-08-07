@@ -261,6 +261,57 @@ public class AdminLoyaltyController {
     }
 
     @FXML
+    private void handleDeleteAccount(ActionEvent event) {
+
+        LoyaltyAccountDisplay selected =
+                loyaltyTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            showError("No Selection",
+                    "Please select a loyalty account.");
+            return;
+        }
+
+        LoyaltyAccount account =
+                loyaltyRepository.findByMemberNumber(
+                                selected.getMemberNumber())
+                        .orElse(null);
+
+        if (account == null) {
+            showError("Error",
+                    "Unable to find the selected loyalty account.");
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+
+        confirm.setTitle("Delete Loyalty Account");
+        confirm.setHeaderText("Delete loyalty account?");
+        confirm.setContentText(
+                "Delete the loyalty account for "
+                        + account.getGuest().getFirstName()
+                        + " "
+                        + account.getGuest().getLastName()
+                        + "?"
+        );
+
+        if (confirm.showAndWait().orElse(ButtonType.CANCEL)
+                != ButtonType.OK) {
+            return;
+        }
+
+        loyaltyRepository.delete(account);
+
+        loadLoyaltyAccounts();
+
+        Alert success = new Alert(Alert.AlertType.INFORMATION);
+        success.setTitle("Deleted");
+        success.setHeaderText(null);
+        success.setContentText("Loyalty account deleted successfully.");
+        success.showAndWait();
+    }
+
+    @FXML
     private void handleBack(ActionEvent event) {
         SceneNavigator.switchScene(event, "AdminDashboard.fxml");
     }

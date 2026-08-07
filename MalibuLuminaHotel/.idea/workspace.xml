@@ -7,14 +7,13 @@
     <list default="true" id="2229e66c-43b6-4bd1-a0a7-392b8ed63bda" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotel.db" beforeDir="false" afterPath="$PROJECT_DIR$/hotel.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminBillingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminBillingController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/LoyaltyAccountRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/LoyaltyAccountRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/AdminBilling.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/AdminBilling.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/AdminLoyalty.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/AdminLoyalty.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/system_logs.0.log" beforeDir="false" afterPath="$PROJECT_DIR$/system_logs.0.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController$LoyaltyAccountDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController$LoyaltyAccountDisplay.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminLoyaltyController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/LoyaltyAccountRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/LoyaltyAccountRepositoryImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/fxml/AdminLoyalty.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/fxml/AdminLoyalty.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,7 +96,7 @@
       <option name="presentableId" value="Default" />
       <updated>1784839515791</updated>
       <workItem from="1785970489231" duration="8868000" />
-      <workItem from="1786066762748" duration="13439000" />
+      <workItem from="1786066762748" duration="16968000" />
     </task>
     <servers />
   </component>

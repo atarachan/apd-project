@@ -8,6 +8,7 @@ import ca.senecacollege.malibuluminahotel.repositories.IBillRepository;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -46,13 +47,20 @@ public class AdminBillingController {
 
             HBox row = new HBox();
             row.getStyleClass().add("table-data-row");
+            Button payButton = new Button("Add Payment");
+            payButton.getStyleClass().add("primary-button");
+            payButton.setPrefWidth(110);
+
+            payButton.setOnAction(e -> handleAddPayment(b));
+
             row.getChildren().addAll(
-                cell(reservationId,          150),
-                cell(guestName,              200),
-                cell(fmt(b.getSubtotal()),   140),
-                cell(fmt(b.getTax()),        120),
-                cell(fmt(b.getTotal()),      140),
-                cell(fmt(b.getBalanceDue()), 130)
+                    cell(reservationId,          150),
+                    cell(guestName,              200),
+                    cell(fmt(b.getSubtotal()),   140),
+                    cell(fmt(b.getTax()),        120),
+                    cell(fmt(b.getTotal()),      140),
+                    cell(fmt(b.getBalanceDue()), 130),
+                    payButton
             );
             billsTableBody.getChildren().add(row);
         }
