@@ -4718,3 +4718,15 @@ Aug 07, 2026 1:57:11 P.M. ca.senecacollege.malibuluminahotel.controller.AdminLoy
 INFO: Loaded 3 loyalty accounts
 Aug 07, 2026 1:57:20 P.M. ca.senecacollege.malibuluminahotel.controller.AdminLoyaltyController loadLoyaltyAccounts
 INFO: Loaded 2 loyalty accounts
+Aug 07, 2026 2:53:46 P.M. ca.senecacollege.malibuluminahotel.util.LoggerConfig configure
+INFO: File logging configured: system_logs.%g.log
+Aug 07, 2026 2:54:09 P.M. javafx.fxml.FXMLLoader$ValueElement processValue
+WARNING: Loading FXML document with JavaFX API of version 26 by JavaFX runtime of version 21.0.6
+Aug 07, 2026 2:55:12 P.M. ca.senecacollege.malibuluminahotel.controller.AdminLoyaltyController loadLoyaltyAccounts
+INFO: Loaded 2 loyalty accounts
+Aug 07, 2026 3:51:56 P.M. ca.senecacollege.malibuluminahotel.util.LoggerConfig configure
+INFO: File logging configured: system_logs.%g.log
+Aug 07, 2026 3:56:47 P.M. ca.senecacollege.malibuluminahotel.util.LoggerConfig configure
+INFO: File logging configured: system_logs.%g.log
+Aug 07, 2026 3:57:18 P.M. ca.senecacollege.malibuluminahotel.util.LoggerConfig configure
+INFO: File logging configured: system_logs.%g.log
