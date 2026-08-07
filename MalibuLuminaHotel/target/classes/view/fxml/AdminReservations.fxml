@@ -38,11 +38,11 @@
                 <HBox spacing="0" styleClass="table-header-row">
                     <Label text="Reservation ID" prefWidth="130" styleClass="table-header"/>
                     <Label text="Guest Name"      prefWidth="180" styleClass="table-header"/>
-                    <Label text="Room Type"       prefWidth="140" styleClass="table-header"/>
+                    <Label text="Rooms"           prefWidth="140" styleClass="table-header"/>
                     <Label text="Check In"        prefWidth="120" styleClass="table-header"/>
                     <Label text="Check Out"       prefWidth="120" styleClass="table-header"/>
                     <Label text="Status"          prefWidth="160" styleClass="table-header"/>
-                    <Label text="Actions"         prefWidth="200" styleClass="table-header"/>
+                    <Label text="Actions"         prefWidth="250" styleClass="table-header"/>
                 </HBox>
 
                 <VBox fx:id="reservationsTableBody" spacing="0"/>

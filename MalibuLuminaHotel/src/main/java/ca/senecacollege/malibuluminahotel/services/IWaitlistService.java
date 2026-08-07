@@ -19,6 +19,8 @@ public interface IWaitlistService {
 
     List<WaitlistEntry> getQueuedEntriesForRoomType(RoomType roomType);
 
+    void updateEntry(WaitlistEntry entry);
+
     void notifyGuestSpotAvailable(WaitlistEntry entry);
 
     void withdrawEntry(WaitlistEntry entry);

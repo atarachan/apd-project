@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JPA implementation of WaitlistEntry repository.
@@ -18,6 +19,53 @@ public class WaitlistEntryRepositoryImpl extends AbstractRepository<WaitlistEntr
 
     public WaitlistEntryRepositoryImpl() {
         super(WaitlistEntry.class);
+    }
+
+    @Override
+    public List<WaitlistEntry> findAll() {
+        EntityManager em = EntityManagerFactoryProvider.createEntityManager();
+
+        try {
+            TypedQuery<WaitlistEntry> query = em.createQuery(
+                    "SELECT w FROM WaitlistEntry w " +
+                            "JOIN FETCH w.guest " +
+                            "JOIN FETCH w.roomType " +
+                            "ORDER BY w.dateAdded DESC",
+                    WaitlistEntry.class);
+
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Optional<WaitlistEntry> findById(Long id) {
+
+        EntityManager em = EntityManagerFactoryProvider.createEntityManager();
+
+        try {
+
+            TypedQuery<WaitlistEntry> query = em.createQuery(
+                    "SELECT w FROM WaitlistEntry w " +
+                            "JOIN FETCH w.guest " +
+                            "JOIN FETCH w.roomType " +
+                            "WHERE w.waitlistId = :id",
+                    WaitlistEntry.class);
+
+            query.setParameter("id", id);
+
+            List<WaitlistEntry> results = query.getResultList();
+
+            if (results.isEmpty()) {
+                return Optional.empty();
+            }
+
+            return Optional.of(results.get(0));
+
+        } finally {
+            em.close();
+        }
     }
 
     @Override

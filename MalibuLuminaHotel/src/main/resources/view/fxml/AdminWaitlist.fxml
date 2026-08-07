@@ -31,13 +31,28 @@
             </padding>
 
             <HBox alignment="CENTER_LEFT" spacing="16">
-                <Label text="Waitlist Entries" styleClass="section-label"/>
 
-                <Button
-                        text="+ Add to Waitlist"
+                <Label text="Waitlist Entries"
+                       styleClass="section-label"/>
+
+                <Button text="+ Add to Waitlist"
                         prefWidth="160"
                         prefHeight="36"
-                        styleClass="primary-button"/>
+                        styleClass="primary-button"
+                        onAction="#handleAddToWaitlist"/>
+
+                <Button text="Edit Selected"
+                        prefWidth="140"
+                        prefHeight="36"
+                        styleClass="secondary-button"
+                        onAction="#handleEditWaitlist"/>
+
+                <Button text="Remove Selected"
+                        prefWidth="150"
+                        prefHeight="36"
+                        styleClass="secondary-button"
+                        onAction="#handleRemoveWaitlist"/>
+
             </HBox>
 
             <TableView fx:id="waitlistTable" VBox.vgrow="ALWAYS">

@@ -23,6 +23,8 @@ public interface IWaitlistEntryRepository {
      */
     Optional<WaitlistEntry> findById(Long id);
 
+    WaitlistEntry update(WaitlistEntry entry);
+
     /**
      * Find all waitlist entries.
      */

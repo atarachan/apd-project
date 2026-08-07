@@ -29,8 +29,19 @@
             <padding><Insets top="30" right="40" bottom="30" left="40"/></padding>
 
             <VBox spacing="14" styleClass="form-card" prefWidth="860">
+                <HBox alignment="CENTER_LEFT" spacing="16">
+
+                    <Label text="Member Points Overview"
+                           styleClass="section-label"/>
+
+                    <Button text="+ Create Loyalty Account"
+                            prefWidth="210"
+                            prefHeight="36"
+                            styleClass="primary-button"
+                            onAction="#handleCreateAccount"/>
+
+                </HBox>
                 <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
-                <Label text="Member Points Overview" styleClass="section-label"/>
 
                 <TableView fx:id="loyaltyTable"
                            prefWidth="850"

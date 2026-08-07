@@ -3,6 +3,15 @@ package ca.senecacollege.malibuluminahotel.controller;
 import ca.senecacollege.malibuluminahotel.app.SceneNavigator;
 import ca.senecacollege.malibuluminahotel.models.LoyaltyAccount;
 import ca.senecacollege.malibuluminahotel.repositories.ILoyaltyAccountRepository;
+import ca.senecacollege.malibuluminahotel.repositories.IGuestRepository;
+import ca.senecacollege.malibuluminahotel.models.Guest;
+import javafx.collections.FXCollections;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.Label;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +19,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -35,10 +43,15 @@ public class AdminLoyaltyController {
     private TableColumn<LoyaltyAccountDisplay, String> valueColumn;
 
     private final ILoyaltyAccountRepository loyaltyRepository;
+    private final IGuestRepository guestRepository;
 
     @Inject
-    public AdminLoyaltyController(ILoyaltyAccountRepository loyaltyRepository) {
+    public AdminLoyaltyController(
+            ILoyaltyAccountRepository loyaltyRepository,
+            IGuestRepository guestRepository) {
+
         this.loyaltyRepository = loyaltyRepository;
+        this.guestRepository = guestRepository;
     }
 
     @FXML
@@ -77,6 +90,94 @@ public class AdminLoyaltyController {
         } catch (Exception e) {
             LOGGER.severe("Failed to load loyalty accounts: " + e.getMessage());
             showError("Error", "Failed to load loyalty accounts: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleCreateAccount(ActionEvent event) {
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Create Loyalty Account");
+
+        ButtonType createButton =
+                new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(
+                createButton,
+                ButtonType.CANCEL
+        );
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        ComboBox<Guest> guestCombo = new ComboBox<>();
+        guestCombo.setItems(FXCollections.observableArrayList(
+                guestRepository.findAll()
+        ));
+
+        guestCombo.setConverter(new javafx.util.StringConverter<>() {
+
+            @Override
+            public String toString(Guest guest) {
+                if (guest == null) {
+                    return "";
+                }
+
+                return guest.getFirstName() + " " + guest.getLastName();
+            }
+
+            @Override
+            public Guest fromString(String string) {
+                return null;
+            }
+        });
+
+        grid.add(new Label("Guest"), 0, 0);
+        grid.add(guestCombo, 1, 0);
+
+        dialog.getDialogPane().setContent(grid);
+
+        if (dialog.showAndWait().orElse(ButtonType.CANCEL) != createButton) {
+            return;
+        }
+
+        Guest guest = guestCombo.getValue();
+        System.out.println("Guest = " + guest);
+
+        if (guest == null) {
+            showError("Error", "Please select a guest.");
+            return;
+        }
+
+        if (loyaltyRepository.findByGuest(guest).isPresent()) {
+            showError("Error", "This guest already has a loyalty account.");
+            return;
+        }
+
+        String memberNumber = "MEM" + System.currentTimeMillis();
+        System.out.println("Member Number = " + memberNumber);
+
+        LoyaltyAccount account = new LoyaltyAccount(guest, memberNumber);
+
+        try {
+
+            System.out.println("About to save...");
+
+            loyaltyRepository.save(account);
+
+            System.out.println("Saved!");
+
+            loadLoyaltyAccounts();
+
+            System.out.println("Reloaded!");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            showError("Error", e.getMessage());
+
         }
     }
 

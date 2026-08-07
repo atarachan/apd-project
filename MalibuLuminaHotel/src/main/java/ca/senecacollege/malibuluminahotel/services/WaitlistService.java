@@ -36,6 +36,13 @@ public class WaitlistService implements IWaitlistService {
         logger.info("WaitlistService initialized with notification observer");
     }
 
+    @Override
+    public void updateEntry(WaitlistEntry entry) {
+
+        waitlistRepository.update(entry);
+
+    }
+
     /**
      * Add a guest to the waitlist for a specific room type.
      * 
