@@ -36,14 +36,50 @@ public class FeedbackRepositoryImpl extends AbstractRepository<Feedback, Long> i
     }
 
     @Override
-    public List<Feedback> findByRatingGreaterThanOrEqual(int rating) {
-        EntityManager em = EntityManagerFactoryProvider.createEntityManager();
+    public List<Feedback> findAllWithDetails() {
+
+        EntityManager em = createEntityManager();
+
         try {
-            TypedQuery<Feedback> query = em.createQuery(
-                    "SELECT f FROM Feedback f WHERE f.rating >= :rating ORDER BY f.submittedAt DESC",
-                    Feedback.class);
-            query.setParameter("rating", rating);
-            return query.getResultList();
+
+            return em.createQuery(
+                    "SELECT DISTINCT f " +
+                            "FROM Feedback f " +
+                            "LEFT JOIN FETCH f.guest " +
+                            "LEFT JOIN FETCH f.reservation r " +
+                            "LEFT JOIN FETCH r.reservationItems ri " +
+                            "LEFT JOIN FETCH ri.room room " +
+                            "LEFT JOIN FETCH room.roomType",
+                    Feedback.class
+            ).getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Feedback> findByRatingGreaterThanOrEqualWithDetails(int rating) {
+
+        EntityManager em = createEntityManager();
+
+        try {
+
+            return em.createQuery(
+                            "SELECT DISTINCT f " +
+                                    "FROM Feedback f " +
+                                    "LEFT JOIN FETCH f.guest " +
+                                    "LEFT JOIN FETCH f.reservation r " +
+                                    "LEFT JOIN FETCH r.reservationItems ri " +
+                                    "LEFT JOIN FETCH ri.room room " +
+                                    "LEFT JOIN FETCH room.roomType " +
+                                    "WHERE f.rating >= :rating " +
+                                    "ORDER BY f.submittedDate DESC",
+                            Feedback.class
+                    )
+                    .setParameter("rating", rating)
+                    .getResultList();
+
         } finally {
             em.close();
         }

@@ -163,7 +163,7 @@ public class ReportService implements IReportService {
     public Map<String, Object> generateFeedbackSummary() {
         Map<String, Object> summary = new LinkedHashMap<>();
 
-        List<Feedback> allFeedback = feedbackRepository.findAll();
+        List<Feedback> allFeedback = feedbackRepository.findAllWithDetails();
 
         summary.put("Total Feedback", allFeedback.size());
 

@@ -61,7 +61,7 @@ public class FeedbackService implements IFeedbackService {
      */
     @Override
     public List<Feedback> getAllFeedback() {
-        return feedbackRepository.findAll();
+        return feedbackRepository.findAllWithDetails();
     }
 
     /**
@@ -77,7 +77,7 @@ public class FeedbackService implements IFeedbackService {
      */
     @Override
     public List<Feedback> getFeedbackByMinRating(int minRating) {
-        return feedbackRepository.findByRatingGreaterThanOrEqual(minRating);
+        return feedbackRepository.findByRatingGreaterThanOrEqualWithDetails(minRating);
     }
 
     /**

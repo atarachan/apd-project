@@ -27,6 +27,8 @@ import ca.senecacollege.malibuluminahotel.services.IActivityLogService;
 import ca.senecacollege.malibuluminahotel.services.PricingStrategy;
 import ca.senecacollege.malibuluminahotel.services.StandardPricingStrategy;
 import ca.senecacollege.malibuluminahotel.services.WeekendPricingStrategy;
+import ca.senecacollege.malibuluminahotel.models.Feedback;
+import ca.senecacollege.malibuluminahotel.repositories.IFeedbackRepository;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -34,20 +36,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -79,19 +68,24 @@ public class AdminReservationsController {
     private final IRoomRepository roomRepository;
     private final IAddOnRepository addOnRepository;
     private final IActivityLogService activityLogService;
+    private final IFeedbackRepository feedbackRepository;
     private final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
 
+
     @Inject
-    public AdminReservationsController(IReservationRepository reservationRepository,
-                                       IGuestRepository guestRepository,
-                                       IRoomRepository roomRepository,
-                                       IAddOnRepository addOnRepository,
-                                       IActivityLogService activityLogService) {
+    public AdminReservationsController(
+            IReservationRepository reservationRepository,
+            IGuestRepository guestRepository,
+            IRoomRepository roomRepository,
+            IAddOnRepository addOnRepository,
+            IActivityLogService activityLogService,
+            IFeedbackRepository feedbackRepository) {
         this.reservationRepository = reservationRepository;
         this.guestRepository = guestRepository;
         this.roomRepository = roomRepository;
         this.addOnRepository = addOnRepository;
         this.activityLogService = activityLogService;
+        this.feedbackRepository = feedbackRepository;
     }
 
     @FXML
@@ -253,14 +247,29 @@ public class AdminReservationsController {
 
         result.ifPresent(payment -> {
             try {
+
                 reservationRepository.checkoutReservation(
                         fullReservation.getReservationId(),
                         payment.paymentMethod(),
                         payment.amount());
-                showAlert(Alert.AlertType.INFORMATION, "Success", "Reservation checked out successfully!");
+
+                showFeedbackDialog(fullReservation);
+
+                showAlert(
+                        Alert.AlertType.INFORMATION,
+                        "Success",
+                        "Reservation checked out successfully!"
+                );
+
                 loadReservations();
+
             } catch (Exception e) {
-                showAlert(Alert.AlertType.ERROR, "Checkout Failed", e.getMessage());
+
+                showAlert(
+                        Alert.AlertType.ERROR,
+                        "Checkout Failed",
+                        e.getMessage()
+                );
             }
         });
     }
@@ -919,6 +928,78 @@ public class AdminReservationsController {
         });
 
         return dialog;
+    }
+
+    private void showFeedbackDialog(Reservation reservation) {
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        dialog.setTitle("Guest Feedback");
+
+        dialog.setHeaderText("Would the guest like to leave feedback?");
+
+        ButtonType submitButton =
+                new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(
+                submitButton,
+                ButtonType.CANCEL
+        );
+
+        GridPane grid = new GridPane();
+
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        ComboBox<Integer> ratingCombo = new ComboBox<>();
+
+        ratingCombo.getItems().addAll(
+                1,
+                2,
+                3,
+                4,
+                5
+        );
+
+        ratingCombo.getSelectionModel().select(4);
+
+        TextArea commentArea = new TextArea();
+
+        commentArea.setPromptText("Optional comments...");
+
+        commentArea.setPrefRowCount(4);
+
+        grid.add(new Label("Rating"), 0, 0);
+        grid.add(ratingCombo, 1, 0);
+
+        grid.add(new Label("Comments"), 0, 1);
+        grid.add(commentArea, 1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        if (dialog.showAndWait().orElse(ButtonType.CANCEL) != submitButton) {
+            return;
+        }
+
+        try {
+
+            Feedback feedback = new Feedback(
+                    reservation,
+                    reservation.getGuest(),
+                    ratingCombo.getValue(),
+                    commentArea.getText()
+            );
+
+            feedbackRepository.save(feedback);
+
+        } catch (Exception ex) {
+
+            showAlert(
+                    Alert.AlertType.ERROR,
+                    "Feedback",
+                    "Unable to save guest feedback."
+            );
+        }
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {

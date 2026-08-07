@@ -10,9 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class AdminFeedbackController {
@@ -45,11 +42,21 @@ public class AdminFeedbackController {
     private void initialize() {
         // Initialize table columns if they exist
         if (feedbackTable != null && guestColumn != null) {
-            guestColumn.setCellValueFactory(new PropertyValueFactory<>("guestName"));
-            roomTypeColumn.setCellValueFactory(new PropertyValueFactory<>("roomType"));
-            ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
-            commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
-            dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+            guestColumn.setCellValueFactory(cell ->
+                    new javafx.beans.property.SimpleStringProperty(cell.getValue().getGuestName()));
+
+            roomTypeColumn.setCellValueFactory(cell ->
+                    new javafx.beans.property.SimpleStringProperty(cell.getValue().getRoomType()));
+
+            ratingColumn.setCellValueFactory(cell ->
+                    new javafx.beans.property.SimpleObjectProperty<>(cell.getValue().getRating()));
+
+            commentColumn.setCellValueFactory(cell ->
+                    new javafx.beans.property.SimpleStringProperty(cell.getValue().getComment()));
+
+            dateColumn.setCellValueFactory(cell ->
+                    new javafx.beans.property.SimpleStringProperty(cell.getValue().getDate()));
+            feedbackTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
             loadFeedback();
         }
@@ -76,7 +83,7 @@ public class AdminFeedbackController {
             }
 
             if (feedbackTable != null) {
-                feedbackTable.setItems(rows);
+                feedbackTable.getItems().setAll(rows);
             }
         } catch (Exception e) {
             showAlert("Error", "Failed to load feedback: " + e.getMessage());

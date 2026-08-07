@@ -16,25 +16,20 @@ public interface IFeedbackRepository {
      */
     Feedback save(Feedback feedback);
 
+
     /**
      * Find feedback by ID.
      */
     Optional<Feedback> findById(Long id);
 
-    /**
-     * Find all feedback entries.
-     */
-    List<Feedback> findAll();
+    List<Feedback> findAllWithDetails();
+
+    List<Feedback> findByRatingGreaterThanOrEqualWithDetails(int rating);
 
     /**
      * Find feedback by reservation.
      */
     Optional<Feedback> findByReservation(Reservation reservation);
-
-    /**
-     * Find feedback with rating greater than specified value.
-     */
-    List<Feedback> findByRatingGreaterThanOrEqual(int rating);
 
     /**
      * Calculate average rating.

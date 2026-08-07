@@ -74,7 +74,8 @@
 
                         <TableColumn fx:id="guestColumn"
                                      text="Guest"
-                                     prefWidth="170"/>
+                                     prefWidth="170"
+                                     sortable="false"/>
 
                         <TableColumn fx:id="roomTypeColumn"
                                      text="Room Type"
