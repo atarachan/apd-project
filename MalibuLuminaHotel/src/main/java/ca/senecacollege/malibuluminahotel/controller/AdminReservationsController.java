@@ -263,6 +263,8 @@ public class AdminReservationsController {
 
         result.ifPresent(payment -> {
             try {
+                System.out.println("Controller payment = " + payment.amount());
+                System.out.println("Controller discount = " + discountPercent);
 
                 reservationRepository.checkoutReservation(
                         fullReservation.getReservationId(),
@@ -740,44 +742,30 @@ public class AdminReservationsController {
                         .map(ReservationItemDraftModel::fromItem)
                         .toList());
 
+        BigDecimal originalBalance =
+                reservation.getBill().getBalanceDue();
+
         BigDecimal discountAmount =
-                summary.subtotal()
-                        .multiply(discountPercent)
-                        .divide(new BigDecimal("100"));
+                originalBalance.multiply(discountPercent)
+                        .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
-        BigDecimal discountedSubtotal =
-                summary.subtotal().subtract(discountAmount);
-
-        BigDecimal tax =
-                discountedSubtotal.multiply(TAX_RATE)
-                        .setScale(2, RoundingMode.HALF_UP);
-
-        BigDecimal total =
-                discountedSubtotal.add(tax);
-
-        BigDecimal totalAfterDiscount =
-                summary.subtotal()
-                        .subtract(discountAmount)
-                        .add(tax);
+        BigDecimal requiredPayment =
+                originalBalance.subtract(discountAmount);
 
         BillSummary discountedSummary =
-                summary = new BillSummary(
+                new BillSummary(
                         summary.roomTotal(),
                         summary.addOnTotal(),
                         summary.subtotal(),
                         discountAmount,
-                        tax,
-                        totalAfterDiscount,
+                        summary.tax(),
+                        requiredPayment,
                         summary.nights(),
                         summary.lineItems()
                 );
 
         BigDecimal paymentsMade =
                 sumPayments(reservation.getBill());
-
-        BigDecimal requiredPayment =
-                total.subtract(paymentsMade)
-                        .max(BigDecimal.ZERO);
 
         return new CheckoutDraft(
                 discountedSummary,

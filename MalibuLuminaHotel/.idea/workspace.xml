@@ -8,11 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotel.db" beforeDir="false" afterPath="$PROJECT_DIR$/hotel.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/LoyaltyTransactionRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/LoyaltyTransactionRepositoryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/ReservationRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/repositories/ReservationRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/services/BillSummary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/services/BillSummary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/services/BookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/senecacollege/malibuluminahotel/services/BookingService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/system_logs.0.log" beforeDir="false" afterPath="$PROJECT_DIR$/system_logs.0.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$2.class" afterDir="false" />
@@ -23,14 +19,7 @@
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$ReservationDraft.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$ReservationDraft.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$ReservationItemDraftModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController$ReservationItemDraftModel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/controller/AdminReservationsController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository$ReservationEditDraft.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository$ReservationEditDraft.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository$ReservationItemDraft.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository$ReservationItemDraft.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/IReservationRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/LoyaltyTransactionRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/LoyaltyTransactionRepositoryImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/ReservationRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/repositories/ReservationRepositoryImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BillSummary.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BillSummary.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BookingService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BookingService$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BookingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/senecacollege/malibuluminahotel/services/BookingService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +101,7 @@
       <option name="presentableId" value="Default" />
       <updated>1784839515791</updated>
       <workItem from="1785970489231" duration="8868000" />
-      <workItem from="1786066762748" duration="35358000" />
+      <workItem from="1786066762748" duration="36396000" />
     </task>
     <servers />
   </component>

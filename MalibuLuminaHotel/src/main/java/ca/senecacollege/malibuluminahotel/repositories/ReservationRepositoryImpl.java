@@ -287,11 +287,6 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
                             .subtract(discountAmount)
                             .setScale(2, RoundingMode.HALF_UP);
 
-            System.out.println("Original Balance = " + originalBalance);
-            System.out.println("Discount % = " + discountPercent);
-            System.out.println("Required = " + required);
-            System.out.println("Payment = " + paymentAmount);
-
 
             if (paymentAmount.setScale(2).compareTo(required.setScale(2)) != 0) {
                 throw new IllegalArgumentException(
