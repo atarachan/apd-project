@@ -94,7 +94,15 @@ public class BookingService implements IBookingService {
         BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
         BigDecimal total = subtotal.add(tax);
 
-        return new BillSummary(roomTotal, addOnTotal, subtotal, tax, total, nights, lineItems);
+        return new BillSummary(
+                roomTotal,
+                addOnTotal,
+                subtotal,
+                BigDecimal.ZERO,
+                tax,
+                total,
+                nights,
+                lineItems);
     }
 
     private List<BillLineItem> buildAddOnLineItems(BookingSession.ReservationItemSelection selection, long nights) {

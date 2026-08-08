@@ -46,7 +46,7 @@ public class LoyaltyTransactionRepositoryImpl extends AbstractRepository<Loyalty
         try {
             return em.createQuery(
                             "SELECT lt FROM LoyaltyTransaction lt " +
-                                    "WHERE lt.transactionType = :transactionType " +
+                                    "WHERE lt.type = :transactionType " +
                                     "ORDER BY lt.transactionDate DESC",
                             LoyaltyTransaction.class)
                     .setParameter(
@@ -71,7 +71,7 @@ public class LoyaltyTransactionRepositoryImpl extends AbstractRepository<Loyalty
             return em.createQuery(
                             "SELECT lt FROM LoyaltyTransaction lt " +
                                     "WHERE lt.loyaltyAccount = :loyaltyAccount " +
-                                    "AND lt.transactionType = :transactionType " +
+                                    "AND lt.type = :transactionType " +
                                     "ORDER BY lt.transactionDate DESC",
                             LoyaltyTransaction.class)
                     .setParameter(

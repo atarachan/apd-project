@@ -29,6 +29,11 @@ import ca.senecacollege.malibuluminahotel.services.StandardPricingStrategy;
 import ca.senecacollege.malibuluminahotel.services.WeekendPricingStrategy;
 import ca.senecacollege.malibuluminahotel.models.Feedback;
 import ca.senecacollege.malibuluminahotel.repositories.IFeedbackRepository;
+import ca.senecacollege.malibuluminahotel.models.LoyaltyAccount;
+import ca.senecacollege.malibuluminahotel.repositories.ILoyaltyAccountRepository;
+import ca.senecacollege.malibuluminahotel.models.LoyaltyTransaction;
+import ca.senecacollege.malibuluminahotel.models.enums.LoyaltyTransactionType;
+import ca.senecacollege.malibuluminahotel.repositories.ILoyaltyTransactionRepository;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -69,6 +74,8 @@ public class AdminReservationsController {
     private final IAddOnRepository addOnRepository;
     private final IActivityLogService activityLogService;
     private final IFeedbackRepository feedbackRepository;
+    private final ILoyaltyAccountRepository loyaltyAccountRepository;
+    private final ILoyaltyTransactionRepository loyaltyTransactionRepository;
     private final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
 
 
@@ -79,13 +86,17 @@ public class AdminReservationsController {
             IRoomRepository roomRepository,
             IAddOnRepository addOnRepository,
             IActivityLogService activityLogService,
-            IFeedbackRepository feedbackRepository) {
+            IFeedbackRepository feedbackRepository,
+            ILoyaltyAccountRepository loyaltyAccountRepository,
+            ILoyaltyTransactionRepository loyaltyTransactionRepository) {
         this.reservationRepository = reservationRepository;
         this.guestRepository = guestRepository;
         this.roomRepository = roomRepository;
         this.addOnRepository = addOnRepository;
         this.activityLogService = activityLogService;
         this.feedbackRepository = feedbackRepository;
+        this.loyaltyAccountRepository = loyaltyAccountRepository;
+        this.loyaltyTransactionRepository = loyaltyTransactionRepository;
     }
 
     @FXML
@@ -241,8 +252,13 @@ public class AdminReservationsController {
             return;
         }
 
-        CheckoutDraft checkoutDraft = createCheckoutDraft(fullReservation);
-        Dialog<CheckoutPayment> dialog = createCheckoutDialog(fullReservation, checkoutDraft);
+        BigDecimal discountPercent = promptForDiscount();
+
+        CheckoutDraft checkoutDraft =
+                createCheckoutDraft(fullReservation, discountPercent);
+
+        Dialog<CheckoutPayment> dialog =
+                createCheckoutDialog(fullReservation, checkoutDraft);
         Optional<CheckoutPayment> result = dialog.showAndWait();
 
         result.ifPresent(payment -> {
@@ -251,7 +267,10 @@ public class AdminReservationsController {
                 reservationRepository.checkoutReservation(
                         fullReservation.getReservationId(),
                         payment.paymentMethod(),
-                        payment.amount());
+                        payment.amount(),
+                        discountPercent);
+
+                handleLoyalty(fullReservation, checkoutDraft);
 
                 showFeedbackDialog(fullReservation);
 
@@ -573,10 +592,11 @@ public class AdminReservationsController {
         content.setPadding(new Insets(12));
         content.getChildren().add(buildBillView(checkoutDraft.summary()));
 
-        VBox totals = new VBox(8,
-                amountRow("Total:", checkoutDraft.summary().total()),
+        VBox totals = new VBox(
+                8,
                 amountRow("Payments already made:", checkoutDraft.paymentsMade()),
-                amountRow("Required payment:", checkoutDraft.requiredPayment()));
+                amountRow("Required payment:", checkoutDraft.requiredPayment())
+        );
         content.getChildren().add(totals);
 
         ComboBox<PaymentMethod> paymentMethodCombo = new ComboBox<>(
@@ -695,7 +715,9 @@ public class AdminReservationsController {
                 amountRow("Room charges:", summary.roomTotal()),
                 amountRow("Add-ons:", summary.addOnTotal()),
                 amountRow("Subtotal:", summary.subtotal()),
-                amountRow("Taxes (13%):", summary.tax()));
+                amountRow("Manager Discount:", summary.discount()),
+                amountRow("Taxes (13%):", summary.tax()),
+                amountRow("Total:", summary.total()));
         return billBox;
     }
 
@@ -708,16 +730,59 @@ public class AdminReservationsController {
         return new HBox(10, labelNode, amountNode);
     }
 
-    private CheckoutDraft createCheckoutDraft(Reservation reservation) {
+    private CheckoutDraft createCheckoutDraft(
+            Reservation reservation,
+            BigDecimal discountPercent) {
         BillSummary summary = calculateBill(
                 reservation.getCheckInDate(),
                 reservation.getCheckOutDate(),
                 reservation.getReservationItems().stream()
                         .map(ReservationItemDraftModel::fromItem)
                         .toList());
-        BigDecimal paymentsMade = sumPayments(reservation.getBill());
-        BigDecimal requiredPayment = summary.total().subtract(paymentsMade).max(BigDecimal.ZERO);
-        return new CheckoutDraft(summary, paymentsMade, requiredPayment);
+
+        BigDecimal discountAmount =
+                summary.subtotal()
+                        .multiply(discountPercent)
+                        .divide(new BigDecimal("100"));
+
+        BigDecimal discountedSubtotal =
+                summary.subtotal().subtract(discountAmount);
+
+        BigDecimal tax =
+                discountedSubtotal.multiply(TAX_RATE)
+                        .setScale(2, RoundingMode.HALF_UP);
+
+        BigDecimal total =
+                discountedSubtotal.add(tax);
+
+        BigDecimal totalAfterDiscount =
+                summary.subtotal()
+                        .subtract(discountAmount)
+                        .add(tax);
+
+        BillSummary discountedSummary =
+                summary = new BillSummary(
+                        summary.roomTotal(),
+                        summary.addOnTotal(),
+                        summary.subtotal(),
+                        discountAmount,
+                        tax,
+                        totalAfterDiscount,
+                        summary.nights(),
+                        summary.lineItems()
+                );
+
+        BigDecimal paymentsMade =
+                sumPayments(reservation.getBill());
+
+        BigDecimal requiredPayment =
+                total.subtract(paymentsMade)
+                        .max(BigDecimal.ZERO);
+
+        return new CheckoutDraft(
+                discountedSummary,
+                paymentsMade,
+                requiredPayment);
     }
 
     private BillSummary calculateBill(LocalDate checkIn,
@@ -762,7 +827,15 @@ public class AdminReservationsController {
         BigDecimal subtotal = roomTotal.add(addOnTotal);
         BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
         BigDecimal total = subtotal.add(tax);
-        return new BillSummary(roomTotal, addOnTotal, subtotal, tax, total, nights, lineItems);
+        return new BillSummary(
+                roomTotal,
+                addOnTotal,
+                subtotal,
+                BigDecimal.ZERO,
+                tax,
+                total,
+                nights,
+                lineItems);
     }
 
     private BigDecimal calculateRoomTotal(RoomType roomType, LocalDate checkIn, LocalDate checkOut) {
@@ -930,6 +1003,146 @@ public class AdminReservationsController {
         return dialog;
     }
 
+    private void handleLoyalty(
+            Reservation reservation,
+            CheckoutDraft checkoutDraft) {
+
+        Guest guest = reservation.getGuest();
+
+        int earnedPoints = checkoutDraft.summary()
+                .total()
+                .intValue();
+
+        Optional<LoyaltyAccount> account =
+                loyaltyAccountRepository.findByGuest(guest);
+
+        if (account.isPresent()) {
+
+            showMemberLoyaltyDialog(
+                    account.get(),
+                    earnedPoints
+            );
+
+        } else {
+
+            showNonMemberDialog(
+                    guest,
+                    earnedPoints
+            );
+        }
+    }
+
+    private void showMemberLoyaltyDialog(
+            LoyaltyAccount account,
+            int earnedPoints) {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        alert.setTitle("Loyalty Program");
+
+        alert.setHeaderText("Loyalty Member");
+
+        alert.setContentText(
+                "Current Points: " + account.getCurrentPoints() +
+                        "\n\nPoints to earn today: " + earnedPoints +
+                        "\n\nWould you like to redeem your current points?"
+        );
+
+        ButtonType redeemButton = new ButtonType("Redeem");
+        ButtonType skipButton = new ButtonType("Skip");
+
+        alert.getButtonTypes().setAll(redeemButton, skipButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == redeemButton) {
+
+            LoyaltyTransaction redeemTransaction =
+                    new LoyaltyTransaction(
+                            account,
+                            account.getCurrentPoints(),
+                            LoyaltyTransactionType.REDEEM
+                    );
+
+            loyaltyTransactionRepository.save(redeemTransaction);
+
+            account.setCurrentPoints(0);
+        }
+
+        account.setCurrentPoints(
+                account.getCurrentPoints() + earnedPoints
+        );
+
+        loyaltyAccountRepository.update(account);
+
+        LoyaltyTransaction earnTransaction =
+                new LoyaltyTransaction(
+                        account,
+                        earnedPoints,
+                        LoyaltyTransactionType.EARN
+                );
+
+        loyaltyTransactionRepository.save(earnTransaction);
+
+        showAlert(
+                Alert.AlertType.INFORMATION,
+                "Loyalty",
+                "Guest earned " + earnedPoints +
+                        " new loyalty points."
+        );
+    }
+
+    private void showNonMemberDialog(
+            Guest guest,
+            int earnedPoints) {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        alert.setTitle("Loyalty Program");
+
+        alert.setHeaderText("Guest is not a loyalty member.");
+
+        alert.setContentText(
+                "This guest could earn " + earnedPoints +
+                        " points from this stay.\n\n" +
+                        "Would you like to enroll them now?"
+        );
+
+        ButtonType joinButton = new ButtonType("Join");
+        ButtonType skipButton = new ButtonType("Skip", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(joinButton, skipButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isEmpty() || result.get() != joinButton) {
+            return;
+        }
+
+        LoyaltyAccount account = new LoyaltyAccount(
+                guest,
+                "MLH-" + System.currentTimeMillis()
+        );
+
+        account.setCurrentPoints(earnedPoints);
+
+        loyaltyAccountRepository.save(account);
+
+        LoyaltyTransaction transaction = new LoyaltyTransaction(
+                account,
+                earnedPoints,
+                LoyaltyTransactionType.EARN
+        );
+
+        loyaltyTransactionRepository.save(transaction);
+
+        showAlert(
+                Alert.AlertType.INFORMATION,
+                "Loyalty",
+                "Guest enrolled successfully!\n\nPoints earned: " + earnedPoints
+        );
+    }
+
     private void showFeedbackDialog(Reservation reservation) {
 
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -999,6 +1212,117 @@ public class AdminReservationsController {
                     "Feedback",
                     "Unable to save guest feedback."
             );
+        }
+    }
+
+    private BigDecimal promptForDiscount() {
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+
+        confirm.setTitle("Apply Discount");
+        confirm.setHeaderText("Apply a manager discount?");
+        confirm.setContentText("Would you like to apply a discount before checkout?");
+
+        if (confirm.showAndWait().orElse(ButtonType.NO) != ButtonType.OK) {
+            return BigDecimal.ZERO;
+        }
+
+        TextInputDialog dialog = new TextInputDialog("0");
+
+        dialog.setTitle("Discount");
+        dialog.setHeaderText("Enter discount percentage");
+        dialog.setContentText("Discount (%):");
+
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+
+        try {
+
+            BigDecimal percent = new BigDecimal(result.get());
+
+            if (percent.compareTo(BigDecimal.ZERO) < 0) {
+                return BigDecimal.ZERO;
+            }
+
+            return percent;
+
+        } catch (NumberFormatException ex) {
+
+            return BigDecimal.ZERO;
+        }
+    }
+
+    private void handleLoyaltyProgram(Reservation reservation) {
+
+        Optional<LoyaltyAccount> account =
+                loyaltyAccountRepository.findByGuest(reservation.getGuest());
+
+        BigDecimal total =
+                reservation.getBill().getTotal();
+
+        int pointsEarned = total.intValue();
+
+        if (account.isPresent()) {
+
+            LoyaltyAccount loyalty = account.get();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+            alert.setTitle("Loyalty Program");
+
+            alert.setHeaderText("Loyalty Member");
+
+            alert.setContentText(
+                    "Current Points: " + loyalty.getCurrentPoints()
+                            + "\nPoints Earned Today: " + pointsEarned
+                            + "\n\nWould you like to redeem your current points?"
+            );
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                loyalty.setCurrentPoints(0);
+
+            }
+
+            loyalty.setCurrentPoints(
+                    loyalty.getCurrentPoints() + pointsEarned
+            );
+
+            loyaltyAccountRepository.save(loyalty);
+
+        } else {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+            alert.setTitle("Loyalty Program");
+
+            alert.setHeaderText("Guest is not a loyalty member");
+
+            alert.setContentText(
+                    "This guest could earn "
+                            + pointsEarned
+                            + " points today.\n\nWould you like to enroll them?"
+            );
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                LoyaltyAccount loyalty =
+                        new LoyaltyAccount(
+                                reservation.getGuest(),
+                                "MLH-" + System.currentTimeMillis()
+                        );
+
+                loyalty.setCurrentPoints(pointsEarned);
+
+                loyaltyAccountRepository.save(loyalty);
+            }
         }
     }
 

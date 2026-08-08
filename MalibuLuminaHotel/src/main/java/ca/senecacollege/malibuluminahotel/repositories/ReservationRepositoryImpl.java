@@ -17,6 +17,7 @@ import ca.senecacollege.malibuluminahotel.repositories.IReservationRepository.Re
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -249,7 +250,11 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
     }
 
     @Override
-    public Reservation checkoutReservation(Long reservationId, PaymentMethod paymentMethod, BigDecimal paymentAmount) {
+    public Reservation checkoutReservation(
+            Long reservationId,
+            PaymentMethod paymentMethod,
+            BigDecimal paymentAmount,
+            BigDecimal discountPercent) {
         EntityManager em = createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
@@ -266,10 +271,37 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
                 throw new IllegalStateException("Reservation does not have a bill.");
             }
 
-            BigDecimal required = safe(bill.getBalanceDue());
-            if (paymentAmount.compareTo(required) != 0) {
-                throw new IllegalArgumentException("Payment must equal the full balance due.");
+            BigDecimal originalBalance = safe(bill.getBalanceDue());
+
+            BigDecimal discountAmount =
+                    originalBalance
+                            .multiply(discountPercent)
+                            .divide(
+                                    BigDecimal.valueOf(100),
+                                    2,
+                                    RoundingMode.HALF_UP
+                            );
+
+            BigDecimal required =
+                    originalBalance
+                            .subtract(discountAmount)
+                            .setScale(2, RoundingMode.HALF_UP);
+
+            System.out.println("Original Balance = " + originalBalance);
+            System.out.println("Discount % = " + discountPercent);
+            System.out.println("Required = " + required);
+            System.out.println("Payment = " + paymentAmount);
+
+
+            if (paymentAmount.setScale(2).compareTo(required.setScale(2)) != 0) {
+                throw new IllegalArgumentException(
+                        "Payment must equal the balance due."
+                );
             }
+
+            System.out.println("Compare = "
+                    + paymentAmount.setScale(2, RoundingMode.HALF_UP)
+                    .compareTo(required.setScale(2, RoundingMode.HALF_UP)));
 
             Payment payment = new Payment();
             payment.setBill(bill);
@@ -279,6 +311,8 @@ public class ReservationRepositoryImpl extends AbstractRepository<Reservation, L
             payment.setPaymentDate(LocalDateTime.now());
             payment.setTransactionReference("CHK-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
             bill.addPayment(payment);
+            bill.setDiscount(discountAmount);
+            bill.setTotal(required);
             bill.setBalanceDue(BigDecimal.ZERO);
 
             reservation.setStatus(ReservationStatus.CHECKED_OUT);

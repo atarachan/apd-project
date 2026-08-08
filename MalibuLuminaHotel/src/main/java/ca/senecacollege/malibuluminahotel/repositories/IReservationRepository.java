@@ -31,7 +31,12 @@ public interface IReservationRepository extends IRepository<Reservation, Long> {
 
     Reservation updateReservationDetails(ReservationEditDraft draft);
 
-    Reservation checkoutReservation(Long reservationId, PaymentMethod paymentMethod, BigDecimal paymentAmount);
+    Reservation checkoutReservation(
+            Long reservationId,
+            PaymentMethod paymentMethod,
+            BigDecimal paymentAmount,
+            BigDecimal discountPercent
+    );
 
     // Saves guest + reservation + room items + add-ons + bill in one transaction.
     Reservation saveFullBooking(

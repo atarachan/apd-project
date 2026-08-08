@@ -7,6 +7,7 @@ public record BillSummary(
         BigDecimal roomTotal,
         BigDecimal addOnTotal,
         BigDecimal subtotal,
+        BigDecimal discount,
         BigDecimal tax,
         BigDecimal total,
         long nights,
